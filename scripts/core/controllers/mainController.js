@@ -1,6 +1,6 @@
 angular.module('theme.core.main_controller', ['theme.core.services'])
-  .controller('MainController', ['$scope', '$theme', '$timeout', 'progressLoader', '$location', '$auth',
-    function($scope, $theme, $timeout, progressLoader, $location, $auth) {
+  .controller('MainController', ['$scope', '$theme', '$timeout', 'progressLoader', '$location', '$state', '$auth',
+    function($scope, $theme, $timeout, progressLoader, $location, $state, $auth) {
       'use strict';
       // $scope.layoutIsSmallScreen = false;
       $scope.layoutFixedHeader = $theme.get('fixedHeader');
@@ -42,7 +42,7 @@ angular.module('theme.core.main_controller', ['theme.core.services'])
       $scope.user = $auth.user;
 
       $scope.$on('auth:logout-success', function(ev) {
-        $location.path("/");
+        $state.go("login");
       });
 
       $scope.layoutLoading = true;
@@ -192,14 +192,14 @@ angular.module('theme.core.main_controller', ['theme.core.services'])
         open: true
       }];
 
-      $scope.$on('$routeChangeStart', function() {
+      $scope.$on('$stateChangeStart', function() {
         if ($location.path() === '') {
-          return $location.path('/');
+          return $state.go('dashboard');
         }
         progressLoader.start();
         progressLoader.set(50);
       });
-      $scope.$on('$routeChangeSuccess', function() {
+      $scope.$on('$stateChangeSuccess', function() {
         progressLoader.end();
         if ($scope.layoutLoading) {
           $scope.layoutLoading = false;

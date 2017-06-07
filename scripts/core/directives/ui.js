@@ -91,7 +91,7 @@ angular
                 angular.element($window).off('resize', setWidthtoContent);
             }
         });
-            
+
         function setWidthtoContent() {
             var w = angular.element('#wrapper').innerWidth();
             angular.element('.static-content').css('width',(w)+'px');
@@ -128,7 +128,7 @@ angular
     return {
       restrict: 'A',
       link: function postLink() {
-        $rootScope.$on('$routeChangeSuccess', function() {
+        $rootScope.$on('$stateChangeSuccess', function() {
           $timeout( function () {
             angular.element('.container-fluid .animated-content')
             .css('visibility', 'visible')
@@ -397,7 +397,7 @@ angular
     return {
       restrict: 'AE',
       link: function() {
-        $rootScope.$on('$routeChangeSuccess', function() {
+        $rootScope.$on('$stateChangeSuccess', function() {
           angular.element('body').scrollTop(0);
         });
       }

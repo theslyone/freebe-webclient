@@ -1,7 +1,7 @@
 angular
   .module('theme.core.navigation_controller', ['theme.core.services'])
-  .controller('NavigationController', ['$scope', '$location', '$timeout',
-    function($scope, $location, $timeout) {
+  .controller('NavigationController', ['$scope', '$location', '$state', '$timeout',
+    function($scope, $location, $state, $timeout) {
 
       'use strict';
       $scope.menu = [{
@@ -12,32 +12,32 @@ angular
         {
           label: 'Dashboard',
           iconClasses: 'glyphicon glyphicon-dashboard',
-          url: '/paylink'
+          url: 'dashboard'
         },
         {
           label: 'Bank Accounts',
           iconClasses: 'fa fa-university',
-          url: '/paylink/bank-accounts'
+          url: 'bank-accounts'
         },
         {
           label: 'Payment Cards',
           iconClasses: 'glyphicon glyphicon-credit-card',
-          url: '/paylink/payment-cards'
+          url: 'payment-cards'
         },
         {
           label: 'Wallet',
           iconClasses: 'fa fa-money',
-          url: '/paylink/wallet'
+          url: 'wallet'
         },
         {
           label: 'Transactions',
           iconClasses: 'glyphicon glyphicon-transfer',
-          url: '/paylink/transactions'
+          url: 'transactions'
         },
         {
           label: 'Beneficiaries',
           iconClasses: 'fa fa-users',
-          url: '/paylink/beneficiaries'
+          url: 'beneficiaries'
         },
         {
           label: 'Features',
@@ -47,7 +47,7 @@ angular
         {
           label: 'Fund Transfer',
           iconClasses: 'glyphicon glyphicon-send',
-          url: '/paylink/transfer'
+          url: 'transfer'
         },
         {
           label: 'Mobile Top Up',
@@ -182,9 +182,9 @@ angular
                                                next.access.permissionCheckType);
                         */
           if (authorised === $scope.auth.enums.authorised.loginRequired) {
-            $location.path($scope.auth.routes.login);
+            $state.go($scope.auth.routes.login);
           } else if (authorised === $scope.auth.enums.authorised.notAuthorised) {
-            $location.path($scope.auth.routes.notAuthorised).replace();
+            $state.go($scope.auth.routes.notAuthorised).replace();
           }
         }
       });

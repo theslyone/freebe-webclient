@@ -4,7 +4,6 @@ angular.module('theme.core.home_controller', ['theme.core.services'])
     $theme.set('fullscreen', true);
 
     $scope.$on('$destroy', function() {
-      $css.remove('/my/template/css/home.css');
       $theme.set('fullscreen', false);
     });
   }]);
