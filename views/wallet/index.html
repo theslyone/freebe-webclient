@@ -1,0 +1,96 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="/paylink">Dashboard</a></li>
+    <li class="active">Wallet</li>
+  </ol>
+</div>
+<alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <panel panel-class="panel-sky" data-heading="My Freebe Wallet">
+        <form ng-if="!wallet" name="form.walletForm" ng-init="walletForm = { }" class="form-horizontal" novalidate>
+          <alert>
+            <p>Setup a Free<span>be</span> wallet now and enjoy the benefits of allocating funds for routine spendings, easy airtime top up at a reduced charge (10naira) all without having to link a bank account or ATM card</p>
+          </alert>
+          <h2>Wallet Information
+                  <small>Your wallet can be used to both make and receive payments on Freebe</small>
+              </h2>
+          <div style="margin-top: 20px;">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3 text-center">
+                <h4>A 4 digit personal identification number (PIN) will be required before any transaction
+                      can be processed with this wallet.
+                    </h4>
+
+                <div class="form-group" style="margin-top: 10px;">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                      <input type="text" class="form-control" id="accountName" placeholder="Enter wallet account name" required ng-model="walletForm.AccountName">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                      <input type="password" class="form-control" id="pin" name="pin" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Enter wallet PIN (4 Digits)" ng-model="walletForm.Pin" ng-model-options="{allowInvalid: true}" pattern-validator="\d{4}" required />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                      <input type="password" class="form-control" id="ConfirmPin" ng-model="walletForm.ConfirmPin" required password-verify="walletForm.Pin" placeholder="Repeat PIN" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <div class="btn-toolbar">
+                      <button class="btn btn-success" ng-click="create(walletForm)" ng-disabled="form.walletForm.$invalid || isBusy">Create</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div ng-if="wallet" class="container center-block"  style="margin: 0 auto;">
+          <div class="row">
+            <div class="col-md-3">
+              <i class="fa fa-diamond text-warning" style="font-size:210px;"></i>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Balance</td>
+                    <td>{{wallet.balance | currency : "NGN " }}</td>
+                  </tr>
+                  <tr>
+                    <td>Account Name</td>
+                    <td>{{wallet.accountName}}</td>
+                  </tr>
+                  <tr>
+                    <td>Account Number</td>
+                    <td>{{wallet.accountNumber}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-block btn-lg btn-success" ng-click="topup()" style="margin-top: 10px">TOP UP</button>
+              <button class="btn btn-block btn-lg btn-danger" ng-disabled="wallet.balance <= 0" ng-click="withdraw()" style="margin-top: 10px">WITHDRAW</button>
+            </div>
+          </div>
+        </div>
+      </panel>
+      <div ng-show="isBusy" class="panel-loading">
+        <div class="panel-loader-circular"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- container-fluid -->

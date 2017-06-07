@@ -1,0 +1,228 @@
+@model dynamic
+
+@using Frapid.ApplicationState.Cache
+@using Frapid.i18n
+@using Newtonsoft.Json
+@using Frapid.Dashboard.Helpers
+
+@using Frapid.Areas
+@using Frapid.WebsiteBuilder.Controllers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="Frapid Framework"/>
+    <title data-ng-bind="$root.title">@ViewBag.Title</title>
+
+	<link rel="icon" type="image/png" href="favicon.png">
+
+	@{
+        string bodyClass;
+
+        if (CultureManager.IsRtl())
+        {
+            bodyClass = "rtl";
+            <link rel="Stylesheet" href="@Href("~/assets/css/frontend-paylink.rtl.css")"/>
+        }
+        else
+        {
+            bodyClass = "ltr";
+			<link rel="stylesheet" href="~/assets/css/backend.css" />
+			<link rel="Stylesheet" href="~/assets/css/freebe-dashboard.css"/>
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/fonts/glyphicons/css/glyphicons.min.css' /> 
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/form-fseditor/fseditor.css' /> 
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/jcrop/css/jquery.Jcrop.min.css' /> 
+        }
+    }
+	
+	<link rel="stylesheet" href="/scripts/semantic-ui/semantic.min.css" />
+    <link rel="stylesheet" href="/my/template/css/semantic-extended.css" />
+    <link rel="stylesheet" href="~/my/template/css/dashboard.css">
+	
+	<script src="/i18n/resources.js?cultureCode=@CultureManager.GetCurrentUiCulture().Name"></script>
+</head>
+
+<body data-ng-app="PaylinkApp" data-ng-controller="MainController" class="{{getLayoutOption('sidebarThemeClass')}} {{getLayoutOption('topNavThemeClass')}}"
+  data-ng-class="{
+			  'static-header': !getLayoutOption('fixedHeader'),
+			  'focusedform': getLayoutOption('fullscreen'),
+			  'layout-horizontal': getLayoutOption('layoutHorizontal'),
+			  'fixed-layout': getLayoutOption('layoutBoxed'),
+			  'sidebar-collapsed': getLayoutOption('leftbarCollapsed') && !getLayoutOption('leftbarShown'),
+			  'show-infobar': getLayoutOption('rightbarCollapsed'),
+			  'show-sidebar': getLayoutOption('leftbarShown')
+			}"
+  data-ng-click="hideHeaderBar();hideChatBox()" animate-page-content faux-offcanvas to-top-on-load>
+
+	<div data-ng-include="'/my/template/views/templates/custom-styles.html'"></div>
+
+	<ng-include src="'/my/template/views/layout/header.html'"></ng-include>
+
+	<nav id="headernav" class="navbar ng-hide" role="navigation" data-ng-show="getLayoutOption('layoutHorizontal') && !layoutLoading">
+		<div class="nav">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<i class="fa fa-reorder"></i>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse navbar-ex1-collapse" data-ng-class="{'large-icons-nav': getLayoutOption('layoutHorizontalLargeIcons')}" id="horizontal-navbar">
+			  <ul data-ng-controller="NavigationController" id="top-nav" class="nav navbar-nav">
+				  <li data-ng-repeat="item in menu"
+					  data-ng-if="!item.hideOnHorizontal"
+					  data-ng-class="{ hasChild: (item.children!==undefined),
+									active: item.selected,
+									  open: (item.children!==undefined) && item.open,
+						   'nav-separator': item.separator==true }"
+					  data-ng-include="'templates/nav_renderer_horizontal.html'"
+					></li>
+			  </ul>
+		</div>
+	</nav>
+
+
+	<div id="wrapper">
+		<div id="layout-static">
+			<div class="static-sidebar-wrapper" data-ng-show="!layoutLoading">
+				<nav class="static-sidebar" role="navigation">
+					<ul data-ng-controller="NavigationController" id="sidebar" sticky-scroll="50">
+				  	  <li id="search" ng-cloak>
+		                <a href="">
+		                	<i class="fa fa-binoculars opacity-control"></i>
+		                </a>
+						<form
+						data-ng-click="$event.stopPropagation()"
+						data-ng-submit="goToSearch()">
+							<input type="text" data-ng-model="searchQuery" class="search-query" placeholder="Type to filter..." />
+							<button type="submit" data-ng-click="goToSearch()"><i class="fa fa-binoculars"></i></button>
+						</form>
+		              </li>
+					  <li data-ng-repeat="item in menu"
+						  data-ng-class="{ hasChild: (item.children!==undefined),
+										active: item.selected,
+										  open: (item.children!==undefined) && item.open,
+							   'nav-separator': item.separator==true,
+		            			'search-focus': (searchQuery.length>0 && item.selected) }" 
+		            		data-ng-show="!(searchQuery.length && !item.selected)"
+						  data-ng-include="'templates/nav_renderer.html'"
+						></li>
+					</ul>
+				</nav> <!-- #sidebar-->
+			</div>
+			<div class="static-content-wrapper">
+				<div class="static-content">
+					<div id="wrap" data-ng-view="" class="mainview-animation animated">
+						@RenderBody()
+					</div> <!--wrap -->
+				</div>
+				<footer role="contentinfo" data-ng-show="!layoutLoading" data-ng-cloak>
+					<div class="clearfix">
+						<ul class="list-unstyled list-inline pull-left">
+							<li>Freebe &copy; 2017</li>
+						</ul>
+						<button class="pull-right btn btn-default btn-sm hidden-print" back-to-top style="padding: 1px 10px;"><i class="fa fa-angle-up"></i></button>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+	<script src="~/assets/js/freebe-dashboard.js"></script>
+	
+	<script src="~/my/template/scripts/core/controllers/dashboardController.js"></script>
+	
+	<script src="~/my/template/scripts/core/controllers/homeController.js"></script>
+	<script src="~/my/template/scripts/core/controllers/mainController.js"></script>
+	<script src="~/my/template/scripts/core/controllers/messagesController.js"></script>
+	<script src="~/my/template/scripts/core/controllers/navigationController.js"></script>
+	<script src="~/my/template/scripts/core/controllers/notificationsController.js"></script>
+	
+	<script src="~/my/template/scripts/freebe/controllers/registrationController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/signInController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/profileController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/bankAccountController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/walletController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/transactionDetailsController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/transferController.js"></script>
+	
+	<script src="~/my/template/scripts/core/directives/directives.js"></script>
+	<script src="~/my/template/scripts/core/directives/form.js"></script>
+	
+	<script src="~/my/template/scripts/core/directives/ui.js"></script>
+	<script src="~/my/template/scripts/core/modules/templateOverrides.js"></script>
+	<script src="~/my/template/scripts/core/modules/templates.js"></script>
+	<script src="~/my/template/scripts/core/modules/panels/ngDraggable.js"></script>
+	<script src="~/my/template/scripts/core/modules/panels/panels.js"></script>
+	<script src="~/my/template/scripts/core/modules/panels/directives.js"></script>
+	<script src="~/my/template/scripts/core/services/services.js"></script>
+	<script src="~/my/template/scripts/core/services/theme.js"></script>
+	<script src="~/my/template/scripts/core/services/modalService.js"></script>
+	
+	<script src="~/my/template/scripts/freebe/services/customerService.js"></script>
+	<script src="~/my/template/scripts/freebe/services/subaccountService.js"></script>
+	<script src="~/my/template/scripts/freebe/services/walletService.js"></script>
+	<script src="~/my/template/scripts/freebe/services/beneficiaryService.js"></script>
+	<script src="~/my/template/scripts/freebe/services/transactionService.js"></script>
+	
+	<script src="~/my/template/scripts/core/theme.js"></script>
+	<script src="~/my/template/scripts/semantic-modals.js"></script>
+	
+	<!--
+	<script src="~/my/template/scripts/calendar/calendar.js"></script>
+	<script src="~/my/template/scripts/chart/canvas.js"></script>
+	<script src="~/my/template/scripts/chart/flot.js"></script>
+	<script src="~/my/template/scripts/chart/morris.js"></script>
+	<script src="~/my/template/scripts/chart/sparklines.js"></script>
+	<script src="~/my/template/scripts/gallery/gallery.js"></script>
+	<script src="~/my/template/scripts/map/googleMaps.js"></script>
+	<script src="~/my/template/scripts/map/vectorMaps.js"></script>
+	<script src="~/my/template/scripts/demos/modules/basicTables.js"></script>
+	<script src="~/my/template/scripts/demos/modules/boxedLayout.js"></script>
+	<script src="~/my/template/scripts/demos/modules/calendar.js"></script>
+	<script src="~/my/template/scripts/demos/modules/canvasCharts.js"></script>
+	<script src="~/my/template/scripts/demos/modules/nvd3Charts.js"></script>
+	<script src="~/my/template/scripts/demos/modules/chatBox.js"></script>
+	<script src="~/my/template/scripts/demos/modules/editableTable.js"></script>
+	<script src="~/my/template/scripts/demos/modules/flotCharts.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/form.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/angularFormValidationController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/datepickerDemoController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/dateRangePickerDemoController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/formComponentsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/imageCropController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/inlineEditableController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/form/controllers/timepickerDemoController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/gallery.js"></script>
+	<script src="~/my/template/scripts/demos/modules/horizontalLayout.js"></script>
+	<script src="~/my/template/scripts/demos/modules/mail/controllers/composeController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/mail/controllers/inboxController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/mail/mail.js"></script>
+	<script src="~/my/template/scripts/demos/modules/morrisCharts.js"></script>
+	<script src="~/my/template/scripts/demos/modules/sparklineCharts.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ngGrid.js"></script>
+	<script src="~/my/template/scripts/demos/modules/panels.js"></script>
+	<script src="~/my/template/scripts/demos/modules/notFoundController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/errorPageController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/tasks.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/uiComponents.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/alertsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/carouselController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/modalsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/nestableController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/paginationsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/progressbarsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/ratingsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/slidersController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/tabsController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/ui-components/controllers/tilesController.js"></script>
+	<script src="~/my/template/scripts/demos/modules/vectorMaps.js"></script>-->
+	<script src="~/my/template/scripts/demos/demos.js"></script>
+    
+    <script src="~/my/template/scripts/dashboard.js"></script>
+	<script src="~/my/template/scripts/freebe.js"></script>
+	
+	
+	@Html.GetAntiForgeryToken(this.Request.Url)
+</body>
+</html>

@@ -1,0 +1,61 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="/paylink">Dashboard</a></li>
+    <li class="active">Transactions</li>
+  </ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <panel panel-class="panel-primary" data-heading="Transaction History">
+        <panel-controls>
+          <panel-control-collapse></panel-control-collapse>
+        </panel-controls>
+        <alert>
+          <p>Transfers, utility and payment transaction history.</p>
+        </alert>
+        <div id="ScrudFactoryForm"></div>
+        <div id="ScrudFactoryView"></div>
+      </panel>
+    </div>
+  </div>
+</div>
+<!-- container-fluid -->
+
+<script>
+  var scrudFactory = new Object();
+  scrudFactory.title = "Transaction History";
+  scrudFactory.viewAPI = "/api/v1.0/views/paylink/transaction_scrud_view";
+  scrudFactory.viewTableName = "paylink.transaction_scrud_view";
+  scrudFactory.formAPI = "/api/v1.0/forms/paylink/transactions";
+  scrudFactory.formTableName = "paylink.transactions";
+  scrudFactory.allowDelete = false;
+  scrudFactory.allowEdit = false;
+  scrudFactory.excludedColumns = ["Fees", "PaidAt", "FromSubaccount", "CustomerId", "FromSubaccountId", "ToSubaccountId"];
+  scrudFactory.card = {
+    header: "Amount",
+    meta: "Purpose",
+    description: "Reference"
+  };
+  scrudFactory.removeKanban = false;
+  scrudFactory.removeFilter = true;
+  scrudFactory.removeImport = true;
+
+  scrudFactory.viewUrl = "/paylink/transactions/{Id}";
+  scrudFactory.customActions = [
+    {
+      title: "View Details",
+      href: "/paylink/transactions/{Id}",
+      icon: "list icon",
+      position: "before"
+    }
+  ];
+
+  setTimeout(function () {
+    $.get('/my/template/views/scrud-factory/view.html', function(view) {
+      $("#ScrudFactoryView").html(view);
+      $.cachedScript("/assets/js/scrudfactory-view.js");
+    });
+  }, 800);
+
+</script>

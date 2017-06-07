@@ -1,0 +1,180 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="/paylink">Dashboard</a></li>
+    <li class="active">Beneficiaries</li>
+  </ol>
+
+<div class="container-fluid" ng-controller="BankAccountController">
+  <div class="row">
+    <div class="col-md-12">
+      <panel panel-class="panel-primary" data-heading="Registered Beneficiaries">
+        <panel-controls>
+          <panel-control-collapse></panel-control-collapse>
+        </panel-controls>
+        <alert>
+          <p>These Beneficiary bank accounts can be credited instantly at anytime using Freebe.</p>
+        </alert>
+        <div id="ScrudFactoryForm"></div>
+        <div id="ScrudFactoryView"></div>
+      </panel>
+    </div>
+  </div>
+</div>
+<!-- container-fluid -->
+
+<script>
+  var scrudFactory = new Object();
+  scrudFactory.title = "Beneficiaries";
+  scrudFactory.viewAPI = "/api/v1.0/views/paylink/beneficiary_scrud_view";
+  scrudFactory.viewTableName = "paylink.beneficiary_scrud_view";
+  scrudFactory.formAPI = "/api/v1.0/forms/paylink/beneficiaries";
+  scrudFactory.formTableName = "paylink.beneficiaries";
+  scrudFactory.allowDelete = true;
+  scrudFactory.allowEdit = true;
+  scrudFactory.excludedColumns = ["BankCode", "CustomerId", "AuditUserId", "AuditTs", "Deleted"];
+  scrudFactory.live = "AccountName";
+  scrudFactory.card = {
+    description: "AccountName"
+  };
+  scrudFactory.removeKanban = true;
+  scrudFactory.removeFilter = true;
+  scrudFactory.removeImport = true;
+
+  scrudFactory.readonlyColumns = ["BeneficiaryCode", "IsVerified"];
+  scrudFactory.hiddenColumns = ["CustomerId", "Type", "BankName", "Token"];
+  scrudFactory.layout = [{
+    tab: "bank-info",
+    fields: [
+      ["BeneficiaryId", "BeneficiaryCode"],
+      ["BankCode", ""],
+      ["AccountNumber", "AccountName"]
+    ]
+  }];
+  scrudFactory.tabs = [{
+    sort: 0,
+    id: "bank-info",
+    name: "Bank Information",
+    active: true
+  }];
+  scrudFactory.keys = [{
+    property: "BankCode",
+    url: '/api/v1.0/paylink/subaccounts/get-banks',
+    data: null,
+    valueField: "code",
+    textField: "name"
+  }]
+
+  setTimeout(function () {
+    $.get('/my/template/views/scrud-factory/view.html', function(view) {
+      $.get('/my/template/views/scrud-factory/form.html', function(form) {
+        $("#ScrudFactoryView").html(view);
+        $("#ScrudFactoryForm").html(form);
+
+        $.cachedScript("/assets/js/scrudfactory-view.js");
+        $.cachedScript("/assets/js/scrudfactory-form.js");
+      });
+    });
+  }, 500);
+</script>
+
+<script>
+ $(document).on("formready", function() {
+   setup();
+  });
+
+  $(document).on("onsaving", function(e) {
+    var $form = $('.ui.form');
+    $form.form('validate form');
+    return $form.form('is valid');
+  });
+
+  function initializeFields() {
+    $("#account_name").attr('readonly', true);
+    $("#account_number").numeric({
+      decimal: false,
+      negative: false
+    });
+
+    $("#account_number").attr("maxlength", 10);
+  }
+
+  function setup() {
+    initializeFields();
+
+    var $form = $('.ui.form');
+
+    $form.form({
+      inline: true,
+      on: 'change',
+      onValid: function() {
+        var fieldName = this.attr('id');
+        if (!$('#account_name').val() &&
+          ((fieldName == 'account_number' && $('#bank_code').val() > 0) ||
+            (fieldName == 'bank_code' && $('#account_number').length == 10)
+          )) {
+          validateAccountNumber();
+        }
+      },
+      onInvalid: function() {
+        var fieldName = this.attr('id');
+        if (fieldName == 'account_number' || fieldName == 'bank_code') {
+          $("#account_name").val('');
+        }
+      },
+      fields: {
+        bank_code: {
+          identifier: 'bank_code',
+          rules: [{
+            type: 'empty',
+            prompt: 'Please select a bank'
+          }]
+        },
+        account_number: {
+          identifier: 'account_number',
+          //depends    : 'bank_code',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a valid account number'
+            },
+            {
+              type: 'exactLength[10]',
+              prompt: 'Account number must be exactly {ruleValue} digits long.'
+            }
+          ]
+        },
+        account_name: {
+          identifier: 'account_name',
+          depends: 'account_number',
+          rules: [{
+            type: 'empty',
+            prompt: 'Acount name could not be verified'
+          }]
+        }
+      }
+    });
+  }
+
+  function validateAccountNumber() {
+    var accountNumber = $("#account_number").val();
+    var bankCode = $('#bank_code').val();
+
+    var $form = $('.ui.form');
+    var formFactory = $(".ui.form.factory")
+    var bigError = $(".big.error");
+
+    formFactory.addClass("loading");
+    bigError.removeClass("vpad16").html("");
+    $("#account_name").parent('.field').removeClass('has-error');
+
+    freebe.getAccountName(bankCode, accountNumber)
+      .then(function(accountName) {
+        $("#account_name").val(accountName);
+        formFactory.removeClass("loading");
+      })
+      .catch(function(err) {
+        formFactory.removeClass("loading");
+        bigError.addClass("vpad16").text(err);
+        $("#account_name").parent('.field').addClass('has-error');
+      });
+  }
+</script>

@@ -1,0 +1,131 @@
+<script type="text/ng-template" id="profileAvatar.html">
+	<div class="modal-header">
+		<h3 class="modal-title">Update Profile Picture</h3>
+	</div>
+	<div class="modal-body">
+		<button class="btn btn-inverse btn-xs" ngf-select ng-model="avatar.Old" ngf-max-size="1MB" accept="'image/png,image/jpg,image/jpeg'">Select Picture</button>
+		<div ngf-drop ng-model="avatar.Old" ngf-pattern="'image/png,image/jpg,image/jpeg'" class="cropArea">
+			<img-crop image="avatar.Old | ngfDataUrl" result-image="avatar.New" ng-init="avatar.New=''" result-image-size="500" on-load-begin="loading()" on-load-done="done()" on-load-error="error()">
+			</img-crop>
+			<img ng-src="{{avatar.New}}" ng-hide="true" />
+		</div>
+		<div ng-show="avatar.isLoading" ng-class="panel-loading">
+			<div class="panel-loader-dots"></div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-disabled="!avatar.New" ng-click="ok()">OK</button>
+		<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+
+
+<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="/paylink">Dashboard</a></li>
+		<li class="active">User Profile</li>
+	</ol>
+</div>
+<div class="container-fluid">
+	<alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+
+
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-default panel-profile">
+				<div class="panel-body user-profile">
+					<div class="avatar-wrapper" ng-click="changeAvatar()">
+						<img ng-src="{{profile.avatar}}" alt="" class="img-responsive user-avatar" />
+					  <p class="avatar-overlay">Click to update</p>
+					</div>​
+					<div class="user-detail">
+						<h2 class="user-name"><a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a> <a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a></h2>
+						<div class="table-responsive">
+							<h6 class="user-info">Details</h6>
+							<table class="table table-condensed m0">
+								<tbody>
+									<tr>
+										<td>Code</td>
+										<td>{{profile.customerCode}}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{{profile.email}}</td>
+									</tr>
+									<tr>
+										<td>BVN</td>
+										<td><a editable-text="profile.bvn" e-pattern="\d{11}" e-title="xxxxxxxxxxx">{{profile.bvn || 'empty'}}</a></td>
+									</tr>
+									<tr>
+										<td>Phone</td>
+										<td><a editable-tel="profile.phone" e-pattern="\d{11}" e-title="xxxxxxxxxxx">{{profile.phone || 'empty'}}</a></td>
+									</tr>
+									<tr>
+										<td>Validated</td>
+										<td ng-class="profile.isValidated ? 'text-success' : 'text-danger'">{{profile.isValidated ? 'Yes' : 'No'}}</td>
+									</tr>
+									<tr>
+										<td>Type</td>
+										<td>Basic User</td>
+									</tr>
+									<tr>
+										<td>Joined</td>
+										<td>{{profile.createdAt | date : 'dd-MMM-yyyy'}}</td>
+									</tr>
+									<tr ng-hide="true">
+										<td>Updated</td>
+										<td>{{profile.updatedAt | date : 'dd-MMM-yyyy'}}</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><button ng-click="updateProfile()" ng-disabled="isBusy" class="btn btn-primary btn-sm">Update</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<tabset panel-tabs="true" panel-class="panel-default">
+				<tab heading="Recent Activities" ng-init="getRecentTransactions()">
+					<ul class="timeline">
+						<li ng-class="transaction.type == 'DEBIT' ? 'timeline-danger' : 'timeline-success'" ng-repeat="transaction in recentTransactions">
+							<div class="timeline-icon"><i class="fa fa-pencil"></i></div>
+							<div class="timeline-body">
+								<div class="timeline-header">
+									<span class="author" style="display: block !important;">
+										<a style="color: #FFF" ng-href="/paylink/transactions/{{transaction.id}}">View</a></span>
+									<span class="date">{{transaction.transactionDate | date : 'EEEE, MMMM dd, yyyy'}} </span>
+								</div>
+								<div class="timeline-content">
+									<h3>{{transaction.amount | currency : transaction.currency }}</h3>
+									<p>{{transaction.purpose}} (<strong>{{transaction.reference}}</strong>)</p>
+									<div ng-if="transaction.fromAccount" class="col-md-5">
+										<p>{{transaction.fromAccount.accountName}}</p>
+										<p>{{transaction.fromAccount.accountNumber}}</p>
+										<p>{{transaction.fromAccount.type}}</p>
+									</div>
+									<div ng-if="transaction.toAccount.type" class="col-md-2 transfer-icon"><i class="glyphicon glyphicon-transfer"></i></div>
+									<div ng-if="transaction.toAccount" class="col-md-5">
+										<p>{{transaction.toAccount.accountName}}</p>
+										<p>{{transaction.toAccount.accountNumber}}</p>
+										<p>{{transaction.toAccount.type}}</p>
+									</div>
+									<div style="clear:both;"></div>
+									<p ng-hide="true">Remark: {{transaction.remark}}</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</tab>
+			</tabset>
+
+		</div>
+	</div>
+
+
+</div>
+<!-- container-fluid -->

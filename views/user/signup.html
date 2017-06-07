@@ -1,0 +1,91 @@
+<div class="verticalcenter" ng-controller="RegistrationController">
+  <a href="/"><img src="/Static/images/freebe-logo-black.png" alt="Logo" class="brand" /></a>
+  <alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+
+  <form name="form.registrationForm" ng-init="registrationForm = {}" class="form-horizontal" style="margin-bottom: 0px !important;" novalidate>
+    <div class="panel panel-primary">
+      <div class="panel-body">
+        <h2 class="text-center" style="margin-bottom: 25px;">Sign Up</h2>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+              <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" required ng-model="registrationForm.Email">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+              <input type="email" class="form-control email" id="confirm-email" placeholder="Confirm Email" required password-verify="registrationForm.Email" ng-model="registrationForm.ConfirmEmail">
+            </div>
+          </div>
+        </div>
+        <div class="form-group" ng-if="false">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" id="name" placeholder="Username" ng-model="registrationForm.Name" required />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+              <input type="text" class="form-control" id="phone" placeholder="Phone Number" required ng-model="registrationForm.Phone">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" id="Password" name="Password" placeholder="Password"
+                ng-model="registrationForm.Password"
+                ng-model-options="{allowInvalid: true}" pattern-validator="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,32}$"
+                required />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group pull-right">
+              <label>Password Strength</label>
+              <password-strength ng-model="registrationForm.Password"></password-strength>
+            </div>
+
+            <div class="alert alert-error" ng-show="registrationForm.Password.$error.passwordPattern">
+              Password should contain at least 6 characters with one uppercase, lowercase, and a number.
+            </div>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" id="ConfirmPassword" ng-model="registrationForm.ConfirmPassword" required password-verify="registrationForm.Password" placeholder="Repeat password" />
+            </div>
+          </div>
+        </div>
+        <div class="checkbox block" style="text-align:center">
+          <input type="checkbox" required ng-model="registrationForm.Agree">
+          <span>I accept the <a href="#">User Agreement</a></span>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="pull-left">
+          <a href="/paylink/login" class="btn btn-default">Cancel</a>
+        </div>
+        <div class="pull-right">
+          <button class="btn btn-success" ng-click="register(registrationForm)" ng-disabled="form.registrationForm.$invalid">Sign up</button>
+        </div>
+      </div>
+    </div>
+    <div ng-show="isBusy" class="panel-loading" style="z-index: 10">
+      <div class="panel-loader-circular"></div>
+    </div>
+  </form>
+</div>

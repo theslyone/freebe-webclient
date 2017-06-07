@@ -1,0 +1,354 @@
+<style>
+  html, body {
+    display: none;
+  }
+</style>
+<div ng-controller="HomeController">
+  <header id="header">
+    <div class="logo">
+      <a class="logo" href="/"><img src="/my/template/images/freebe-logo.png" /></a>
+    </div>
+    <a href="#menu"><span>Menu</span></a>
+  </header>
+  <nav id="menu" sg-menu ng-controller="NavigationController">
+    <ul class="links">
+      <li><a ng-href="/">Home</a></li>
+      <li><a ng-href="/login">Log in</a></li>
+      <li><a ng-href="/signup">Register Now</a></li>
+      <li><a href="/dashboard">Admin Area</a></li>
+      <li><a href="products.html">Product & Services</a></li>
+      <li><a href="Strategy.html">Strategy & Vision</a></li>
+      <li><a href="about_us.html">About Us</a></li>
+      <li><a href="/contact-us">Contact Us</a></li>
+    </ul>
+  </nav>
+  <section class="bg-img" id="banner" data-sg-banner data-sg-background="/my/template/images/banner.jpg" data-sg-post>
+    <div class="inner">
+      <header style="padding-bottom: 40px">
+        <h1 class="regular-title">GO MOBILE</h1>
+        <div>
+          <h2 class="regular-sub-title">
+                EMPOWER YOUR BUSINESS WITH OUR FREEBE WEB AND MOBILE SOLUTIONS
+              </h2>
+        </div>
+      </header>
+      <a ng-href="/login" class="button alt">Get Started Now</a>
+    </div>
+    <a href="#features" class="more">Down</a>
+  </section>
+  <section id="features" class="wrapper post light-bg" data-sg-post>
+    <div class="ui inner center aligned container">
+      <header class="ui center aligned text container">
+        <div class="ui huge header">Features that make the <span>difference</span></div>
+        <div class="ui divider"></div>
+        <h3 class="">
+            Introducing the Free<span class="green">be</span> mobile app for easy, fast and hassle free payments, anytime, anywhere
+          </h3>
+      </header>
+      <div class="ui four column stackable doubling padded grid">
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular level down inverted red big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui red center aligned header">Zero Setup Fees</div>
+              <p>No fees necessary to create your account.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular puzzle inverted green big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui green header">Easy Integration</div>
+              <p>It only takes minutes to get Free<span class="green">be</span> plugged in.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted yellow lock big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui yellow  center aligned header">Security</div>
+              <p>PCI-compliant, with fraud management built-in.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted blue repeat big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui blue header">Recurring Payments</div>
+              <p>Conveniently run a subscription business.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted purple users big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui purple header">Designed for people</div>
+              <p>Your customers get the best payment experience.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted teal money big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui teal header">Multicurrency</div>
+              <p>Charge for your products in multiple currencies.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted brown lightning big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui brown header">Instant Payouts</div>
+              <p>Automatic deposit to bank account the same day.</p>
+            </div>
+          </div>
+        </div>
+        <div class="column feature-item">
+          <div class="ui ad grid">
+            <div class="icon">
+              <i class="circular inverted orange line chart big icon"></i>
+            </div>
+            <div class="ad details sixteen wide column">
+              <div class="ui orange header">Reporting</div>
+              <p>See your daily/monthly expense and export at will.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#why" class="more">Learn More</a>
+  </section>
+  <section id="why" class="wrapper post bg-img" data-sg-background="/my/template/images/banner3.jpg" data-sg-post>
+    <div class="inner">
+      <article class="box">
+        <header>
+          <div class="ui huge header">Why Free<span class="green">be</span></div>
+          <div class="ui divider"></div>
+          <h1>HIGHEST QUALITY, BEST PRICING, FASTEST DELIVERY.</h1>
+        </header>
+        <div class="content">
+          <h4 class="ui vertically padded">
+            We combine innovative technologies, skilled experts, smart effective processes and a 24-hour
+            round-the-clock schedule to deliver the best solution that fits your needs,
+            faster than anyone in the market. Truly, it’s like working with a dream team.
+          </h4>
+        </div>
+        <div class="footer">
+          <a href="products.html" class="button alt">Learn More</a>
+        </div>
+      </article>
+    </div>
+    <a href="#services" class="more">Learn More</a>
+  </section>
+  <section id="services" class="wrapper post bg-img dark-bg" data-sg-background="/my/template/images/using-freebe-10.png" data-sg-post>
+    <div class="inner">
+      <article class="box">
+        <header>
+          <div class="ui huge header">Our <span class="green">Services</span></div>
+          <div class="ui divider"></div>
+          <h3>
+            Why carry your ATM Card or a POS device to make or receive payments when you have a phone?
+          </h3>
+        </header>
+        <div class="content">
+          <div style="padding-top:20px">
+            <h5>
+              Send & Recieve Money - You can send money to your loved ones instantly
+              by the tap of a button or if they are next to you by Scanning a QR generated code.
+            </h5>
+            <h5>
+              Freebe also offers Small Businesses and Freelancers the
+              ability to accept payments from its customers easily using their phones.
+            </h5>
+            <h5>
+              Being a payment platform, Freebe has also been able to integrate
+              seamlessly with third party services.
+              This makes it extremely easy to pay for utility services such as mobile top ups, data plans, pay DSTV/GoTV bills,
+              purchase flight tickets, make hotels reservations, call freebe taxi,
+              view recent movies and purchase cinema tickets etc. All these are brought to you at no cost.
+            </h5>
+          </div>
+        </div>
+        <div class="footer">
+          <a href="products.html" class="button alt">Learn More</a>
+        </div>
+      </article>
+    </div>
+    <a href="#howto" class="more">Learn More</a>
+  </section>
+  <section id="howto" class="wrapper post light-bg" data-sg-post>
+    <div class="ui inner center aligned container">
+      <header class="ui center aligned text container">
+        <div class="ui huge header">How it works</div>
+        <div class="ui divider"></div>
+        <h3>
+          Using the Free<span class="green">be</span> mobile app is as easy as
+        </h3>
+      </header>
+      <div class="ui four column stackable doubling padded grid">
+        <div class="column">
+          <div class="ui raised segment">
+            <i class="big edit green icon"></i>
+            <div class="ui header">Register on Free<span class="green">be</span></div>
+            <p>Get started by <a href="#pricing">signing up</a> and creating an account absolutely free.</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui raised segment">
+            <i class="big linkify green icon"></i>
+            <div class="ui header">Link Bank Account</div>
+            <p>Bank account linked can be used to deposit received funds directly and instantly.</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui raised segment">
+            <i class="big credit card alternative green icon"></i>
+            <div class="ui header">Link Payment Cards</div>
+            <p>Payment cards are required and configured only if payments are to be made by you.</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ui raised segment">
+            <i class="big settings green icon"></i>
+            <div class="ui header">Setup a Wallet</div>
+            <p>This enables you make/receive payments even without a card/bank account linked.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#aboutus" class="more">Learn More</a>
+  </section>
+  <section id="aboutus" class="wrapper post dark-bg" data-sg-post>
+    <div class="inner">
+      <article class="box">
+        <header>
+          <div class="ui huge header">About <span class="green">Us</span></div>
+          <div class="ui divider"></div>
+        </header>
+        <div class="content">
+          <div>WORK IN PROGRESS</div>
+        </div>
+      </article>
+    </div>
+    <a href="#pricing" class="more">Learn More</a>
+  </section>
+  <section id="pricing" class="wrapper post light-bg" data-sg-post>
+    <div class="ui inner center aligned container">
+      <header class="ui center aligned text container">
+        <div class="ui huge header">Pricing</div>
+        <div class="ui divider"></div>
+        <h3>
+          Get started with Free<span class="green">be</span> Today. No Credit Card Required.
+        </h3>
+      </header>
+      <div class="ui very vertically padded container">
+        <div class="promos">
+          <div class="promo first">
+            <h4>Business</h4>
+            <ul class="features">
+              <li class="brief">Business membership</li>
+              <li class="price">N2500/m</li>
+              <li>From Card - N75</li>
+              <li>From Wallet - N55</li>
+              <li>N2000 cap</li>
+              <li>Wallet - Wallet - Free.</li>
+              <li>Inventory Management Module</li>
+              <li>Sales Management Module </li>
+              <li>Purchase Management Module</li>
+              <li class="buy"><a href="/account/sign-up?plan=business">Sign up</a></li>
+            </ul>
+          </div>
+          <div class="promo second">
+            <h4>Premium</h4>
+            <ul class="features">
+              <li class="brief">Premium membership</li>
+              <li class="price">N4500/m</li>
+              <li>From Card - N75</li>
+              <li>From Wallet - N55</li>
+              <li>N2000 cap</li>
+              <li>Wallet - Wallet - Free.</li>
+              <li>Inventory Management Module</li>
+              <li>Sales Management Module </li>
+              <li>Multiple Sales Point</li>
+              <li>Purchase Management Module</li>
+              <li>Human Resource Management Module</li>
+              <li>Customized Business Website</li>
+              <li class="buy"><a href="/account/sign-up?plan=premium">Sign up</a></li>
+            </ul>
+          </div>
+          <div class="promo third scale">
+            <h4>Basic</h4>
+            <ul class="features">
+              <li class="brief">Basic membership</li>
+              <li>No setup costs</li>
+              <li class="price">Free</li>
+              <li>From Card - N75</li>
+              <li>From Wallet - N55</li>
+              <li>N2000 cap</li>
+              <li>Wallet - Wallet - Free.</li>
+              <li class="buy"><a href="/account/sign-up?plan=basic">Sign up</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#footer" class="more">Learn More</a>
+  </section>
+  <footer id="footer">
+    <div class="inner">
+
+      <h2>Contact Us</h2>
+      <h1>Go Mobile With Freebe</h1>
+      <h4>Let's work together. Tell us about your needs, we'll get back to you quickly.</h4>
+
+      <form action="#" method="post">
+
+        <div class="field half first">
+          <label for="name">Name</label>
+          <input name="name" id="name" type="text" placeholder="Name">
+        </div>
+        <div class="field half">
+          <label for="email">Email</label>
+          <input name="email" id="email" type="email" placeholder="Email">
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
+        </div>
+        <ul class="actions">
+          <li><input value="Send Message" class="button alt" type="submit"></li>
+        </ul>
+      </form>
+
+      <ul class="icons">
+        <li><a href="#" class="icon round fa-twitter"><span class="label">Twitter</span></a></li>
+        <li><a href="#" class="icon round fa-facebook"><span class="label">Facebook</span></a></li>
+        <li><a href="#" class="icon round fa-instagram"><span class="label">Instagram</span></a></li>
+      </ul>
+
+      <div class="copyright">
+        &copy; 2017 Freebe. Powered by <a href="http://freebe.com.ng">Freebe Inc</a>.
+      </div>
+    </div>
+  </footer>
+</div>

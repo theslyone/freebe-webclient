@@ -1,0 +1,220 @@
+<script type="text/ng-template" id="/bank-transfer.html">
+  <div class="col-md-6 form-group">
+    <label class="col-sm-3 control-label">Bank <span class="required">*</span></label>
+    <div class="col-sm-6">
+      <select class="form-control" ng-model="transfer.bank" placeholder="Select Beneficiary Bank"
+        ng-options="b.name for b in banks | orderBy:'name' track by b.code"
+        ng-change="validateAccountNumber()"
+        required>
+        <option value="">- Select Bank -</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="accountNumber" class="col-md-3 control-label">Account Number <span class="required">*</span></label>
+    <div class="col-md-6">
+      <input id="accountNumber" class="form-control" placeholder="Enter Account Number"
+        limit-to="10" name="accountNumber"
+        type="text" data-only-numbers ng-model="transfer.toAccount.accountNumber"
+        ng-change="validateAccountNumber()"
+        ng-model-options="{ debounce: 200 }" ng-disabled="!transfer.bank || transfer.bank <= 0" required>
+    </div>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="accountName" class="col-md-3 control-label">Account Name</label>
+    <div class="col-md-6">
+      <input id="accountName" ng-readonly="true" class="form-control" placeholder="Account Name" name="accountName" type="text" ng-model="transfer.toAccount.accountName" required>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="/beneficiary-transfer.html">
+  <div class="col-md-6 form-group">
+    <label class="col-sm-3 control-label">To <span class="required">*</span></label>
+    <div class="col-sm-6">
+      <ui-select ng-model="transfer.beneficiary.selected" title="Select Beneficiary"
+        on-select="beneficiarySelected($item)">
+        <ui-select-match placeholder="Search a beneficiary in the list...">
+          {{$select.selected.accountName}} ({{$select.selected.accountNumber}})
+        </ui-select-match>
+        <ui-select-choices repeat="beneficiary in beneficiaries | filter: $select.search" required>
+          <div>
+            <span ng-bind-html="beneficiary.accountName | highlight: $select.search"></span>
+            (<span ng-bind-html="beneficiary.accountNumber | highlight: $select.search"></span>)
+            <div ng-bind-html="beneficiary.accountType | highlight: $select.search"></div>
+          </div>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="accountType" class="col-md-3 control-label">Account Type</label>
+    <div class="col-md-6">
+      <input id="accountType" ng-readonly="true" class="form-control" placeholder="Account Type"
+        name="accountType" type="text" ng-model="transfer.toAccount.accountType" required>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="/freebe-user-transfer.html">
+  <div class="col-md-6 form-group">
+    <label class="col-sm-3 control-label">To <span class="required">*</span></label>
+    <div class="col-sm-6">
+      <form action="" class="form-horizontal row-border">
+        <div class="input-icon right">
+          <i ng-show="loadAccounts" class="fa fa-refresh fa-spin"></i>
+          <input type="text" ng-model="transfer.freebeAccount" placeholder="Search by name or phone number..."
+            typeahead-on-select="freebeUserSelected($item)" ng-change="transfer.toAccount.accountType = ''"
+            typeahead="user.accountName for user in getFreebeAccounts($viewValue)" typeahead-loading="loadAccounts"
+            typeahead-editable="false" class="form-control">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="accountType" class="col-md-3 control-label">Account Type</label>
+    <div class="col-md-6">
+      <input id="accountType" ng-readonly="true" class="form-control" placeholder="Account Type"
+      name="accountType" type="text" ng-model="transfer.toAccount.accountType" required>
+    </div>
+  </div>
+</script>
+
+<div ng-init="initialize()">
+  <div id="page-heading">
+    <ol class="breadcrumb">
+      <li><a href="/paylink">Dashboard</a></li>
+      <li class="active">Fund Transfer</li>
+    </ol>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <panel panel-class="panel-sky" heading="Freebe Easy Fund Transfer">
+          <p>Transfer money to any bank account  or freebe wallet is as simple as following this two step simple wizard.</p>
+          <form name="form.transfer" data-wizard="wizardOptions" data-reset="resetWizard" class="form-horizontal">
+            <fieldset title="Step 1">
+              <legend>Transfer Details</legend>
+              <div class="col-md-6 form-group">
+                <label class="col-sm-3 control-label">From <span class="required">*</span></label>
+                <div class="col-sm-6">
+                  <select class="form-control" ng-model="transfer.fromAccount" placeholder="Select Account" ng-options="sa.name for sa in fromAccounts | orderBy:'name' track by sa.id" required>
+                    <option value="">- Select Account -</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="accountPin" class="col-md-3 control-label">From Account PIN <span class="required">*</span></label>
+                <div class="col-md-6">
+                  <input id="accountPin" class="form-control" placeholder="Enter Authorization PIN"
+                    limit-to="4" name="accountPin"
+                    type="text" data-only-numbers ng-model="transfer.fromAccount.pin" required>
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label class="col-sm-3 control-label">Transfer </label>
+                <div class="col-sm-6">
+                  <select class="form-control" ng-model="transfer.type" ng-options="t.id as t.name for t in transferType"
+                    ng-change="transferTypeChanged()">
+                  </select>
+                </div>
+              </div>
+              <div ng-switch="transfer.type">
+                <div ng-switch-when="bank-account">
+                  <div id="bank-transfer" ng-include src="'/bank-transfer.html'"></div>
+                </div>
+                <div ng-switch-when="freebe-user">
+                  <div id="freebe-user-transfer" ng-include src="'/freebe-user-transfer.html'"></div>
+                </div>
+                <div ng-switch-when="beneficiary">
+                  <div id="beneficiary-transfer" ng-include src="'/beneficiary-transfer.html'"></div>
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="amount" class="col-sm-3 control-label">Amount <span class="required">*</span></label>
+                <div class="col-sm-6">
+                  <input name="amount" type="number" data-min="0" placeholder="Amount" required ng-model="transfer.amount" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="phoneNumber" class="col-md-3 control-label">Phone Number</label>
+                <div class="col-md-6"><input id="phoneNumber" placeholder="Enter Beneficiary Phone Number" class="form-control" type="text" name="phoneNumber" ng-model="transfer.toAccount.phoneNumber"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="remark" class="col-md-3 control-label">Transaction Remark</label>
+                <div class="col-md-6">
+                  <textarea id="remark" class="form-control" name="remark" placeholder="Transaction Remark" ng-model="transfer.remark"></textarea>
+                </div>
+              </div>
+              <span class="clearfix">
+            </fieldset>
+            <fieldset title="Step 2">
+              <legend>Summary And Confirmation</legend>
+              <div class="col-md-12">
+    						<p>Please verify the details below</p>
+    						<div class="panel">
+    							<div class="list-group m0">
+    								<div class="list-group-item">
+                      <i class="fa fa-user"></i> Transfer From <span class="pull-right">{{transfer.fromAccount.name}}</span>
+                    </div>
+                    <div class="list-group-item ng-hide" ng-hide="true">
+                      <i class="fa fa-tag"></i> Transfer To <span class="pull-right">{{transfer.toAccount.accountType}}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="fa fa-user"></i> Recipient Account Name <span class="pull-right">{{transfer.toAccount.accountName }}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="glyphicon glyphicon-info-sign"></i> Recipient Account Number <span class="pull-right">{{transfer.toAccount.accountNumber }}</span>
+                    </div>
+                    <div ng-if="transfer.type == 'bank-account'" class="list-group-item">
+                      <i class="fa fa-university"></i> Recipient Bank <span class="pull-right">{{transfer.bank.name }}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="glyphicon glyphicon-transfer"></i> Recipient Account Type <span class="pull-right">{{transfer.toAccount.accountType }}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="glyphicon glyphicon-phone"></i> Recipient Phone Number <span class="pull-right">{{transfer.toAccount.phoneNumber }}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="fa fa-money"></i> Amount <span class="pull-right">{{transfer.amount | currency : "₦" }}</span>
+                    </div>
+                    <div class="list-group-item">
+                      <i class="fa fa-commenting-o"></i> Remark <span class="pull-right">{{transfer.remark }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-md-3 control-label">Terms and Conditions</label>
+                <div class="col-md-6">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, nemo, atque consequuntur officiis asperiores consectetur porro labore commodi esse error quisquam nihil illum sunt facere inventore possimus autem ab voluptates quibusdam non
+                    voluptatum suscipit architecto. Illo, facilis, corporis, veritatis dolores minus quasi iure cupiditate quis autem ducimus nisi obcaecati tenetur sed ea excepturi pariatur consequatur enim labore officia mollitia. Rerum, voluptatem numquam molestiae
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+                <div class="col-sm-6">
+                  <label class="checkbox-inline">
+                  	<input type="checkbox" id="terms" name="terms" value="option1"
+                    ng-model="transfer.terms" required> Accept Terms &amp; Conditions
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <button class="stepy-finish btn-success btn" ng-click="completeTransfer()"
+              ng-disabled="!form.transfer.$valid">Submit
+            </button>
+            <button class="ng-hide btn-default btn" ng-click="resetValidationForm()" ng-disabled="!scope.form.transfer.$dirty">
+              Reset
+            </button>
+          </form>
+        </panel>
+        <div ng-show="state.busy" class="panel-loading">
+          <div class="panel-loader-circular"></div>
+          <h3 style="position: absolute; width: 80px; height: 80px; margin-top: -40px;">{{state.message}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3 class="modal-title">Wallet Top Up</h3>
+</div>
+<div class="modal-body">
+  <form name="form.deposit">
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label class="col-sm-4 control-label"></label>
+        <div class="col-sm-8">
+          <p style="font-size: 12px; color: gray">Top up wallet at 65 NGN flat charge</p>
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label class="col-sm-4 control-label">From Card <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <select class="form-control" ng-model="deposit.card" ng-options="c as (c.bankName + ' (' + c.accountNumber + ')') for c in cards | orderBy:'accountNumber' track by c.id" required>
+        <option value="">- Select Card -</option>
+      </select>
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="amount" class="col-sm-4 control-label">Amount <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="amount" type="number" data-min="0" placeholder="Amount" required ng-model="deposit.amount" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="pin" class="col-sm-4 control-label">Pin <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="pin" type="password" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Enter card 4 digit PIN" ng-model-options="{allowInvalid: false}" pattern-validator="\d{4}" required ng-model="deposit.card.pin" class="form-control">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div ng-show="deposit.isBusy" ng-class="panel-loading">
+    <div class="panel-loader-dots"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success" ng-disabled="form.deposit.$invalid" ng-click="ok()">Deposit</button>
+</div>

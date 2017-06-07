@@ -1,0 +1,270 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="/paylink">Dashboard</a></li>
+    <li class="active">Payment Cards</li>
+  </ol>
+
+<div class="container-fluid" ng-controller="BankAccountController">
+  <div class="row">
+    <div class="col-md-12">
+      <panel panel-class="panel-primary" data-heading="Registered Payment Cards">
+        <panel-controls>
+          <panel-control-collapse></panel-control-collapse>
+        </panel-controls>
+        <alert>
+          <p>Debit and credit cards registered on freebe can be used to process transfers or make service/utility payments.</p>
+          <h4>
+              Our PCI compliant tokenization security protocol ensures that your card information are kept secure. We do not
+              share or send this information with any third party.
+            </h4>
+        </alert>
+        <div id="ScrudFactoryForm"></div>
+        <div id="ScrudFactoryView"></div>
+      </panel>
+    </div>
+  </div>
+</div>
+<!-- container-fluid -->
+
+<script>
+  var scrudFactory = new Object();
+  scrudFactory.title = "Payment Cards"; //window.translate("EmployeeTypes");
+  scrudFactory.viewAPI = "/api/v1.0/views/paylink/payment_card_scrud_view";
+  scrudFactory.viewTableName = "paylink.payment_card_scrud_view";
+  scrudFactory.formAPI = "/api/v1.0/forms/paylink/subaccounts";
+  scrudFactory.formTableName = "paylink.subaccounts";
+  scrudFactory.allowDelete = true;
+  scrudFactory.allowEdit = false;
+  scrudFactory.excludedColumns = ["SubaccountId", "SubaccountCode", "CustomerId", "CardName", "AuditUserId", "AuditTs", "Deleted"];
+  scrudFactory.live = "AccountName";
+  scrudFactory.card = {
+    header: "CardNumber"
+  };
+  scrudFactory.removeKanban = false;
+  scrudFactory.removeFilter = true;
+  scrudFactory.removeImport = true;
+
+  scrudFactory.viewUrl = "/paylink/subacount/{Id}";
+  scrudFactory.customActions = [
+    {
+      title: "View Transactions",
+      href: "/paylink/transactions?FromSubaccountId={Id}",
+      icon: "list icon",
+      position: "before"
+    }
+  ];
+
+  scrudFactory.readonlyColumns = ["SubaccountCode", "IsVerified", "Type"];
+  scrudFactory.hiddenColumns = ["SubaccountId", "SubaccountCode", "CustomerId", "Type", "DailyMaxDeposit", "DailyMaxWithdrawal", "Balance",
+    "Description", "PercentageCharge", "SettlementSchedule", "Token"
+  ];
+  scrudFactory.disabledOnEdit = ["AccountNumber"];
+  scrudFactory.layout = [{
+    tab: "card-info",
+    fields: [
+      ["SubaccountId", "SubaccountCode"],
+      ["CardNumber", "CardType"],
+      ["BankName", "CardExpiryMonth"],
+      ["CardExpiryYear", "CardCvv"],
+      ["Pin", "ConfirmPin"],
+      ["Active", ""]
+    ]
+  }];
+  scrudFactory.tabs = [{
+    sort: 0,
+    id: "card-info",
+    name: "Payment Card Information",
+    active: true
+  }];
+  scrudFactory.keys = [/*{
+    property: "CardType",
+    url: '/api/v1.0/paylink/subaccounts/get-card-types',
+    data: null,
+    valueField: "Key",
+    textField: "Value"
+  },*/
+  {
+    property: "CardExpiryYear",
+    url: '/api/v1.0/paylink/subaccounts/get-years',
+    data: null,
+    valueField: "Key",
+    textField: "Value"
+  },
+  {
+    property: "CardExpiryMonth",
+    url: '/api/v1.0/paylink/subaccounts/get-months',
+    data: null,
+    valueField: "Key",
+    textField: "Value"
+  }]
+
+  setTimeout(function () {
+    $.get('/my/template/views/scrud-factory/view.html', function(view) {
+      $.get('/my/template/views/scrud-factory/form.html', function(form) {
+        $("#ScrudFactoryView").html(view);
+        $("#ScrudFactoryForm").html(form);
+
+        $.cachedScript("/assets/js/scrudfactory-view.js");
+        $.cachedScript("/assets/js/scrudfactory-form.js");
+      });
+    });
+  }, 800);
+</script>
+
+<script>
+ $(document).on("formready", function() {
+   setup();
+  });
+
+  $(document).on("onsaving", function(e) {
+    var $form = $('.ui.form');
+    $form.form('validate form');
+    return $form.form('is valid');
+  });
+
+  function initializeFields() {
+    $("#bank_name").attr('readonly', true);
+    $("#card_type").attr('readonly', true);
+    $("#type").val('card');
+    $("#card_number").numeric({
+      decimal: false,
+      negative: false
+    });
+  }
+
+  function setup() {
+    $("#active").val("yes");
+    initializeFields();
+    var $form = $('.ui.form');
+    $form.form({
+      inline: true,
+      on: 'blur',
+      onSuccess: function(event, fields) {
+      },
+      onFailure: function(formErrors, fields) {},
+      onValid: function() {
+        var fieldName = this.attr('id');
+        /*if(fieldName == 'card_type') {
+          var cardNumberLength;
+          switch(this.val()) {
+            case "master_card":
+              cardNumberLength = 16;
+            break;
+            case "verve_card":
+              cardNumberLength = 19;
+            break;
+          }
+          var cardNumberValidationRule = $form.form('get validation', $('#card_number'));
+          cardNumberValidationRule[0].rules[1].type = "exactLength[" + cardNumberLength + "]";
+          cardNumberValidationRule[0].rules[1].prompt = 'Card number length must be exactly ' + cardNumberLength + ' characters';
+        }*/
+        if(fieldName == 'card_number' && !$("#bank_name").val()) {
+          validateCardNumber();
+        }
+      },
+      onInvalid: function() {
+        var fieldName = this.attr('id');
+        if (fieldName == 'card_number') {
+          $("#bank_name").val('');
+          $('#card_type').val('')
+        }
+      },
+      fields: {
+        card_number: {
+          identifier: 'card_number',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a valid card number'
+            },
+            {
+              type: 'creditCard[mastercard,maestro]',
+              prompt: 'Please enter a valid master or verve card'
+            }
+          ]
+        },
+        card_expiry_month: {
+          identifier: 'card_expiry_month',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a valid expiry month'
+            },
+            {
+              type: 'exactLength[2]',
+              prompt: 'Expiry month must be exactly {ruleValue} digits long.'
+            }]
+        },
+        card_expiry_year: {
+          identifier: 'card_expiry_year',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a valid expiry year'
+            },
+            {
+              type: 'exactLength[2]',
+              prompt: 'Expiry year must be exactly {ruleValue} digits long.'
+            }]
+        },
+        card_cvv: {
+          identifier: 'card_cvv',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a valid card cvv'
+            },
+            {
+              type: 'exactLength[3]',
+              prompt: 'Card cvv must be exactly {ruleValue} digits long.'
+            }]
+        },
+        pin: {
+          identifier: 'pin',
+          //depends: 'account_name',
+          rules: [{
+              type: 'empty',
+              prompt: 'Please enter a security pin for this bank account'
+            },
+            {
+              type: 'integer',
+              prompt: 'Security pin must be numeric'
+            },
+            {
+              type: 'exactLength[4]',
+              prompt: 'Your pin must be exactly {ruleValue} characters'
+            }
+          ]
+        },
+        confirm_pin: {
+          identifier: 'confirm_pin',
+          depends: 'pin',
+          rules: [{
+            type: 'match[pin]',
+            prompt: 'Pin does not match'
+          }]
+        }
+      }
+    });
+  }
+
+  function validateCardNumber() {
+    var cardNumber = $("#card_number").val();
+
+    var $form = $('.ui.form');
+    var formFactory = $(".ui.form.factory")
+    var bigError = $(".big.error");
+
+    formFactory.addClass("loading");
+    bigError.removeClass("vpad16").html("");
+    $("#account_name").parent('.field').removeClass('has-error');
+
+    freebe.getBankName(cardNumber)
+      .then(function(resp) {
+        $("#bank_name").val(resp.issuer + " (" + resp.class + ")");
+        $("#card_type").val(resp.brand);
+        formFactory.removeClass("loading");
+      })
+      .catch(function(err) {
+        formFactory.removeClass("loading");
+        bigError.addClass("vpad16").text(err);
+        $("#bank_name").parent('.field').addClass('has-error');
+      });
+  }
+</script>

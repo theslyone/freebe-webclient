@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h3 class="modal-title">Wallet withdrawal</h3>
+</div>
+<div class="modal-body">
+  <form name="form.withdrawal">
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label class="col-sm-4 control-label"></label>
+        <div class="col-sm-8">
+          <p style="font-size: 12px; color: gray">Withdraw to bank account at 10 NGN flat charge</p>
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label class="col-sm-4 control-label">To Account <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <select class="form-control" ng-model="withdrawal.account" ng-options="b as (b.bankName + ' (' + b.accountNumber + ')') for b in banks | orderBy:'accountNumber' track by b.id" required>
+        <option value="">- Select Bank -</option>
+      </select>
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="amount" class="col-sm-4 control-label">Amount <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="amount" type="number" data-min="0" placeholder="Amount" required ng-model="withdrawal.amount" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="pin" class="col-sm-4 control-label">Pin <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="pin" type="password" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Enter wallet 4 digit PIN" ng-model-options="{allowInvalid: false}" pattern-validator="\d{4}" required ng-model="withdrawal.wallet.pin" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12" style="border: 0.1px solid red">
+      </div>
+      <div class="col-md-12 form-group">
+        <label class="col-sm-4 control-label"></label>
+        <div class="col-sm-8">
+          <p style="margin-right:10px;display:inline">Wallet balance: {{wallet.balance | currency : "NGN "}}</p> <a ng-click="withdrawal.amount = wallet.balance">All</a>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div ng-show="deposit.isBusy" ng-class="panel-loading">
+    <div class="panel-loader-dots"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success" ng-disabled="form.withdrawal.$invalid" ng-click="ok()">Withdraw</button>
+</div>
