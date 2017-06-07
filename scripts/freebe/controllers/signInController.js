@@ -1,7 +1,5 @@
 angular
-  .module('theme.core.signin_controller', [
-    'theme.core.services'
-  ])
+  .module('freebe.signin_controller', [])
   .controller('SignInController', ['$rootScope', '$scope', '$state', '$auth', '$theme', 'progressLoader',
     function($rootScope, $scope, $state, $auth, $theme, progressLoader) {
       'use strict';

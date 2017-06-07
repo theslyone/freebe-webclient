@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
 .service('beneficiaryService', ['$http', '$auth', 'pinesNotifications', function($http, $auth, pinesNotifications){
   'use strict';
   var url = '/api/v1.0/views/paylink/beneficiaries/';

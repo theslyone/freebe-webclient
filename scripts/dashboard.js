@@ -1,6 +1,6 @@
 var paylinkApp = angular
   .module('PaylinkApp', [
-    'theme'
+    'freebe'
   ]);
 
 paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', '$httpProvider',
@@ -11,12 +11,6 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       enabled: true,
       requireBase: false
     });
-
-    function UserLoggedIn($auth, $location) {
-      if ($auth.user) {
-        $location.path('/paylink')
-      }
-    }
 
     /*var originalWhen = $stateProvider.state;
     $stateProvider.state = function(path, route) {
@@ -53,7 +47,15 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         templateUrl: '/my/template/views/user/login.html',
         controller: "SignInController",
         /*resolve: {
-          auth: UserLoggedIn
+          auth: function($auth, $state) {
+            return $auth.validateUser()
+              .then(function() {
+                if ($auth.user) {
+                  $state.go('dashboard')
+                }
+                else { "" }
+              });
+          }
         }*/
       })
       .state('signup', {
@@ -111,16 +113,18 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
           }]
         }
       })
-      .state('wallet.topup', {
-        url: '/topup',
+      .state('wallet-topup', {
+        parent: 'wallet',
+        url: '/paylink/wallet/topup',
         templateUrl: '/my/template/views/wallet/topUp.html',
         controller: "WalletController",
         resolve: {
           //resolve cards here
         }
       })
-      .state('wallet.withdrawal', {
-        url: '/topup',
+      .state('wallet-withdrawal', {
+        parent: 'paylink',
+        url: '/paylink/wallet/withdrawal',
         templateUrl: '/my/template/views/wallet/withdrawal.html',
         controller: "WalletController",
         resolve: {
@@ -150,8 +154,9 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         templateUrl: '/my/template/views/transactions/index.html',
         reloadOnSearch: false
       })
-      .state('transactions.details', {
-        url: '/:id',
+      .state('transaction-details', {
+        parent: 'paylink',
+        url: '/paylink/transactions/:id',
         templateUrl: '/my/template/views/transactions/details.html',
         controller: 'TransactionDetailsController',
         reloadOnSearch: false,
@@ -162,8 +167,8 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         }
       })
       .state('/paylink/:templateFile', {
-        templateUrl: function($state) {
-          return '/my/template/views/' + $state.params.templateFile + '.html';
+        templateUrl: function($stateParams) {
+          return '/my/template/views/' + $stateParams.templateFile + '.html';
         },
         reloadOnSearch: false
       });
@@ -229,6 +234,6 @@ paylinkApp.run(['$rootScope', '$state', function($rootScope, $state) {
 
   $rootScope.$on("$stateChangeError", function(event, next, current, error) {
     console.error(error);
-    $state.go('/paylink/login');
+    $state.go('login');
   });
 }]);

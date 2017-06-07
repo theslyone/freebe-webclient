@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
 .service('subaccountService', ['$http', '$auth', 'pinesNotifications', function($http, $auth, pinesNotifications){
   'use strict';
   var url = '/api/v1.0/paylink/subaccounts/';

@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
   .factory('transactionService', ['$http', '$location', '$auth', 'modalService', 'pinesNotifications', 'progressLoader',
     function($http, $location, $auth, modalService, pinesNotifications, progressLoader) {
       'use strict';
@@ -130,7 +130,7 @@ angular.module('theme.core.services')
               notification.text = 'Transfer processed successfully!'
               pinesNotifications.notify(notification);
 
-              if(typeof acceptCallback === 'function') {
+              if(typeof successCallBack === 'function') {
                 successCallBack(response);
               }
             }
@@ -146,17 +146,24 @@ angular.module('theme.core.services')
           });
       }
 
-      var transfer = function(transferObject, successCallBack, errorCallback) {
+      var transfer = function(transferObject, transferOptions, successCallBack, errorCallback) {
         var modalOptions = {
           actionButtonText: 'Proceed',
           closeButtonText: 'Cancel',
-          headerText: 'Freebe Transfer (NGN ' + transferObject.Amount + ')?',
+          headerText: 'Freebe Transfer (NGN ' + transferObject.Amount + ')',
           bodyText: 'Are you sure you want to transfer ' + transferObject.Amount + '?'
         };
+
+        angular.extend(modalOptions, transferOptions);
 
         modalService.showModal({}, modalOptions)
         .then(function() {
           processTransfer(transferObject, successCallBack, errorCallback);
+        })
+        .catch(function(err){
+          if(typeof errorCallback === 'function') {
+            errorCallback(err);
+          }
         });
       }
 

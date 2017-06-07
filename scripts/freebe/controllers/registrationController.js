@@ -1,7 +1,7 @@
 angular
-  .module('theme.core.registration_controller', [])
-  .controller('RegistrationController', ['$scope', '$timeout', '$theme', '$auth', '$location', '$http',
-    function($scope, $timeout, $theme, $auth, $location, $http) {
+  .module('freebe.registration_controller', [])
+  .controller('RegistrationController', ['$scope', '$timeout', '$theme', '$auth', '$state', '$http',
+    function($scope, $timeout, $theme, $auth, $state, $http) {
     'use strict';
     $theme.set('fullscreen', true);
 
@@ -41,7 +41,7 @@ angular
     }
 
     $scope.$on('auth:registration-email-success', function(ev, message) {
-      $location.path("/paylink/signup-successful");
+      $state.go("signup-successful");
     });
 
     $scope.$on('auth:registration-email-error', function(ev, reason) {
