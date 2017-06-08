@@ -66,7 +66,14 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       .state('dashboard', {
         parent: 'paylink',
         url: '^/paylink/dashboard',
-        templateUrl: '/my/template/views/dashboard.html'
+        templateUrl: '/my/template/views/dashboard.html',
+        resolve: {
+          loadChartsJs: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              '/bower_components/Chartjs/Chart.min.js'
+            ]);
+          }]
+        }
       })
       .state('bank-accounts', {
         parent: 'paylink',
@@ -177,6 +184,11 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             return transactionService.getMerchants();
           }
         }
+      })
+      .state('bill-payment.product', {
+        url: '^/paylink/bill-payment/:id',
+        templateUrl: '/my/template/views/bill-payment/product.html',
+        controller: 'BillPaymentController'
       })
       .state('/paylink/:templateFile', {
         templateUrl: function($stateParams) {

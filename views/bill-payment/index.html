@@ -1,36 +1,44 @@
 <div id="page-heading">
   <ol class="breadcrumb">
     <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
-    <li class="active">Mobile Top Up</li>
+    <li class="active">Bill Payment</li>
   </ol>
 
-<div class="container-fluid">
-  <div class="row">
-		<div class="col-md-3">
-			<div class="merchant-menu mt20">
-				<div class="collapsible-menu" ng-repeat="merchant in merchants">
-					<span class="merchant-leftbar-category clearfix">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="merchant-menu mt20" ng-init="initialize()">
+          <div class="collapsible-menu" ng-repeat="merchant in merchants">
+            <span class="merchant-leftbar-category clearfix">
 						<a href="javascript:;" data-toggle="collapse" data-target="#{{merchant.id}}" class="category-heading">
               <!--<i class="fa fa-{{merchant.icon}} fa-2x" style="margin-right: 5px;"></i>-->{{merchant.name}}
             </a>
             <span class="badge">{{merchant.products.length}}</span>
-					</span>
-					<div class="collapse out" id="{{merchant.id}}">
-						<a ng-repeat="product in merchant.products" ui-sref="profile" class="merchant-menu-item">
+            </span>
+            <div class="collapse" ng-class="merchant.default ? 'in' : 'out'" id="{{merchant.id}}">
+              <a ng-repeat="product in merchant.products" ui-sref="bill-payment.product({id: product.id})" class="merchant-menu-item">
               <i class="text-info fa fa-circle-o mr5"></i>{{product.name}}
-              <!--<span>{{product.description}}</span>
-              <span ng-if="product.cost > 0">{{product.cost | currency : 'NGN '}}</span>-->
-            </a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-9">
-			<div class="panel panel-merchant">
-				<div class="panel-body">
+              <!--<span>{{product.description}}</span>-->
 
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+              <span ng-if="product.cost > 0">{{product.cost | currency : 'NGN '}}</span>
+            </a>
+            </div>
+          </div>
+        </div>
+
+        <!--<accordion close-others="oneAtATime" class="panel-default">
+          <accordion-group heading="{{merchant.name}}" is-open="merchant.default" ng-repeat="merchant in merchants">
+            <a ng-repeat="product in merchant.products" ui-sref="bill-payment.product({id: product.id})" class="merchant-menu-item">
+            <i class="text-info fa fa-circle-o mr5"></i>{{product.name}}
+          </accordion-group>
+        </accordion>-->
+      </div>
+      <div class="col-md-8">
+        <div ui-view>
+          <div class="mt20" style="margin: 0 auto; width: 400px">
+            <h1>No Product Selected</h1>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>

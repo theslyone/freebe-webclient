@@ -1,0 +1,62 @@
+<panel panel-class="panel-midnightblue mt20" heading="{{product.name}}">
+  <panel-controls>
+    <panel-control-collapse></panel-control-collapse>
+    <button class="button-icon"><i class="glyphicon glyphicon-cog"></i></button>
+    <button class="button-icon"><i class="glyphicon glyphicon-wrench"></i></button>
+  </panel-controls>
+  <alert>
+    <h5>{{product.description}}</h5>
+    <h5 ng-if="product.cost > 0">{{product.cost | currency : 'NGN '}}</h5>
+    <p ng-if="product.sub_description">{{product.sub_description}}</p>
+  </alert>
+
+  <form name="form.topup" class="form-horizontal row-border" ng-init="getProduct()">
+    <div class="form-group" ng-repeat="field in fields">
+      <label class="col-sm-3 control-label">{{field.name}}</label>
+      <div class="col-sm-6">
+        <input type="{{field.type}}" class="form-control" required
+          ng-readonly="{{field.readonly}}"
+          ng-pattern="field.pattern"
+          ng-model="field.value">
+      </div>
+      <div class="col-sm-3">
+        <p class="help-block">{{field.help}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Pay With</label>
+      <div class="col-sm-6">
+        <select class="form-control" ng-model="bill.sourceAccount" placeholder="Select Account"
+          ng-options="sa.name for sa in fromAccounts | orderBy:'name' track by sa.id" required>
+          <option value="">- Select Account -</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <p class="help-block"></p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Account PIN</label>
+      <div class="col-sm-6">
+        <input id="accountPin" class="form-control" placeholder="Authorization PIN"
+          limit-to="4" name="accountPin" data-ng-minlength=4 data-ng-maxlength=4
+          type="password" data-only-numbers ng-model="bill.sourceAccount.pin" required>
+      </div>
+      <div class="col-sm-3">
+        <p class="help-block"></p>
+      </div>
+    </div>
+  </form>
+  <div ng-show="state.busy" class="panel-loading">
+    <div class="panel-loader-circular"></div>
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="btn-toolbar">
+          <button class="btn-success btn" ng-disabled="form.topup.$invalid || state.busy" ng-click="pay()">Pay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</panel>

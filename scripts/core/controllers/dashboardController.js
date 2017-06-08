@@ -1,11 +1,15 @@
 angular.module('theme.core.dashboard_controller', [
-    'angular-skycons'
+    'angular-skycons',
+    'theme.chart.canvas',
+    'theme.chart.flot',
+    'theme.chart.sparklines'
   ])
   .controller('DashboardController', ['$scope', '$timeout', '$window', function($scope, $timeout, $window) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
     $scope.loadingChartData = false;
+
     $scope.refreshAction = function() {
       $scope.loadingChartData = true;
       $timeout(function() {
@@ -13,205 +17,26 @@ angular.module('theme.core.dashboard_controller', [
       }, 2000);
     };
 
-    $scope.percentages = [53, 65, 23, 99];
-    $scope.randomizePie = function() {
-      $scope.percentages = _.shuffle($scope.percentages);
-    };
-
-    $scope.plotStatsData = [{
-      data: [
-        [1, 1500],
-        [2, 2200],
-        [3, 1100],
-        [4, 1900],
-        [5, 1300],
-        [6, 1900],
-        [7, 900],
-        [8, 1500],
-        [9, 900],
-        [10, 1200],
-      ],
-      label: 'Page Views'
-    }, {
-      data: [
-        [1, 3100],
-        [2, 4400],
-        [3, 2300],
-        [4, 3800],
-        [5, 2600],
-        [6, 3800],
-        [7, 1700],
-        [8, 2900],
-        [9, 1900],
-        [10, 2200],
-      ],
-      label: 'Unique Views'
-    }];
-
-    $scope.plotStatsOptions = {
-      series: {
-        stack: true,
-        lines: {
-          // show: true,
-          lineWidth: 2,
-          fill: 0.1
-        },
-        splines: {
-          show: true,
-          tension: 0.3,
-          fill: 0.1,
-          lineWidth: 3
-        },
-        points: {
-          show: true
-        },
-        shadowSize: 0
-      },
-      grid: {
-        labelMargin: 10,
-        hoverable: true,
-        clickable: true,
-        borderWidth: 0
-      },
-      tooltip: true,
-      tooltipOpts: {
-        defaultTheme: false,
-        content: 'View Count: %y'
-      },
-      colors: ['#b3bcc7'],
-      xaxis: {
-        tickColor: 'rgba(0,0,0,0.04)',
-        ticks: 10,
-        tickDecimals: 0,
-        autoscaleMargin: 0,
-        font: {
-          color: 'rgba(0,0,0,0.4)',
-          size: 11
-        }
-      },
-      yaxis: {
-        tickColor: 'transparent',
-        ticks: 4,
-        tickDecimals: 0,
-        //tickColor: 'rgba(0,0,0,0.04)',
-        font: {
-          color: 'rgba(0,0,0,0.4)',
-          size: 11
-        },
-        tickFormatter: function(val) {
-          if (val > 999) {
-            return (val / 1000) + 'K';
-          } else {
-            return val;
-          }
-        }
-      },
-      legend: {
-        labelBoxBorderColor: 'transparent',
-      }
-    };
-
-    $scope.plotRevenueData = [{
-      data: [
-        [1, 1100],
-        [2, 1400],
-        [3, 1200],
-        [4, 800],
-        [5, 600],
-        [6, 800],
-        [7, 700],
-        [8, 900],
-        [9, 700],
-        [10, 300]
-      ],
-      label: 'Revenues'
-    }];
-
-    $scope.plotRevenueOptions = {
-      series: {
-
-        // lines: {
-        //     show: true,
-        //     lineWidth: 1.5,
-        //     fill: 0.1
-        // },
-        bars: {
-          show: true,
-          fill: 1,
-          lineWidth: 0,
-          barWidth: 0.6,
-          align: 'center'
-        },
-        points: {
-          show: false
-        },
-        shadowSize: 0
-      },
-      grid: {
-        labelMargin: 10,
-        hoverable: true,
-        clickable: true,
-        borderWidth: 0
-      },
-      tooltip: true,
-      tooltipOpts: {
-        defaultTheme: false,
-        content: 'Revenue: %y'
-      },
-      colors: ['#b3bcc7'],
-      xaxis: {
-        tickColor: 'transparent',
-        //min: -0.5,
-        //max: 2.7,
-        tickDecimals: 0,
-        autoscaleMargin: 0,
-        font: {
-          color: 'rgba(0,0,0,0.4)',
-          size: 11
-        }
-      },
-      yaxis: {
-        ticks: 4,
-        tickDecimals: 0,
-        tickColor: 'rgba(0,0,0,0.04)',
-        font: {
-          color: 'rgba(0,0,0,0.4)',
-          size: 11
-        },
-        tickFormatter: function(val) {
-          if (val > 999) {
-            return '$' + (val / 1000) + 'K';
-          } else {
-            return '$' + val;
-          }
-        }
-      },
-      legend: {
-        labelBoxBorderColor: 'transparent'
-      }
-    };
-
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = 7;
-
-    $scope.accountsInRange = function() {
-      return this.userAccounts.slice(this.currentPage * 7, this.currentPage * 7 + 7);
-    };
-
-    $scope.uaHandle = function($index) {
-      // console.log(ua);
-      this.userAccounts.splice($index, 1);
-    };
-
-    $scope.uaHandleSelected = function() {
-      this.userAccounts = _.filter(this.userAccounts, function(item) {
-        return (item.rem === false || item.rem === undefined);
-      });
+    $scope.statisticsChartData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [{
+        fillColor: 'rgba(220,220,220,0.5)',
+        strokeColor: 'rgba(220,220,220,1)',
+        pointColor: 'rgba(220,220,220,1)',
+        pointStrokeColor: '#fff',
+        data: [65, 59, 90, 81, 56, 55, 40]
+      }, {
+        fillColor: 'rgba(151,187,205,0.5)',
+        strokeColor: 'rgba(151,187,205,1)',
+        pointColor: 'rgba(151,187,205,1)',
+        pointStrokeColor: '#fff',
+        data: [28, 48, 40, 19, 96, 27, 100]
+      }]
     };
 
     $scope.drp_start = moment().subtract(1, 'days').format('MMMM D, YYYY');
     $scope.drp_end = moment().add(31, 'days').format('MMMM D, YYYY');
-    $scope.drp_options = {
+    /*$scope.drp_options = {
       ranges: {
         'Today': [moment(), moment()],
         'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -223,7 +48,7 @@ angular.module('theme.core.dashboard_controller', [
       opens: 'left',
       startDate: moment().subtract(29, 'days'),
       endDate: moment()
-    };
+    };*/
 
     $scope.epDiskSpace = {
       animate: {
@@ -248,19 +73,6 @@ angular.module('theme.core.dashboard_controller', [
       scaleColor: false,
       lineWidth: 5,
       size: 100,
-      lineCap: 'circle'
-    };
-
-    $scope.mapspace = {
-      animate: {
-        duration: 0,
-        enabled: false
-      },
-      barColor: '#ef553a',
-      trackColor: '#ebedf0',
-      scaleColor: false,
-      lineWidth: 3,
-      size: 75,
       lineCap: 'circle'
     };
   }]);

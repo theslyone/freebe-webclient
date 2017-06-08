@@ -122,20 +122,22 @@ angular.module('freebe.services')
             return response;
           })
           .then(function(response){
-            console.log(response);
+            //console.log(response);
             if (response.RequireValidation) {
               var modalOptions = {
                 actionButtonText: 'Proceed',
                 closeButtonText: 'Cancel',
                 headerText: 'Authorization Required',
-                bodyText: response.Message
+                bodyText: response.Message,
+                amount: response.Amount,
+                fees: response.Fees
               };
 
               var modalDefaults = {
                 controller: function($scope, $modalInstance) {
                   $scope.otp = '';
                   $scope.modalOptions = modalOptions;
-                  $scope.modalOptions.ok = function() {
+                  $scope.modalOptions.ok = function(otp) {
                     $modalInstance.close(otp);
                   };
                   $scope.modalOptions.close = function() {
@@ -147,8 +149,13 @@ angular.module('freebe.services')
 
               modalService.showModal(modalDefaults, modalOptions)
               .then(function(otp) {
-                console.log(otp);
+                //console.log(otp);
                 processTransaction(resource, { Reference: response.Reference, Code: otp }, successCallBack, errorCallback);
+              })
+              .catch(function(err){
+                if(typeof errorCallback === 'function') {
+                  errorCallback(err);
+                }
               });
             } else {
               progressLoader.end();

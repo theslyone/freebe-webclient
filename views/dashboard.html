@@ -10,145 +10,63 @@
 
   <div class="row">
     <div class="col-md-8 animated-content">
-      <panel panel-class="panel-default no-padding" heading="User Statistics">
+      <panel panel-class="panel-default no-padding" heading="Statistics">
         <panel-controls>
           <panel-control-collapse></panel-control-collapse>
           <panel-control-title></panel-control-title>
           <panel-control-colors></panel-control-colors>
           <panel-control-refresh type="circular" is-loading="loadingChartData" ng-click="refreshAction()"></panel-control-refresh>
           <div class="pull-right mr10 hidden-xs">
-
+            <button class="btn btn-sm btn-default" style="text-transform: uppercase;"
+              daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
+              <i class="glyphicon glyphicon-calendar"></i>
+              <span style="margin-left: 5px">{{drp_start}} - {{drp_end}}</span>
+              <b class="caret"></b>
+            </button>
           </div>
         </panel-controls>
-
         <div class="p20">
           <div class="row">
             <div class="col-md-12">
-              <div class="" flot-chart style="width: 100%; height:319px" data-flot-data="plotStatsData"
-              data-flot-options="plotStatsOptions"></div>
+              <canvas height="400" width="840" canvas-chart="statisticsChartData" data-type="'Line'"></canvas>
             </div>
           </div>
         </div>
-        <div class="m-n panel-footer">
-          <div class="row">
-            <div class="visitor-sparklines col-xs-12 col-sm-3 col-md-3">
-              <div class="sparkline-block">
-                <span sparklines="{
-                                lineWidth: 2,
-                                type: 'line',
-                                width: '52px',
-                                height: '20px',
-                                lineColor: '#6cc7d9',
-                                fillColor: '#e2f4f7',
-                                spotColor: false,
-                                minSpotColor: false,
-                                highlightLineColor: 'rgba(0,0,0,0.1)',
-                                highlightSpotColor: '#6cc7d9',
-                                spotRadius: 3,
-                                maxSpotColor: false}" data-data="[251,933,653,759,1022,1702,565]"></span>
-              </div>
-              <h3 style="text-align: center; margin: 0;">7,550</h3>
-              <p style="text-align: center; margin: 0;">Visits</p>
-              <hr class="hidden-md hidden-sm hidden-lg">
-            </div>
-            <div class="visitor-sparklines col-xs-12 col-sm-3 col-md-3">
-              <div class="sparkline-block">
-                <span sparklines="{
-                                lineWidth: 2,
-                                type: 'line',
-                                width: '52px',
-                                height: '20px',
-                                lineColor: '#5299cc',
-                                fillColor: '#dcebf5',
-                                spotColor: false,
-                                minSpotColor: false,
-                                highlightLineColor: 'rgba(0,0,0,0.1)',
-                                highlightSpotColor: '#5299cc',
-                                spotRadius: 3,
-                                maxSpotColor: false}" data-data="[1251,633,1653,1759,1022,1702,2565]"></span>
-              </div>
-              <h3 style="text-align: center; margin: 0;">12,350</h3>
-              <p style="text-align: center; margin: 0;">Page Views</p>
-              <hr class="hidden-md hidden-sm hidden-lg">
-            </div>
-            <div class="visitor-sparklines col-xs-12 col-sm-3 col-md-3">
-              <div class="sparkline-block">
-                <span sparklines="{
-                                barWidth: 4,
-                                type: 'bar',
-                                barSpacing: 4,
-                                width: '52px',
-                                height: '20px',
-                                barColor: '#70cc87',
-                                fillColor: '#70cc87',
-                                spotColor: false,
-                                minSpotColor: false,
-                                highlightLineColor: 'rgba(0,0,0,0.1)',
-                                highlightSpotColor: '#70cc87',
-                                spotRadius: 3,
-                                maxSpotColor: false}" data-data="[345,563,747,136,356,628,534]"></span>
-              </div>
-              <h3 style="text-align: center; margin: 0;">$6,180</h3>
-              <p style="text-align: center; margin: 0;">Earnings</p>
-              <hr class="hidden-md hidden-sm hidden-lg">
-            </div>
-            <div class="visitor-sparklines col-xs-12 col-sm-3 col-md-3">
-              <div class="sparkline-block">
-                <span sparklines="{
-                                barWidth: 4,
-                                type: 'bar',
-                                barSpacing: 4,
-                                width: '52px',
-                                height: '20px',
-                                barColor: '#797b80',
-                                fillColor: '#797b80',
-                                spotColor: false,
-                                minSpotColor: false,
-                                highlightLineColor: 'rgba(0,0,0,0.1)',
-                                highlightSpotColor: '#797b80',
-                                spotRadius: 3,
-                                maxSpotColor: false}" data-data="[80,143,107,216,246,128,214]"></span>
-              </div>
-              <h3 style="text-align: center; margin: 0;">940</h3>
-              <p style="text-align: center; margin: 0;">Items Sold</p>
-            </div>
-          </div>
-        </div>
-
       </panel>
     </div>
     <div class="col-md-4 animated-content">
       <div class="row">
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Total Transfers', href: '#/ui-tiles',text: '₦1,500,000', color: 'success'}"></tile-simple>
+          <tile-simple data="{ title: 'Total Transfers', ui-sref: 'dashboard', text: '₦1,500,000', color: 'success'}"></tile-simple>
         </div>
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Successful', href: '#/ui-tiles',text: '₦1,450,000', color: 'midnightblue'}"></tile-simple>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-6">
-          <tile-simple data="{ title: 'Pending', href: '#/ui-tiles',text: '₦50,000', color: 'indigo'}"></tile-simple>
-        </div>
-        <div class="col-xs-6">
-          <tile-simple data="{ title: 'Failed Transfers', href: '#/ui-tiles',text: '₦0.00', color: 'danger'}"></tile-simple>
+          <tile-simple data="{ title: 'Successful', ui-sref: 'dashboard', text: '₦1,450,000', color: 'midnightblue'}"></tile-simple>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Bill Payments', href: '#/ui-tiles',text: '₦15,000', color: 'primary'}"></tile-simple>
+          <tile-simple data="{ title: 'Pending', ui-sref: 'dashboard', text: '₦50,000', color: 'indigo'}"></tile-simple>
         </div>
         <div class="col-xs-6">
-          <a class="info-tiles tiles-green" ng-href="/paylink/wallet" data="item">
+          <tile-simple data="{ title: 'Failed Transfers', ui-sref: 'dashboard', text: '₦0.00', color: 'danger'}"></tile-simple>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <tile-simple data="{ title: 'Bill Payments', ui-sref: 'dashboard', text: '₦15,000', color: 'primary'}"></tile-simple>
+        </div>
+        <div class="col-xs-6">
+          <a class="info-tiles tiles-green" ui-sref="wallet" data="item">
             <div class="tiles-heading">
-                <div class="pull-left">Wallet Balance</div>
-                <div class="pull-right"></div>
+              <div class="pull-left">Wallet Balance</div>
+              <div class="pull-right"></div>
             </div>
             <div class="tiles-body">
-                <div class="pull-left"><i class="fa fa-money"></i></div>
-                <div class="pull-right">₦0.00</div>
-                <div class="pull-right" ng-show="!item.text"></div>
+              <div class="pull-left"><i class="fa fa-money"></i></div>
+              <div class="pull-right">₦0.00</div>
+              <div class="pull-right" ng-show="!item.text"></div>
             </div>
+            
           </a>
         </div>
       </div>
