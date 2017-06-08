@@ -52,12 +52,12 @@ angular
         {
           label: 'Mobile Top Up',
           iconClasses: 'glyphicon glyphicon-phone',
-          url: '#/'
+          url: 'mobile-topup'
         },
         {
           label: 'Bill Payment',
           iconClasses: 'fa fa-ils',
-          url: '#/'
+          url: 'bill-payment'
         }
       ];
 

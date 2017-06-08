@@ -8,30 +8,8 @@ angular.module('freebe.services')
     delay: 10000
   }
 
-
-  this.search = function(param){
-    return $http.get(url + "deposit/getall/" + param)
-    .then(function(resp) {
-      return resp.data.map(
-        function(account) {
-          return {
-            id: account.SubaccountId,
-            subaccountId: account.SubaccountId,
-            type: account.Type,
-            accountType: account.Type,
-            accountName: account.AccountName,
-            accountNumber: account.AccountNumber
-          }
-        });
-     })
-    .catch(function(err) {
-      error.text = 'Error searching for account.';
-      pinesNotifications.notify(error);
-    });
-  }
-
-  this.getAccounts = function (type) {
-    return $http.get(url + type + "/getall/" + $auth.user.email)
+  this.getAccounts = function (type, param) {
+    return $http.get(url + type + "/getall/" + param)
     .then(function(resp) {
       return resp.data.map(
         function(account) {

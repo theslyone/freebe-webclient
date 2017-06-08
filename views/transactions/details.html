@@ -33,13 +33,13 @@
                   <td>{{transaction.transactionDate | date : 'dd-MMM-yyyy hh:mm:ss'}}</td>
                 </tr>
                 <tr ng-if="transaction.fromAccount">
-                  <td>Mode</td>
+                  <td>Payment Mode</td>
                   <td ng-switch="transaction.fromAccount.type">
                     <span ng-switch-when="wallet">Wallet</span>
                     <span ng-switch-when="card">Card {{transaction.fromAccount.accountNumber}}</span>
                   </td>
                 </tr>
-                <tr ng-if="transaction.toAccount">
+                <tr ng-if="transaction.toAccount && transaction.toAccount.accountName">
                   <td>Beneficiary</td>
                   <td>{{transaction.toAccount.accountName}}</td>
                 </tr>

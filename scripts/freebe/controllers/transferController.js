@@ -147,7 +147,7 @@ angular
       }
 
       $scope.getFreebeAccounts = function(param) {
-        return subaccountService.search(param)
+        return subaccountService.getAccounts('deposit', param)
           .then(function(res) {
             var users = [];
             angular.forEach(res, function(user) {

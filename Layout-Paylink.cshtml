@@ -75,7 +75,7 @@
 									active: item.selected,
 									  open: (item.children!==undefined) && item.open,
 						   'nav-separator': item.separator==true }"
-					  data-ng-include="'templates/nav_renderer_horizontal.html'"
+					  data-ng-include="'/my/template/views/templates/nav_renderer_horizontal.html'"
 					></li>
 			  </ul>
 		</div>
@@ -105,7 +105,7 @@
 							   'nav-separator': item.separator==true,
 		            			'search-focus': (searchQuery.length>0 && item.selected) }" 
 		            		data-ng-show="!(searchQuery.length && !item.selected)"
-						  data-ng-include="'templates/nav_renderer.html'"
+						  data-ng-include="'/my/template/views/templates/nav_renderer.html'"
 						></li>
 					</ul>
 				</nav> <!-- #sidebar-->
@@ -145,6 +145,7 @@
 	<script src="~/my/template/scripts/freebe/controllers/walletController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/transactionDetailsController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/transferController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/billPaymentController.js"></script>
 	
 	<script src="~/my/template/scripts/core/directives/directives.js"></script>
 	<script src="~/my/template/scripts/core/directives/form.js"></script>

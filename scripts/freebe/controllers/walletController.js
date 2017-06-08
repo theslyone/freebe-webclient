@@ -3,8 +3,8 @@ angular
     'ngGrid',
     'freebe.services'
   ])
-  .controller('WalletController', ['$scope', '$state', '$filter', 'modalService', 'wallet', 'walletService', 'transactionService',
-  function($scope, $state, $filter, modalService, wallet, walletService, transactionService) {
+  .controller('WalletController', ['$scope', '$state', '$filter', 'modalService', 'profile', 'wallet', 'walletService', 'transactionService',
+  function($scope, $state, $filter, modalService, profile, wallet, walletService, transactionService) {
     'use strict';
 
     $scope.wallet = wallet;
@@ -60,7 +60,7 @@ angular
         //size: size,
         resolve: {
           cards: function(subaccountService) {
-            return subaccountService.getAccounts('card')
+            return subaccountService.getAccounts('card', profile.email)
           }
         }
       };
@@ -118,7 +118,7 @@ angular
         },
         resolve: {
           banks: function(subaccountService) {
-            return subaccountService.getAccounts('bank_account')
+            return subaccountService.getAccounts('bank_account', profile.email)
           },
           wallet: function() {
             return $scope.wallet;

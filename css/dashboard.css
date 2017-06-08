@@ -17271,76 +17271,81 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
   text-transform: uppercase;
 }
 
-.inbox-menu {
+.merchant-menu {
   border: 0 solid #e0e0e0;
   border-radius: 3px;
   background: #fafafa;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .12), 0 -1px 0 0 rgba(0, 0, 0, .03);
 }
 
-.inbox-menu a {
+.merchant-menu a {
   display: block;
   padding: 10px 15px;
   color: #707980;
 }
 
-.inbox-menu a.active {
+.merchant-menu a.active {
   font-weight: 700;
 }
 
-.inbox-menu .inbox-menu-item {
+.merchant-menu .merchant-menu-item {
   position: relative;
   display: block;
 }
 
-.inbox-menu .inbox-menu-item span {
+.merchant-menu .merchant-menu-item span {
   float: right;
 }
 
-.inbox-menu .inbox-menu-item:hover {
+.merchant-menu .merchant-leftbar-category span {
+    float:right;
+    margin: 7px 15px;
+}
+
+.merchant-menu .merchant-menu-item:hover {
   text-decoration: none;
   color: #707980;
   background-color: #f5f5f5;
 }
 
-.inbox-menu .collapsible-menu {
+.merchant-menu .collapsible-menu {
   padding-top: 10px;
   padding-bottom: 10px;
   border-top: 1px solid #e0e0e0;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category a {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category a {
   display: inline;
   padding: 7px 15px;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category a.category-heading {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category a.category-heading {
   font-size: 11px;
   float: left;
   text-transform: uppercase;
   color: #a2acb3;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category a.category-heading:hover, .inbox-menu .collapsible-menu span.inbox-leftbar-category a.category-heading.active, .inbox-menu .collapsible-menu span.inbox-leftbar-category a.category-heading:focus {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category a.category-heading:hover, .merchant-menu .collapsible-menu span.merchant-leftbar-category a.category-heading.active, .merchant-menu .collapsible-menu span.merchant-leftbar-category a.category-heading:focus {
   text-decoration: none;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category a.add-new, .inbox-menu .collapsible-menu span.inbox-leftbar-category a.refresh {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category a.add-new, .merchant-menu .collapsible-menu span.merchant-leftbar-category a.refresh {
   font-size: 10px;
   float: right;
   padding: 7px 5px;
   color: #c5cbd1;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category a.add-new:hover, .inbox-menu .collapsible-menu span.inbox-leftbar-category a.refresh:hover {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category a.add-new:hover, .merchant-menu .collapsible-menu span.merchant-leftbar-category a.refresh:hover {
   color: #a2acb3;
 }
 
-.inbox-menu .collapsible-menu span.inbox-leftbar-category .tooltip {
+.merchant-menu .collapsible-menu span.merchant-leftbar-category .tooltip {
   min-width: 68px;
 }
 
-.well-inbox {
+.well-merchant {
   margin-top: 20px;
   padding: 0 15px;
   border: 0 solid #e0e0e0;
@@ -17349,40 +17354,40 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .12), 0 -1px 0 0 rgba(0, 0, 0, .03)!important;
 }
 
-.well-inbox a i {
+.well-merchant a i {
   color: #707980;
 }
 
-.well-inbox .contextual-progress {
+.well-merchant .contextual-progress {
   margin: 0 -15px;
   padding: 15px;
   border: 0;
 }
 
-.well-inbox .contextual-progress .progress-title {
+.well-merchant .contextual-progress .progress-title {
   font-size: 11px;
   font-weight: 400;
 }
 
-.well-inbox .contextual-progress .progress-percentage a {
+.well-merchant .contextual-progress .progress-percentage a {
   font-size: 11px;
   float: right;
 }
 
-.well-inbox .contextual-progress .progress-percentage a:hover {
+.well-merchant .contextual-progress .progress-percentage a:hover {
   text-decoration: none;
 }
 
-.well-inbox .contextual-progress .progress {
+.well-merchant .contextual-progress .progress {
   margin-top: 8px!important;
 }
 
-.panel-inbox .panel-body {
+.panel-merchant .panel-body {
   padding: 10px;
   background: #fff;
 }
 
-.panel-inbox .inbox-mail-heading {
+.panel-merchant .merchant-mail-heading {
   margin: -10px -10px 10px -10px;
   padding: 10px;
   border-bottom: 1px solid #e0e0e0;
@@ -17390,13 +17395,13 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
   background: #fafafa;
 }
 
-.panel-inbox .inbox-mail-heading .btn .checkbox-inline {
+.panel-merchant .merchant-mail-heading .btn .checkbox-inline {
   height: 16px;
   margin-top: -2px;
   padding-top: 0;
 }
 
-.panel-inbox .inbox-mail-footer {
+.panel-merchant .merchant-mail-footer {
   margin: 10px -10px -10px -10px;
   padding: 10px;
   border-top: 1px solid #e0e0e0;
@@ -17404,84 +17409,15 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
   background: #fafafa;
 }
 
-.panel-inbox .inbox-mail-footer .btn .checkbox-inline {
+.panel-merchant .merchant-mail-footer .btn .checkbox-inline {
   height: 16px;
   margin-top: -2px;
   padding-top: 0;
 }
 
-.panel-inbox-read .panel-body {
+.panel-merchant-read .panel-body {
   background: #fff;
 }
-
-.panel-inbox-read .panel-body .inbox-read-heading {
-  margin: -20px -20px 20px -20px;
-  padding: 10px;
-  border-bottom: 1px solid #e0e0e0;
-  border-radius: 3px 3px 0 0;
-  background: #fafafa;
-}
-
-.panel-inbox-read .panel-body .inbox-read-heading .btn .checkbox-inline {
-  height: 16px;
-  margin-top: -2px;
-  padding-top: 0;
-}
-
-.panel-inbox-read .panel-body .inbox-read-footer {
-  margin: 10px -20px -20px -20px;
-  padding: 10px;
-  border-top: 1px solid #e0e0e0;
-  border-radius: 0 0 3px 3px;
-  background: #fafafa;
-}
-
-.panel-inbox-read .panel-body .inbox-read-footer .btn .checkbox-inline {
-  height: 16px;
-  margin-top: -2px;
-  padding-top: 0;
-}
-
-.panel-inbox-read .panel-body .inbox-read-title {
-  margin: 0;
-}
-
-.panel-inbox-read .panel-body .inbox-read-details .inbox-read-sender-avatar {
-  float: left;
-  width: 28px;
-  height: 28px;
-  margin-right: 5px;
-}
-
-.panel-inbox-read .panel-body .inbox-read-details .inbox-read-sender-name {
-  font-weight: 700;
-  display: inline-block;
-  float: left;
-  padding: 4px 0;
-}
-
-.panel-inbox-read .panel-body .inbox-read-details .inbox-read-sender-email {
-  display: inline-block;
-  padding: 4px 0;
-  color: #a2acb3;
-}
-
-.panel-inbox-read .panel-body .inbox-read-details .inbox-read-sent-info {
-  font-size: 12px;
-  display: inline-block;
-  float: left;
-  padding: 4px 0;
-  color: #a2acb3;
-}
-
-.panel-inbox-read .panel-body .inbox-read-details .btn-group {
-  float: right;
-}
-
-.panel-inbox-read .panel-body .msg-attachments .well .list-inline {
-  margin: 0;
-}
-
 .spmg2 {
   margin: 2px 0;
 }

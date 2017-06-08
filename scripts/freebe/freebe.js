@@ -6,5 +6,6 @@ angular.module('freebe', [
   'freebe.bank_account_controller',
   'freebe.wallet_controller',
   'freebe.transaction_details_controller',
-  'freebe.transfer_controller'
+  'freebe.transfer_controller',
+  'freebe.bill_payment_controller'
 ])

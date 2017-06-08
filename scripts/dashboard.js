@@ -12,22 +12,6 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       requireBase: false
     });
 
-    /*var originalWhen = $stateProvider.state;
-    $stateProvider.state = function(path, route) {
-      route.resolve || (route.resolve = {});
-      angular.extend(route.resolve, {
-        profile: ['$auth', 'customerService', function($auth, customerService) {
-          console.log('access when');
-          return $auth.validateUser()
-            .then(function() {
-              return customerService.get($auth.user.email)
-            });
-        }]
-      });
-
-      return originalWhen.call($urlRouterProvider, path, route);
-    };*/
-
     $urlRouterProvider.otherwise('/paylink/login');
 
     $stateProvider
@@ -43,7 +27,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         }
       })
       .state('login', {
-        url: '/paylink/login',
+        url: '^/paylink/login',
         templateUrl: '/my/template/views/user/login.html',
         controller: "SignInController",
         /*resolve: {
@@ -59,52 +43,52 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         }*/
       })
       .state('signup', {
-        url: '/paylink/signup',
+        url: '^/paylink/signup',
         templateUrl: '/my/template/views/user/signup.html',
         controller: "RegistrationController"
       })
       .state('signup-successful', {
-        url: '/paylink/signup-successful',
+        url: '^/paylink/signup-successful',
         templateUrl: '/my/template/views/user/email-sent.html',
         controller: "RegistrationController"
       })
       .state('forgotpassword', {
-        url: '/paylink/forgotpassword',
+        url: '^/paylink/forgotpassword',
         templateUrl: '/my/template/views/user/forgotpassword.html',
         controller: "SignInController"
       })
       .state('profile', {
         parent: 'paylink',
-        url: '/paylink/profile',
+        url: '^/paylink/profile',
         templateUrl: '/my/template/views/user/profile.html',
         controller: "ProfileController"
       })
       .state('dashboard', {
         parent: 'paylink',
-        url: '/paylink/dashboard',
+        url: '^/paylink/dashboard',
         templateUrl: '/my/template/views/dashboard.html'
       })
       .state('bank-accounts', {
         parent: 'paylink',
-        url: '/paylink/bank-accounts',
+        url: '^/paylink/bank-accounts',
         templateUrl: '/my/template/views/bank-accounts.html',
         reloadOnSearch: false
       })
       .state('payment-cards', {
         parent: 'paylink',
-        url: '/paylink/payment-cards',
+        url: '^/paylink/payment-cards',
         templateUrl: '/my/template/views/payment-cards.html',
         reloadOnSearch: false
       })
       .state('beneficiaries', {
         parent: 'paylink',
-        url: '/paylink/beneficiaries',
+        url: '^/paylink/beneficiaries',
         templateUrl: '/my/template/views/beneficiaries.html',
         reloadOnSearch: false
       })
       .state('wallet', {
         parent: 'paylink',
-        url: '/paylink/wallet',
+        url: '^/paylink/wallet',
         templateUrl: '/my/template/views/wallet/index.html',
         controller: "WalletController",
         resolve: {
@@ -115,7 +99,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('wallet-topup', {
         parent: 'wallet',
-        url: '/paylink/wallet/topup',
+        url: '^/paylink/wallet/topup',
         templateUrl: '/my/template/views/wallet/topUp.html',
         controller: "WalletController",
         resolve: {
@@ -124,7 +108,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('wallet-withdrawal', {
         parent: 'paylink',
-        url: '/paylink/wallet/withdrawal',
+        url: '^/paylink/wallet/withdrawal',
         templateUrl: '/my/template/views/wallet/withdrawal.html',
         controller: "WalletController",
         resolve: {
@@ -133,30 +117,30 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('transfer', {
         parent: 'paylink',
-        url: '/paylink/transfer',
+        url: '^/paylink/transfer',
         templateUrl: '/my/template/views/transfer.html',
         controller: 'TransferController',
         resolve: {
-          fromAccounts: ['subaccountService', function(subaccountService) {
-            return subaccountService.getAccounts('withdrawal');;
-          }],
-          banks: ['subaccountService', function(subaccountService) {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          banks: function(subaccountService) {
             return subaccountService.getBanks();
-          }],
-          beneficiaries: ['beneficiaryService', function(beneficiaryService) {
+          },
+          beneficiaries: function(beneficiaryService) {
             return beneficiaryService.getAll();
-          }]
+          }
         }
       })
       .state('transactions', {
         parent: 'paylink',
-        url: '/paylink/transactions',
+        url: '^/paylink/transactions',
         templateUrl: '/my/template/views/transactions/index.html',
         reloadOnSearch: false
       })
       .state('transaction-details', {
         parent: 'paylink',
-        url: '/paylink/transactions/:id',
+        url: '^/paylink/transactions/:id',
         templateUrl: '/my/template/views/transactions/details.html',
         controller: 'TransactionDetailsController',
         reloadOnSearch: false,
@@ -164,6 +148,34 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
           transaction: ['$stateParams', 'transactionService', function($stateParams, transactionService) {
             return transactionService.get($stateParams.id);
           }]
+        }
+      })
+      .state('mobile-topup', {
+        parent: 'paylink',
+        url: '^/paylink/mobile-topup',
+        templateUrl: '/my/template/views/bill-payment/mobile-topup.html',
+        controller: 'BillPaymentController',
+        resolve: {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          merchants: function(transactionService) {
+            return transactionService.getMerchants();
+          }
+        }
+      })
+      .state('bill-payment', {
+        parent: 'paylink',
+        url: '^/paylink/bill-payment',
+        templateUrl: '/my/template/views/bill-payment/index.html',
+        controller: 'BillPaymentController',
+        resolve: {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          merchants: function(transactionService) {
+            return transactionService.getMerchants();
+          }
         }
       })
       .state('/paylink/:templateFile', {
