@@ -23,7 +23,6 @@ angular
     'theme.core.template_overrides',
     'theme.core.panels',
     'theme.core.directives',
-    'theme.core.dashboard_controller',
     'theme.core.navigation_controller',
     'theme.core.notifications_controller',
     'theme.core.messages_controller',
