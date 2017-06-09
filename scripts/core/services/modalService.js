@@ -40,7 +40,7 @@ angular.module('theme.core.services')
             $modalInstance.close(result);
           };
           $scope.modalOptions.close = function(result) {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.dismiss('Action cancelled');
           };
         }
       }

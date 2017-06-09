@@ -1,6 +1,5 @@
 angular.module('freebe.dashboard_controller', [
     'angular-skycons',
-    //'theme.chart.canvas'
     'chart.js'
   ])
   .controller('DashboardController', ['$scope', '$timeout', '$window', 'reportService', function($scope, $timeout, $window, reportService) {
@@ -9,8 +8,11 @@ angular.module('freebe.dashboard_controller', [
     var _ = $window._;
     $scope.loadingChartData = false;
 
-    $scope.drp_start = moment().subtract(30, 'days').format('MMM, D YYYY');
-    $scope.drp_end = moment().add(1, 'days').format('MMM, D YYYY');
+    $scope.dateRange = {
+      start: moment().subtract(30, 'days').format('MMM, D YYYY'),
+      end: moment().add(1, 'days').format('MMM, D YYYY')
+    };
+
     /*$scope.drp_options = {
       ranges: {
         'Today': [moment().format('MMM, D YYYY'), moment().format('MMM, D YYYY')],
@@ -29,8 +31,7 @@ angular.module('freebe.dashboard_controller', [
       endDate: moment().format('D-MMM-YYYY')
     };*/
 
-    $scope.$watch('drp_start', function(newVal, oldVal) {
-      console.log('changed');
+    $scope.$watchGroup(['dateRange.start', 'dateRange.end'], function(newVal, oldVal) {
       if (newVal) {
         $scope.loadStatistics();
       }
@@ -38,7 +39,7 @@ angular.module('freebe.dashboard_controller', [
 
     $scope.loadStatistics = function() {
       $scope.loadingChartData = true;
-      reportService.getTransactionStatistics($scope.drp_start, $scope.drp_end)
+      reportService.getTransactionStatistics($scope.dateRange.start, $scope.dateRange.end)
         .then(function(stats) {
           $scope.stats = stats;
           $scope.chart = {
@@ -54,43 +55,11 @@ angular.module('freebe.dashboard_controller', [
               stats.map(function(stat) {
                 return stat.received
               })
-            ],
-            onClick: function (points, evt) {
-              console.log(points, evt);
-              $scope.drp_end = moment($scope.drp_end).subtract(1, 'days').format('MMM, D YYYY');
-
-              loadStatistics();
-            }
+            ]
           }
         })
         .finally(function() {
           $scope.loadingChartData = false;
         });
     }
-
-    $scope.epDiskSpace = {
-      animate: {
-        duration: 0,
-        enabled: false
-      },
-      barColor: '#e6da5c',
-      trackColor: '#ebedf0',
-      scaleColor: false,
-      lineWidth: 5,
-      size: 100,
-      lineCap: 'circle'
-    };
-
-    $scope.epBandwidth = {
-      animate: {
-        duration: 0,
-        enabled: false
-      },
-      barColor: '#d95762',
-      trackColor: '#ebedf0',
-      scaleColor: false,
-      lineWidth: 5,
-      size: 100,
-      lineCap: 'circle'
-    };
   }]);

@@ -38,24 +38,16 @@ angular
       scope: {
         options: '=daterangepicker',
         start: '=dateBegin',
-        end: '=dateEnd',
-        action: '=onChanged'
+        end: '=dateEnd'
       },
       link: function(scope, element) {
         element.daterangepicker(scope.options, function(start, end) {
-          scope.$apply(function () {
-            if (scope.start) {
-              scope.start = start.format('D-MMM-YYYY');
-            }
-            if (scope.end) {
-              scope.end = end.format('D-MMM-YYYY');
-            }
-
-            if(typeof scope.action == 'function') {
-              scope.action(scope.start, scope.end);
-            }
-          });
-
+          if (scope.start) {
+            scope.start = start.format('D-MMM-YYYY');
+          }
+          if (scope.end) {
+            scope.end = end.format('D-MMM-YYYY');
+          }
           scope.$apply();
         });
       }

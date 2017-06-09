@@ -18,10 +18,10 @@ String.prototype.isBlank = function() {
 
 var freebe = (function() {
   getAccountName = function(bankCode, accountNumber) {
-    var url = '/api/v1.0/paylink/subaccounts/validate/{bankCode}/account/{accountNumber}';
+    var url = '/api/v1.0/paylink/subaccounts/validateAccountNumber';
     $(".ui.form.factory").addClass("loading");
     return new Promise(function(fulfill, reject) {
-      var ajax = window.getAjaxRequest(url.replace('{bankCode}', bankCode).replace('{accountNumber}', accountNumber));
+      var ajax = window.getAjaxRequest(url, 'POST', { bankCode: bankCode, accountNumber: accountNumber });
       ajax.success(function(accountName) {
         fulfill(accountName);
       });
@@ -32,9 +32,9 @@ var freebe = (function() {
   }
 
   getBankName = function(cardNumber) {
-    var url = '/api/v1.0/paylink/subaccounts/validate/card/{cardNumber}';
+    var url = '/api/v1.0/paylink/subaccounts/validateCard';
     return new Promise(function(fulfill, reject){
-      var ajax = window.getAjaxRequest(url.replace('{cardNumber}', cardNumber));
+      var ajax = window.getAjaxRequest(url, 'POST', { cardNumber: cardNumber });
       ajax.success(function(resp) {
         fulfill(resp);
       });

@@ -24,7 +24,8 @@
                   <td>Amount</td>
                   <td>{{transaction.amount | currency : transaction.currency }}</td>
                 </tr>
-                <tr ng-if="transaction.type == 'DEBIT'">
+                <!--<tr ng-if="transaction.type == 'DEBIT'">-->
+                <tr>
                   <td>Fee</td>
                   <td>{{transaction.fees | currency : transaction.currency }}</td>
                 </tr>

@@ -3,10 +3,10 @@ angular
     'ngGrid',
     'freebe.services'
   ])
-  .controller('WalletController', ['$scope', '$state', '$filter', 'modalService', 'profile', 'wallet', 'walletService', 'transactionService',
-  function($scope, $state, $filter, modalService, profile, wallet, walletService, transactionService) {
+  .controller('WalletController', ['$scope', '$state', '$filter', 'modalService', 'profile', 'wallet',
+    'walletService', 'subaccountService', 'transactionService',
+  function($scope, $state, $filter, modalService, profile, wallet, walletService, subaccountService, transactionService) {
     'use strict';
-
     $scope.wallet = wallet;
 
     $scope.form = {};
@@ -150,6 +150,56 @@ angular
         });
 
     }
+
+    $scope.changeStatus = function() {
+      $scope.clearAlert();
+      modalService.showModal({}, {})
+      .then(function(){
+        $scope.isBusy = true;
+        return subaccountService.changeStatus($scope.wallet.id, !$scope.wallet.active);
+      })
+      .then(function(wallet) {
+        $scope.wallet = wallet;
+      })
+      .finally(function() {
+        $scope.isBusy = false;
+      });
+    }
+
+    $scope.changePin = function() {
+      var modalDefaults = {
+        templateUrl: '/my/template/views/wallet/pinChange.html',
+        controller: function($scope, $modalInstance, wallet) {
+          $scope.pinChange = {
+            subaccountId: wallet.id,
+            oldPin: '',
+            newPin: '',
+            isBusy: false
+          };
+          $scope.ok = function() {
+            $scope.pinChange.isBusy = true;
+            subaccountService.changePin($scope.pinChange,
+              function(response) {
+                $scope.pinChange.isBusy = false;
+                $modalInstance.close();
+            }, function(err){
+              $scope.pinChange.isBusy = false;
+            });
+          };
+          $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+          };
+        },
+        resolve: {
+          wallet: function() {
+            return $scope.wallet;
+          }
+        }
+      };
+      modalService.showModal(modalDefaults, {})
+      .then(function(){});
+    };
+
 
     $scope.clearAlert = function() {
       $scope.alert = {}

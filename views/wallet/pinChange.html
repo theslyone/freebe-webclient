@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h3 class="modal-title">Wallet PIN Change</h3>
+</div>
+<div class="modal-body">
+  <form name="form.pinChange">
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label for="pin" class="col-sm-4 control-label">Old Pin <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="pin" type="password" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Enter wallet old 4 digit PIN"
+          ng-model-options="{allowInvalid: false}" pattern-validator="\d{4}" required ng-model="pinChange.oldPin" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="pin" class="col-sm-4 control-label">New Pin <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="pin" type="password" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Enter wallet new 4 digit PIN"
+          ng-model-options="{allowInvalid: false}" pattern-validator="\d{4}" required ng-model="pinChange.newPin" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="pin" class="col-sm-4 control-label">Confirm New Pin <span class="required">*</span></label>
+        <div class="col-sm-8">
+          <input name="pin" type="password" data-ng-minlength=4 data-ng-maxlength=4 placeholder="Confirm wallet new 4 digit PIN"
+          ng-model-options="{allowInvalid: false}" pattern-validator="\d{4}"
+          required ng-model="pinChange.newPinConfirm" class="form-control"
+          password-verify="pinChange.newPin">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div ng-show="pinChange.isBusy" class="panel-loading">
+    <div class="panel-loader-circular"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn" ng-disabled="pinChange.isBusy" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success" ng-disabled="form.pinChange.$invalid || pinChange.isBusy" ng-click="ok()">Change</button>
+</div>
