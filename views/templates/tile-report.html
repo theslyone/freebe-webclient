@@ -1,0 +1,9 @@
+<a class="info-tiles tiles-{{item.color}}" ui-sref="{{item.sref}}">
+  <div class="tiles-heading">
+    <div class="text-center">{{item.title}}</div>
+  </div>
+  <div class="tiles-body">
+    <div ng-if="item.icon" class="pull-left"><i class="{{item.icon}}"></i></div>
+    <div style="font-size: 25px;" ng-class="item.icon ? 'pull-right' : 'text-center'">{{item.value | currency : '₦'}}</div>
+  </div>
+</a>

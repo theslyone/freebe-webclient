@@ -1,5 +1,6 @@
 angular.module('freebe', [
   'theme',
+  'freebe.directives',
   'freebe.signin_controller',
   'freebe.profile_controller',
   'freebe.registration_controller',

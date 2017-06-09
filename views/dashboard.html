@@ -37,37 +37,26 @@
     <div class="col-md-4 animated-content">
       <div class="row">
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Total Transfers', ui-sref: 'dashboard', text: '₦1,500,000', color: 'success'}"></tile-simple>
+          <tile-report data="{ resource: 'total-transfers', title: 'Total Transfers', color: 'success', sref: 'dashboard' }"></tile-report>
         </div>
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Successful', ui-sref: 'dashboard', text: '₦1,450,000', color: 'midnightblue'}"></tile-simple>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-6">
-          <tile-simple data="{ title: 'Pending', ui-sref: 'dashboard', text: '₦50,000', color: 'indigo'}"></tile-simple>
-        </div>
-        <div class="col-xs-6">
-          <tile-simple data="{ title: 'Failed Transfers', ui-sref: 'dashboard', text: '₦0.00', color: 'danger'}"></tile-simple>
+          <tile-report data="{ resource: 'total-successful-transfers', title: 'Successful Transfers', color: 'midnightblue', sref: 'dashboard' }"></tile-report>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-6">
-          <tile-simple data="{ title: 'Bill Payments', ui-sref: 'dashboard', text: '₦15,000', color: 'primary'}"></tile-simple>
+          <tile-report data="{ resource: 'total-pending-transfers', title: 'Pending Transfers', color: 'indigo', sref: 'dashboard' }"></tile-report>
         </div>
         <div class="col-xs-6">
-          <a class="info-tiles tiles-green" ui-sref="wallet" data="item">
-            <div class="tiles-heading">
-              <div class="pull-left">Wallet Balance</div>
-              <div class="pull-right"></div>
-            </div>
-            <div class="tiles-body">
-              <div class="pull-left"><i class="fa fa-money"></i></div>
-              <div class="pull-right">₦0.00</div>
-              <div class="pull-right" ng-show="!item.text"></div>
-            </div>
-            
-          </a>
+          <tile-report data="{ resource: 'total-failed-transfers', title: 'Failed Transfers', color: 'danger', sref: 'dashboard' }"></tile-report>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <tile-report data="{ resource: 'total-bills', title: 'Bill Payments', color: 'inverse', sref: 'dashboard' }"></tile-report>
+        </div>
+        <div class="col-xs-6">
+          <tile-report data="{ resource: 'wallet-balance', title: 'Wallet Balance', color: 'info', sref: 'wallet' }"></tile-report>
         </div>
       </div>
       <div class="row">
