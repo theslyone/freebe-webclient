@@ -2,9 +2,9 @@
  * Maverick (c) by Ndevr Studios and The Red Team
  * Powered by Bootstrap and FontAwesome
  */
- @charset "UTF-8";
- @import url(font-awesome.min.css);
 
+@charset "UTF-8";
+@import url(font-awesome.min.css);
 .vertical-align {
   position: absolute;
   top: 50%;
@@ -12840,7 +12840,6 @@ body.nooverflow {
   visibility: visible;
 }
 
-
 .panel-profile .user-profile .user-detail {
   padding: 20px;
 }
@@ -17298,8 +17297,8 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
 }
 
 .merchant-menu .merchant-leftbar-category span {
-    float:right;
-    margin: 7px 15px;
+  float: right;
+  margin: 7px 15px;
 }
 
 .merchant-menu .merchant-menu-item:hover {
@@ -17418,6 +17417,7 @@ li.L1, li.L3, li.L5, li.L7, li.L9 {
 .panel-merchant-read .panel-body {
   background: #fff;
 }
+
 .spmg2 {
   margin: 2px 0;
 }
@@ -20547,4 +20547,16 @@ ul.demo-btns>li {
   width: 360px;
   height: 400px;
   margin: 0 auto;
+}
+
+.chart-legend ul li {
+  list-style: none;
+}
+
+.chart-legend li span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border-radius: 4px;
 }

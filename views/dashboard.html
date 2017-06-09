@@ -15,7 +15,7 @@
           <panel-control-collapse></panel-control-collapse>
           <panel-control-title></panel-control-title>
           <panel-control-colors></panel-control-colors>
-          <panel-control-refresh type="circular" is-loading="loadingChartData" ng-click="refreshAction()"></panel-control-refresh>
+          <panel-control-refresh type="circular" is-loading="loadingChartData" ng-click="loadStatistics()"></panel-control-refresh>
           <div class="pull-right mr10 hidden-xs">
             <button class="btn btn-sm btn-default" style="text-transform: uppercase;"
               daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
@@ -28,7 +28,8 @@
         <div class="p20">
           <div class="row">
             <div class="col-md-12">
-              <canvas height="400" width="840" canvas-chart="statisticsChartData" data-type="'Line'"></canvas>
+              <canvas id="area" class="chart chart-line" chart-data="chart.data" chart-click="chart.onClick"
+                chart-series="chart.series" chart-labels="chart.labels" chart-options="chart.options" chart-legend="true"></canvas>
             </div>
           </div>
         </div>
@@ -66,7 +67,7 @@
             </div>
           </tile>
         </div>
-        <div class="col-md-6" ng-drop="true">
+        <div class="col-md-6" ng-if="false" ng-drop="true">
           <tile type="default" heading="Daily Deposit Limit" ng-drag="true">
             <div easypiechart class="easypiechart" data-percent="23" data-options="epBandwidth"><span class="percent">23</span>
             </div>

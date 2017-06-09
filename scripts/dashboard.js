@@ -3,8 +3,8 @@ var paylinkApp = angular
     'freebe'
   ]);
 
-paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', '$httpProvider',
-  function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider) {
+paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', '$httpProvider', 'ChartJsProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, ChartJsProvider) {
     'use strict';
 
     $locationProvider.html5Mode({
@@ -12,6 +12,10 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       requireBase: false
     });
 
+    ChartJsProvider.setOptions({
+      chartColors: ['#FF5252', '#80b6ff', '#803690', '#c980ff'],
+      responsive: true
+    });
     $urlRouterProvider.otherwise('/paylink/login');
 
     $stateProvider
@@ -237,13 +241,13 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         return (parseInt(headers['expiry']) * 1000) || null;
       },
       handleLoginResponse: function(response) {
-        return response.data;
+        return response.data.data;
       },
       handleAccountUpdateResponse: function(response) {
-        return response.data;
+        return response.data.data;
       },
       handleTokenValidationResponse: function(response) {
-        return response.data;
+        return response.data.data;
       }
     });
 
@@ -252,7 +256,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
 ])
 
 paylinkApp.run(['$rootScope', '$state', function($rootScope, $state) {
-  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 
   });
 
