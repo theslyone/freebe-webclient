@@ -1,3 +1,2 @@
 # freebe-webclient
-
-Working on migrating ngRouter to uiRouter
+AngularJS enabled frontend/dashboard
