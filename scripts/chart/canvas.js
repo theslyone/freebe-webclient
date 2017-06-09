@@ -10,10 +10,14 @@ angular
         type: '=',
       },
       link: function(scope, element) {
-        if ($window.Chart) {
-          // console.log(element[0].getContext);
-          (new $window.Chart(angular.element(element)[0].getContext('2d')))[scope.type](scope.data, scope.options);
-        }
+        scope.$watch('data', function(newData, oldData) {
+          if ($window.Chart) {
+            var cchart = (new $window.Chart(angular.element(element)[0].getContext('2d')))[scope.type](scope.data, scope.options);
+            var legend = cchart.generateLegend();
+            //$('.js-legend').html('');
+            $('.js-legend').append(legend);
+          }
+        }, true);
       }
     };
   }]);

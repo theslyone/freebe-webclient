@@ -1,9 +1,7 @@
 angular
-  .module('theme.core.signin_controller', [
-    'theme.core.services'
-  ])
-  .controller('SignInController', ['$rootScope', '$scope', '$location', '$auth', '$theme', 'progressLoader',
-    function($rootScope, $scope, $location, $auth, $theme, progressLoader) {
+  .module('freebe.signin_controller', [])
+  .controller('SignInController', ['$rootScope', '$scope', '$state', '$auth', '$theme', 'progressLoader',
+    function($rootScope, $scope, $state, $auth, $theme, progressLoader) {
       'use strict';
       $theme.set('fullscreen', true);
 
@@ -53,7 +51,7 @@ angular
       $scope.$on('auth:login-success', function(ev, token) {
         $scope.isBusy = false;
         $rootScope.isLoggedIn = true;
-        $location.path("/paylink");
+        $state.go("dashboard");
       });
 
       $scope.$on('auth:login-error', function(ev, reason) {
@@ -70,7 +68,7 @@ angular
 
       $scope.$on('auth:validation-error', function(ev, reason) {
         alert('auth validation failed because', reason.errors[0]);
-        $location.path("/paylink/login");
+        $state.go("login");
       });
     }
   ]);

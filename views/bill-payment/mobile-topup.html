@@ -1,0 +1,89 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li class="active">Mobile Top Up</li>
+  </ol>
+
+  <div class="container-fluid">
+    <panel panel-class="panel-midnightblue" heading="Mobile Top Up">
+      <panel-controls>
+        <panel-control-collapse></panel-control-collapse>
+        <button class="button-icon"><i class="glyphicon glyphicon-cog"></i></button>
+        <button class="button-icon"><i class="glyphicon glyphicon-wrench"></i></button>
+      </panel-controls>
+      <alert>
+        <h5>Top up using your wallet at zero cost. A fee is however charged if top up is processed directly from your ATM card.</h5>
+      </alert>
+
+      <form name="form.bill" class="form-horizontal row-border" ng-init="initialize()">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Mobile Network</label>
+          <div class="col-sm-6">
+            <select name="card" class="form-control" ng-model="bill.product"
+              ng-options="c as (c.description) for c in topupProviders | orderBy:'name' track by c.id"
+              required>
+              <option value="">- Select Mobile Network -</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <p class="help-block"></p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Phone Number</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" maskinput data-inputmask="'mask':'+234 999 999 9999'"
+              ng-model="bill.phone" required ng-pattern="/^(\+234)?[ -]?(\d{3})?[ -]?(\d{3})[ -]?(\d{4})$/">
+          </div>
+          <div class="col-sm-3">
+            <p class="help-block">+234 800 000 0000</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Amount</label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" ng-model="bill.amount" required>
+          </div>
+          <div class="col-sm-3">
+            <p class="help-block"></p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Pay With</label>
+          <div class="col-sm-6">
+            <select class="form-control" ng-model="bill.sourceAccount" placeholder="Select Account"
+              ng-options="sa.name for sa in fromAccounts | orderBy:'name' track by sa.id" required>
+              <option value="">- Select Account -</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <p class="help-block"></p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Account PIN</label>
+          <div class="col-sm-6">
+            <input id="accountPin" class="form-control" placeholder="Authorization PIN"
+              limit-to="4" name="accountPin" data-ng-minlength=4 data-ng-maxlength=4
+              type="password" data-only-numbers ng-model="bill.sourceAccount.pin" required>
+          </div>
+          <div class="col-sm-3">
+            <p class="help-block"></p>
+          </div>
+        </div>
+      </form>
+      <div ng-show="state.busy" class="panel-loading">
+        <div class="panel-loader-circular"></div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <div class="btn-toolbar">
+              <button class="btn-success btn" ng-disabled="form.bill.$invalid || state.busy" ng-click="mobileTopUp()">Top Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </panel>
+
+  </div>

@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
   .service('walletService', ['$http', '$auth', 'pinesNotifications', function($http, $auth, pinesNotifications) {
     'use strict';
     var url = '/api/v1.0/paylink/subaccounts/';
@@ -44,7 +44,8 @@ angular.module('theme.core.services')
             accountNumber: wallet.AccountNumber,
             balance: wallet.Balance,
             dailyMaxDeposit: wallet.DailyMaxDeposit,
-            dailyMaxWithdrawal: wallet.DailyMaxWithdrawal
+            dailyMaxWithdrawal: wallet.DailyMaxWithdrawal,
+            active: wallet.Active
           }
         } else {
           return null;

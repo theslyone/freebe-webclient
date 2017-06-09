@@ -1,5 +1,5 @@
 angular
-  .module('theme.core.transfer_controller', [])
+  .module('freebe.transfer_controller', ['freebe.services'])
   .controller('TransferController', ['$scope', '$timeout', '$location', 'subaccountService', 'transactionService',
     'fromAccounts', 'banks', 'beneficiaries',
     function($scope, $timeout, $location, subaccountService, transactionService, fromAccounts, banks, beneficiaries) {
@@ -138,7 +138,7 @@ angular
           busy: true,
           message: 'Processing Transfer, Please wait...'
         };
-        transactionService.transfer(transferData,
+        transactionService.transfer(transferData, {},
           function(response) {
           $location.path('/paylink/transactions/' + response.TransactionId);
         }, function(err){
@@ -147,7 +147,7 @@ angular
       }
 
       $scope.getFreebeAccounts = function(param) {
-        return subaccountService.search(param)
+        return subaccountService.getAccounts('deposit', param)
           .then(function(res) {
             var users = [];
             angular.forEach(res, function(user) {

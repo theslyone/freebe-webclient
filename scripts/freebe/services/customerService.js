@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
 .service('customerService', ['$http', '$auth', 'pinesNotifications', function($http, $auth, pinesNotifications){
   var url = '/api/v1.0/paylink/customers/';
 

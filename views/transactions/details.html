@@ -1,7 +1,7 @@
 <div>
   <div id="page-heading">
     <ol class="breadcrumb">
-      <li><a href="/paylink">Dashboard</a></li>
+      <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
       <li><a href="/paylink/transactions">Transactions</a></li>
       <li class="active">Details</li>
     </ol>
@@ -24,7 +24,8 @@
                   <td>Amount</td>
                   <td>{{transaction.amount | currency : transaction.currency }}</td>
                 </tr>
-                <tr ng-if="transaction.type == 'DEBIT'">
+                <!--<tr ng-if="transaction.type == 'DEBIT'">-->
+                <tr>
                   <td>Fee</td>
                   <td>{{transaction.fees | currency : transaction.currency }}</td>
                 </tr>
@@ -33,13 +34,13 @@
                   <td>{{transaction.transactionDate | date : 'dd-MMM-yyyy hh:mm:ss'}}</td>
                 </tr>
                 <tr ng-if="transaction.fromAccount">
-                  <td>Mode</td>
+                  <td>Payment Mode</td>
                   <td ng-switch="transaction.fromAccount.type">
                     <span ng-switch-when="wallet">Wallet</span>
                     <span ng-switch-when="card">Card {{transaction.fromAccount.accountNumber}}</span>
                   </td>
                 </tr>
-                <tr ng-if="transaction.toAccount">
+                <tr ng-if="transaction.toAccount && transaction.toAccount.accountName">
                   <td>Beneficiary</td>
                   <td>{{transaction.toAccount.accountName}}</td>
                 </tr>

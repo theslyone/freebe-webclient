@@ -1,5 +1,5 @@
 angular
-  .module('theme.core.transaction_details_controller', [])
+  .module('freebe.transaction_details_controller', [])
   .controller('TransactionDetailsController', TransactionDetailsController);
 
 TransactionDetailsController.$inject = ['$scope', 'transaction']

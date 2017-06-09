@@ -5,7 +5,7 @@ angular
     this.settings = {
       fixedHeader: true,
       headerBarHidden: true,
-      leftbarCollapsed: false,
+      leftbarCollapsed: true,
       leftbarShown: false,
       rightbarCollapsed: false,
       fullscreen: false,
@@ -14,7 +14,7 @@ angular
       layoutBoxed: false,
       showSmallSearchBar: false,
       topNavThemeClass: 'navbar-midnightblue',
-      sidebarThemeClass: 'sidebar-default',
+      sidebarThemeClass: 'sidebar-midnightblue',
       showChatBox: false,
       pageTransitionStyle: 'fadeIn',
       dropdownTransitionStyle: 'flipInX'

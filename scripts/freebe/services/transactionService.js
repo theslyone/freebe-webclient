@@ -1,4 +1,4 @@
-angular.module('theme.core.services')
+angular.module('freebe.services')
   .factory('transactionService', ['$http', '$location', '$auth', 'modalService', 'pinesNotifications', 'progressLoader',
     function($http, $location, $auth, modalService, pinesNotifications, progressLoader) {
       'use strict';
@@ -33,6 +33,7 @@ angular.module('theme.core.services')
                 type: transaction.ToSubaccountType
               },
               reference: transaction.Reference,
+              remark: transaction.Remark,
               purpose: transaction.Purpose,
               completed: transaction.Completed,
               message: transaction.Message,
@@ -86,30 +87,57 @@ angular.module('theme.core.services')
           });
       }
 
-      var processTransfer = function(obj, successCallBack, errorCallback) {
+      var getMerchants = function() {
+        return $http.get(url + 'get-merchants')
+          .then(function(resp) {
+            return resp.data;
+          })
+          .catch(function(err) {
+            notification.type = 'error';
+            notification.text = 'Error retrieving mobile top up merchants.';
+            pinesNotifications.notify(notification);
+          });
+      }
+
+      var getProducts = function(merchantId) {
+        return $http.get(`${url}merchant/${merchantId}/products`)
+          .then(function(resp) {
+            return resp.data;
+          })
+          .catch(function(err) {
+            notification.type = 'error';
+            notification.text = 'Error retrieving mobile top up merchant products.';
+            pinesNotifications.notify(notification);
+          });
+      }
+
+      var processTransaction = function(resource, obj, successCallBack, errorCallback) {
         progressLoader.start();
         progressLoader.set(50);
-        return $http.post(url + "transfer", obj)
+        //resource = resource || "transfer";
+        return $http.post(url + resource, obj)
           .then(function(resp) {
             var response = resp.data;
             if(!response.TransactionId) { throw Error("Unknow error encountered" );}
             return response;
           })
           .then(function(response){
-            console.log(response);
+            //console.log(response);
             if (response.RequireValidation) {
               var modalOptions = {
                 actionButtonText: 'Proceed',
                 closeButtonText: 'Cancel',
-                headerText: 'Freebe Transfer Authorization Required',
-                bodyText: response.Message
+                headerText: 'Authorization Required',
+                bodyText: response.Message,
+                amount: response.Amount,
+                fees: response.Fees
               };
 
               var modalDefaults = {
                 controller: function($scope, $modalInstance) {
                   $scope.otp = '';
                   $scope.modalOptions = modalOptions;
-                  $scope.modalOptions.ok = function() {
+                  $scope.modalOptions.ok = function(otp) {
                     $modalInstance.close(otp);
                   };
                   $scope.modalOptions.close = function() {
@@ -121,16 +149,21 @@ angular.module('theme.core.services')
 
               modalService.showModal(modalDefaults, modalOptions)
               .then(function(otp) {
-                console.log(otp);
-                processTransfer({ Reference: response.Reference, Code: otp }, successCallBack, errorCallback);
+                //console.log(otp);
+                processTransaction(resource, { Reference: response.Reference, Code: otp }, successCallBack, errorCallback);
+              })
+              .catch(function(err){
+                if(typeof errorCallback === 'function') {
+                  errorCallback(err);
+                }
               });
             } else {
               progressLoader.end();
               notification.type = 'success';
-              notification.text = 'Transfer processed successfully!'
+              notification.text = 'Transaction processed successfully!'
               pinesNotifications.notify(notification);
 
-              if(typeof acceptCallback === 'function') {
+              if(typeof successCallBack === 'function') {
                 successCallBack(response);
               }
             }
@@ -146,24 +179,56 @@ angular.module('theme.core.services')
           });
       }
 
-      var transfer = function(transferObject, successCallBack, errorCallback) {
+      var transfer = function(transferObject, transferOptions, successCallBack, errorCallback) {
         var modalOptions = {
           actionButtonText: 'Proceed',
           closeButtonText: 'Cancel',
-          headerText: 'Freebe Transfer (NGN ' + transferObject.Amount + ')?',
+          headerText: 'Freebe Transfer (NGN ' + transferObject.Amount + ')',
           bodyText: 'Are you sure you want to transfer ' + transferObject.Amount + '?'
         };
 
+        angular.extend(modalOptions, transferOptions);
+
         modalService.showModal({}, modalOptions)
         .then(function() {
-          processTransfer(transferObject, successCallBack, errorCallback);
+          processTransaction("transfer", transferObject, successCallBack, errorCallback);
+        })
+        .catch(function(err){
+          if(typeof errorCallback === 'function') {
+            errorCallback(err);
+          }
         });
       }
+
+      var pay = function(billObject, transferOptions, successCallBack, errorCallback) {
+        var modalOptions = {
+          actionButtonText: 'Proceed',
+          closeButtonText: 'Cancel',
+          headerText: 'Freebe Bill Payment (NGN ' + billObject.Amount + ')',
+          bodyText: 'Are you sure you want to pay ' + billObject.Amount + '?'
+        };
+
+        angular.extend(modalOptions, transferOptions);
+
+        modalService.showModal({}, modalOptions)
+        .then(function() {
+          processTransaction("bill", billObject, successCallBack, errorCallback);
+        })
+        .catch(function(err){
+          if(typeof errorCallback === 'function') {
+            errorCallback(err);
+          }
+        });
+      }
+
 
       return {
         get: get,
         getRecent: getRecent,
-        transfer: transfer
+        transfer: transfer,
+        pay: pay,
+        getMerchants: getMerchants,
+        getProducts: getProducts
       }
     }
   ]);

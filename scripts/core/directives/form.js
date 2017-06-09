@@ -43,10 +43,10 @@ angular
       link: function(scope, element) {
         element.daterangepicker(scope.options, function(start, end) {
           if (scope.start) {
-            scope.start = start.format('MMMM D, YYYY');
+            scope.start = start.format('D-MMM-YYYY');
           }
           if (scope.end) {
-            scope.end = end.format('MMMM D, YYYY');
+            scope.end = end.format('D-MMM-YYYY');
           }
           scope.$apply();
         });

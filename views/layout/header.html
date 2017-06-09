@@ -79,7 +79,7 @@
 	<a id="leftmenu-trigger" ng-click="toggleLeftBar()"></a>
 
 	<div class="navbar-header pull-left">
-		<a class="navbar-brand" href="#/">Freebe</a>
+		<a class="navbar-brand" ui-sref="dashboard">Freebe</a>
 	</div>
 
 	<div id="search-inline" class="nav navbar-nav navbar-form hidden-xs" ng-class="{
@@ -103,8 +103,8 @@
 			<ul class="dropdown-menu animated userinfo arrow">
 				<li class="userlinks">
 					<ul class="dropdown-menu">
-						<li ng-hide="true"><a href="/paylink/profile">Edit Profile <i class="pull-right glyphicon glyphicon-pencil"></i></a></li>
-						<li><a href="/paylink/profile">Account <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+						<li ng-hide="true"><a ui-sref="profile">Edit Profile <i class="pull-right glyphicon glyphicon-pencil"></i></a></li>
+						<li><a ui-sref="profile">Account <i class="pull-right glyphicon glyphicon-user"></i></a></li>
 						<li><a href="#">Settings <i class="pull-right glyphicon glyphicon-cog"></i></a></li>
 						<!--<li class="divider"></li>
 			  <li><a href="#">Earnings <i class="pull-right glyphicon glyphicon-stats"></i></a></li>
@@ -116,7 +116,7 @@
 				</li>
 			</ul>
 		</li>
-		<li class="dropdown hidden-xs" dropdown ng-controller="MessagesController" ng-show="isLoggedIn">
+		<li class="dropdown hidden-xs" dropdown ng-controller="MessagesController" ng-hide="true" ng-show="isLoggedIn">
 			<a href class="dropdown-toggle" dropdown-toggle>
 			 <i class="glyphicon glyphicon-envelope"></i>
 			 <span class="badge badge-danger" ng-if="unseenCount>0" ng-bind="unseenCount"></span>

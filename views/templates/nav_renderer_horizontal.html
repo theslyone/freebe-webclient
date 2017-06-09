@@ -1,4 +1,4 @@
-<a ng-click="select(item)" ng-href="{{item.url}}">
+<a ng-click="select(item)" ui-sref="{{item.url}}">
   <i ng-if="item.iconClasses" class="{{item.iconClasses}}"></i><span>{{item.label}}</span>
   <span ng-bind-html="item.html"></span>
 </a>

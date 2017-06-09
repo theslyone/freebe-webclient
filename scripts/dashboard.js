@@ -1,10 +1,10 @@
 var paylinkApp = angular
   .module('PaylinkApp', [
-    'theme'
+    'freebe'
   ]);
 
-paylinkApp.config(['$provide', '$routeProvider', '$locationProvider', '$authProvider', '$httpProvider',
-  function($provide, $routeProvider, $locationProvider, $authProvider, $httpProvider) {
+paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', '$httpProvider', 'ChartJsProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, ChartJsProvider) {
     'use strict';
 
     $locationProvider.html5Mode({
@@ -12,122 +12,193 @@ paylinkApp.config(['$provide', '$routeProvider', '$locationProvider', '$authProv
       requireBase: false
     });
 
-    function UserLoggedIn($auth, $location) {
-      if ($auth.user) {
-        $location.path('/paylink')
-      }
-    }
+    ChartJsProvider.setOptions({
+      chartColors: ['#FF5252', '#80b6ff', '#803690', '#c980ff'],
+      responsive: true
+    });
+    $urlRouterProvider.otherwise('/paylink/login');
 
-    var originalWhen = $routeProvider.when;
-    $routeProvider.accessWhen = function(path, route) {
-      route.resolve || (route.resolve = {});
-      angular.extend(route.resolve, {
-        profile: ['$auth', 'customerService', function($auth, customerService) {
-          console.log('access when');
-          return $auth.validateUser()
-            .then(function() {
-              return customerService.get($auth.user.email)
-            });
-        }]
-      });
-
-      return originalWhen.call($routeProvider, path, route);
-    };
-
-    $routeProvider
-      .when('#/paylink', {
-        redirectTo: '/paylink'
+    $stateProvider
+      .state('paylink', {
+        abstract: true,
+        resolve: {
+          profile: ['$auth', 'customerService', function($auth, customerService) {
+            return $auth.validateUser()
+              .then(function() {
+                return customerService.get($auth.user.email)
+              });
+          }]
+        }
       })
-      .when('/paylink/login', {
+      .state('login', {
+        url: '^/paylink/login',
         templateUrl: '/my/template/views/user/login.html',
         controller: "SignInController",
         /*resolve: {
-          auth: UserLoggedIn
+          auth: function($auth, $state) {
+            return $auth.validateUser()
+              .then(function() {
+                if ($auth.user) {
+                  $state.go('dashboard')
+                }
+                else { "" }
+              });
+          }
         }*/
       })
-      .when('/paylink/signup', {
+      .state('signup', {
+        url: '^/paylink/signup',
         templateUrl: '/my/template/views/user/signup.html',
         controller: "RegistrationController"
       })
-      .when('/paylink/signup-successful', {
+      .state('signup-successful', {
+        url: '^/paylink/signup-successful',
         templateUrl: '/my/template/views/user/email-sent.html',
         controller: "RegistrationController"
       })
-      .when('/paylink/forgotpassword', {
+      .state('forgotpassword', {
+        url: '^/paylink/forgotpassword',
         templateUrl: '/my/template/views/user/forgotpassword.html',
         controller: "SignInController"
       })
-      .accessWhen('/paylink/profile', {
+      .state('profile', {
+        parent: 'paylink',
+        url: '^/paylink/profile',
         templateUrl: '/my/template/views/user/profile.html',
         controller: "ProfileController"
       })
-      .accessWhen('/paylink', {
-        templateUrl: '/my/template/views/dashboard.html'
+      .state('dashboard', {
+        parent: 'paylink',
+        url: '^/paylink/dashboard',
+        templateUrl: '/my/template/views/dashboard.html',
+        resolve: {
+          loadChartsJs: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              '/bower_components/Chartjs/Chart.min.js'
+            ]);
+          }]
+        }
       })
-      .accessWhen('/paylink/wallet', {
+      .state('bank-accounts', {
+        parent: 'paylink',
+        url: '^/paylink/bank-accounts',
+        templateUrl: '/my/template/views/bank-accounts.html',
+        reloadOnSearch: false
+      })
+      .state('payment-cards', {
+        parent: 'paylink',
+        url: '^/paylink/payment-cards',
+        templateUrl: '/my/template/views/payment-cards.html',
+        reloadOnSearch: false
+      })
+      .state('beneficiaries', {
+        parent: 'paylink',
+        url: '^/paylink/beneficiaries',
+        templateUrl: '/my/template/views/beneficiaries.html',
+        reloadOnSearch: false
+      })
+      .state('wallet', {
+        parent: 'paylink',
+        url: '^/paylink/wallet',
         templateUrl: '/my/template/views/wallet/index.html',
         controller: "WalletController",
         resolve: {
-          wallet: ['$auth', 'walletService', function($auth, walletService) {
-            return $auth.validateUser()
-              .then(function() {
-                return walletService.get()
-              });
+          wallet: ['walletService', function(walletService) {
+            return walletService.get();
           }]
         }
       })
-      .accessWhen('/paylink/wallet/topup', {
+      .state('wallet-topup', {
+        parent: 'wallet',
+        url: '^/paylink/wallet/topup',
         templateUrl: '/my/template/views/wallet/topUp.html',
         controller: "WalletController",
         resolve: {
-          wallet: ['$auth', 'walletService', function($auth, walletService) {
-            return $auth.validateUser()
-              .then(function() {
-                return walletService.get()
-              });
-          }]
+          //resolve cards here
         }
       })
-      .accessWhen('/paylink/transfer', {
+      .state('wallet-withdrawal', {
+        parent: 'paylink',
+        url: '^/paylink/wallet/withdrawal',
+        templateUrl: '/my/template/views/wallet/withdrawal.html',
+        controller: "WalletController",
+        resolve: {
+          //resolve cards here
+        }
+      })
+      .state('transfer', {
+        parent: 'paylink',
+        url: '^/paylink/transfer',
         templateUrl: '/my/template/views/transfer.html',
         controller: 'TransferController',
         resolve: {
-          fromAccounts: ['$auth', 'subaccountService', function($auth, subaccountService) {
-            return $auth.validateUser()
-              .then(function() {
-                return subaccountService.getAccounts('withdrawal');
-              });
-          }],
-          banks: ['subaccountService', function(subaccountService) {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          banks: function(subaccountService) {
             return subaccountService.getBanks();
-          }],
-          beneficiaries: ['beneficiaryService', function(beneficiaryService) {
+          },
+          beneficiaries: function(beneficiaryService) {
             return beneficiaryService.getAll();
-          }]
+          }
         }
       })
-      .accessWhen('/paylink/transactions', {
+      .state('transactions', {
+        parent: 'paylink',
+        url: '^/paylink/transactions',
         templateUrl: '/my/template/views/transactions/index.html',
         reloadOnSearch: false
       })
-      .accessWhen('/paylink/transactions/:id', {
+      .state('transaction-details', {
+        parent: 'paylink',
+        url: '^/paylink/transactions/:id',
         templateUrl: '/my/template/views/transactions/details.html',
         controller: 'TransactionDetailsController',
         reloadOnSearch: false,
         resolve: {
-          transaction: ['$route', 'transactionService', function($route, transactionService) {
-            return transactionService.get($route.current.params.id);
+          transaction: ['$stateParams', 'transactionService', function($stateParams, transactionService) {
+            return transactionService.get($stateParams.id);
           }]
         }
       })
-      .accessWhen('/paylink/:templateFile', {
-        templateUrl: function(param) {
-          return '/my/template/views/' + param.templateFile + '.html';
+      .state('mobile-topup', {
+        parent: 'paylink',
+        url: '^/paylink/mobile-topup',
+        templateUrl: '/my/template/views/bill-payment/mobile-topup.html',
+        controller: 'BillPaymentController',
+        resolve: {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          merchants: function(transactionService) {
+            return transactionService.getMerchants();
+          }
+        }
+      })
+      .state('bill-payment', {
+        parent: 'paylink',
+        url: '^/paylink/bill-payment',
+        templateUrl: '/my/template/views/bill-payment/index.html',
+        controller: 'BillPaymentController',
+        resolve: {
+          fromAccounts: function(profile, subaccountService) {
+            return subaccountService.getAccounts('withdrawal', profile.email);;
+          },
+          merchants: function(transactionService) {
+            return transactionService.getMerchants();
+          }
+        }
+      })
+      .state('bill-payment.product', {
+        url: '^/paylink/bill-payment/:id',
+        templateUrl: '/my/template/views/bill-payment/product.html',
+        controller: 'BillPaymentController'
+      })
+      .state('/paylink/:templateFile', {
+        templateUrl: function($stateParams) {
+          return '/my/template/views/' + $stateParams.templateFile + '.html';
         },
         reloadOnSearch: false
-      })
-      .otherwise({
-        redirectTo: '/paylink/login'
       });
 
     $authProvider.configure({
@@ -170,13 +241,13 @@ paylinkApp.config(['$provide', '$routeProvider', '$locationProvider', '$authProv
         return (parseInt(headers['expiry']) * 1000) || null;
       },
       handleLoginResponse: function(response) {
-        return response.data;
+        return response.data.data;
       },
       handleAccountUpdateResponse: function(response) {
-        return response.data;
+        return response.data.data;
       },
       handleTokenValidationResponse: function(response) {
-        return response.data;
+        return response.data.data;
       }
     });
 
@@ -184,38 +255,13 @@ paylinkApp.config(['$provide', '$routeProvider', '$locationProvider', '$authProv
   }
 ])
 
-paylinkApp.run(['$rootScope', '$location', function($rootScope, $location) {
-  $rootScope.$on('$locationChangeStart', function(e, goingTo, cameFrom) {
-    function extractPath(fullUrl) {
-      const anchor = document.createElement("a");
-      anchor.href = fullUrl;
-      return anchor.pathname;
-    };
+paylinkApp.run(['$rootScope', '$state', function($rootScope, $state) {
+  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 
-
-    //This hack fixes a strange angularjs bug which, out of the blue,
-    //forces a page to load "fromUrl" during the route change.
-    //When this condition occurs, "toUrl" url is swapped with "fromUrl",
-    //which results in the page reload.
-
-    //No referrer. The current url is the last page.
-    if (cameFrom !== goingTo) {
-      //Seems like the destination url is acutally the document url.
-      //Don't want to be in this page anymore.
-      if (goingTo === location.toString()) {
-
-        //fromUrl is actually the destination.
-        const goTo = extractPath(cameFrom);
-
-        $location.url(goTo);
-        $location.search({});
-      };
-    };
-
-    window.overridePath = null;
   });
-  $rootScope.$on("$routeChangeError", function(event, next, current, error) {
+
+  $rootScope.$on("$stateChangeError", function(event, next, current, error) {
     console.error(error);
-    $location.path('/paylink/login');
+    $state.go('login');
   });
 }]);

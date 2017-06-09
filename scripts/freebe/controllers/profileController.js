@@ -1,7 +1,5 @@
 angular
-  .module('theme.core.profile_controller', [
-    'theme.core.services'
-  ])
+  .module('freebe.profile_controller', ['freebe.services'])
   .controller('ProfileController', ['$scope', '$auth', 'progressLoader', '$modal', "profile",
     "customerService", "transactionService", "Upload",
     function($scope, $auth, progressLoader, $modal, profile, customerService, transactionService, Upload) {

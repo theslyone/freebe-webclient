@@ -75,7 +75,7 @@
 									active: item.selected,
 									  open: (item.children!==undefined) && item.open,
 						   'nav-separator': item.separator==true }"
-					  data-ng-include="'templates/nav_renderer_horizontal.html'"
+					  data-ng-include="'/my/template/views/templates/nav_renderer_horizontal.html'"
 					></li>
 			  </ul>
 		</div>
@@ -105,14 +105,14 @@
 							   'nav-separator': item.separator==true,
 		            			'search-focus': (searchQuery.length>0 && item.selected) }" 
 		            		data-ng-show="!(searchQuery.length && !item.selected)"
-						  data-ng-include="'templates/nav_renderer.html'"
+						  data-ng-include="'/my/template/views/templates/nav_renderer.html'"
 						></li>
 					</ul>
 				</nav> <!-- #sidebar-->
 			</div>
 			<div class="static-content-wrapper">
 				<div class="static-content">
-					<div id="wrap" data-ng-view="" class="mainview-animation animated">
+					<div id="wrap" data-ui-view="" class="mainview-animation animated">
 						@RenderBody()
 					</div> <!--wrap -->
 				</div>
@@ -130,7 +130,6 @@
 
 	<script src="~/assets/js/freebe-dashboard.js"></script>
 	
-	<script src="~/my/template/scripts/core/controllers/dashboardController.js"></script>
 	
 	<script src="~/my/template/scripts/core/controllers/homeController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/mainController.js"></script>
@@ -138,6 +137,7 @@
 	<script src="~/my/template/scripts/core/controllers/navigationController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/notificationsController.js"></script>
 	
+	<script src="~/my/template/scripts/freebe/controllers/dashboardController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/registrationController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/signInController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/profileController.js"></script>
@@ -145,6 +145,7 @@
 	<script src="~/my/template/scripts/freebe/controllers/walletController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/transactionDetailsController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/transferController.js"></script>
+	<script src="~/my/template/scripts/freebe/controllers/billPaymentController.js"></script>
 	
 	<script src="~/my/template/scripts/core/directives/directives.js"></script>
 	<script src="~/my/template/scripts/core/directives/form.js"></script>
@@ -159,32 +160,34 @@
 	<script src="~/my/template/scripts/core/services/theme.js"></script>
 	<script src="~/my/template/scripts/core/services/modalService.js"></script>
 	
+	<script src="~/my/template/scripts/freebe/directives/ui.js"></script>
+	<script src="~/my/template/scripts/freebe/services/services.js"></script>
 	<script src="~/my/template/scripts/freebe/services/customerService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/subaccountService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/walletService.js"></script>
+	<script src="~/my/template/scripts/freebe/services/reportService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/beneficiaryService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/transactionService.js"></script>
 	
 	<script src="~/my/template/scripts/core/theme.js"></script>
-	<script src="~/my/template/scripts/semantic-modals.js"></script>
+	<script src="~/my/template/scripts/freebe/freebe.js"></script>
 	
+	
+	<script src="~/my/template/scripts/chart/flot.js"></script>
+	<script src="~/my/template/scripts/chart/canvas.js"></script>
+	<script src="~/my/template/scripts/chart/sparklines.js"></script>
 	<!--
 	<script src="~/my/template/scripts/calendar/calendar.js"></script>
-	<script src="~/my/template/scripts/chart/canvas.js"></script>
-	<script src="~/my/template/scripts/chart/flot.js"></script>
 	<script src="~/my/template/scripts/chart/morris.js"></script>
-	<script src="~/my/template/scripts/chart/sparklines.js"></script>
 	<script src="~/my/template/scripts/gallery/gallery.js"></script>
 	<script src="~/my/template/scripts/map/googleMaps.js"></script>
 	<script src="~/my/template/scripts/map/vectorMaps.js"></script>
 	<script src="~/my/template/scripts/demos/modules/basicTables.js"></script>
 	<script src="~/my/template/scripts/demos/modules/boxedLayout.js"></script>
 	<script src="~/my/template/scripts/demos/modules/calendar.js"></script>
-	<script src="~/my/template/scripts/demos/modules/canvasCharts.js"></script>
 	<script src="~/my/template/scripts/demos/modules/nvd3Charts.js"></script>
 	<script src="~/my/template/scripts/demos/modules/chatBox.js"></script>
 	<script src="~/my/template/scripts/demos/modules/editableTable.js"></script>
-	<script src="~/my/template/scripts/demos/modules/flotCharts.js"></script>
 	<script src="~/my/template/scripts/demos/modules/form/form.js"></script>
 	<script src="~/my/template/scripts/demos/modules/form/controllers/angularFormValidationController.js"></script>
 	<script src="~/my/template/scripts/demos/modules/form/controllers/datepickerDemoController.js"></script>
