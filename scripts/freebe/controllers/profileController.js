@@ -1,16 +1,16 @@
 angular
   .module('freebe.profile_controller', ['freebe.services'])
-  .controller('ProfileController', ['$scope', '$auth', 'progressLoader', '$modal', "profile",
+  .controller('ProfileController', ['$scope', '$auth', 'progressLoader', '$uibModal', "profile",
     "customerService", "transactionService", "Upload",
-    function($scope, $auth, progressLoader, $modal, profile, customerService, transactionService, Upload) {
+    function($scope, $auth, progressLoader, $uibModal, profile, customerService, transactionService, Upload) {
       'use strict';
 
       $scope.profile = profile;
 
       $scope.changeAvatar = function(size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'profileAvatar.html',
-          controller: function($scope, $modalInstance) {
+          controller: function($scope, $uibModalInstance) {
             $scope.avatar = {
               Old: '',
               New: '',
@@ -30,11 +30,11 @@ angular
             };
 
             $scope.ok = function() {
-              $modalInstance.close($scope.avatar.New);
+              $uibModalInstance.close($scope.avatar.New);
             };
 
             $scope.cancel = function() {
-              $modalInstance.dismiss('cancel');
+              $uibModalInstance.dismiss('cancel');
             };
           },
           size: size

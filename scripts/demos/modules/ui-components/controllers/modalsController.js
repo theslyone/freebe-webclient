@@ -1,25 +1,25 @@
 angular
   .module('theme.demos.ui_components')
-  .controller('ModalsDemoController', ['$scope', '$modal', '$bootbox', '$log', '$window', function($scope, $modal, $bootbox, $log, $window) {
+  .controller('ModalsDemoController', ['$scope', '$uibModal', '$bootbox', '$log', '$window', function($scope, $uibModal, $bootbox, $log, $window) {
     'use strict';
     var alert = $window.alert;
     $scope.items = ['item1', 'item2', 'item3'];
 
     $scope.open = function(size) {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'myModalContent.html',
-        controller: function($scope, $modalInstance, items) {
+        controller: function($scope, $uibModalInstance, items) {
           $scope.items = items;
           $scope.selected = {
             item: $scope.items[0]
           };
 
           $scope.ok = function() {
-            $modalInstance.close($scope.selected.item);
+            $uibModalInstance.close($scope.selected.item);
           };
 
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         },
         size: size,
@@ -38,11 +38,11 @@ angular
     };
 
     $scope.openDemoModal = function(size) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'demoModalContent.html',
-        controller: function($scope, $modalInstance) {
+        controller: function($scope, $uibModalInstance) {
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         },
         size: size,

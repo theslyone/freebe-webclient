@@ -18,6 +18,7 @@ angular.module('freebe.services')
                 id: account.SubaccountId,
                 subaccountId: account.SubaccountId,
                 type: account.Type,
+                accountType: account.Type,                
                 bankName: account.BankName,
                 bankCode: account.BankCode,
                 accountName: account.AccountName,
@@ -26,8 +27,8 @@ angular.module('freebe.services')
             });
         })
         .catch(function(err) {
-          error.text = 'Error retrieving accounts.';
-          pinesNotifications.notify(error);
+          //error.text = 'Error retrieving accounts.';
+          //pinesNotifications.notify(error);
         });
     }
 

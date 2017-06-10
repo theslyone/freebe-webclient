@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li><a ui-sref="dashboard">Dashboard</a></li>
     <li class="active">Beneficiaries</li>
   </ol>
 
@@ -12,9 +12,9 @@
           <panel-control-collapse></panel-control-collapse>
           <panel-control-refresh type="circular"></panel-control-refresh>
         </panel-controls>
-        <alert>
+        <div uib-alert  ng-class="'alert-warning'">
           <p>These Beneficiary bank accounts can be credited instantly at anytime using Freebe.</p>
-        </alert>
+        </div>
         <div id="ScrudFactoryForm"></div>
         <div id="ScrudFactoryView"></div>
       </panel>

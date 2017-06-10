@@ -15,7 +15,7 @@ angular
     $scope.topup = function(size) {
       var modalDefaults = {
         templateUrl: '/my/template/views/wallet/topUp.html',
-        controller: function($scope, $modalInstance, cards) {
+        controller: function($scope, $uibModalInstance, cards) {
           $scope.cards = cards;
           $scope.topup = {
             amount: '',
@@ -47,14 +47,14 @@ angular
             },
               function(response) {
                 $scope.topup.isBusy = false;
-                $modalInstance.close();
+                $uibModalInstance.close();
                 $state.go('transaction-details', {id: response.TransactionId });
             }, function(err){
               $scope.topup.isBusy = false;
             });
           };
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         },
         //size: size,
@@ -72,7 +72,7 @@ angular
     $scope.withdraw = function(size) {
       var modalDefaults = {
         templateUrl: '/my/template/views/wallet/withdraw.html',
-        controller: function($scope, $modalInstance, banks, wallet) {
+        controller: function($scope, $uibModalInstance, banks, wallet) {
           $scope.banks = banks;
           $scope.wallet = wallet;
 
@@ -106,14 +106,14 @@ angular
             },
               function(response) {
                 $scope.withdraw.isBusy = false;
-                $modalInstance.close();
+                $uibModalInstance.close();
                 $state.go('transaction-details', {id: response.TransactionId });
             }, function(err){
               $scope.withdraw.isBusy = false;
             });
           };
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         },
         resolve: {
@@ -169,7 +169,7 @@ angular
     $scope.changePin = function() {
       var modalDefaults = {
         templateUrl: '/my/template/views/wallet/pinChange.html',
-        controller: function($scope, $modalInstance, wallet) {
+        controller: function($scope, $uibModalInstance, wallet) {
           $scope.pinChange = {
             subaccountId: wallet.id,
             oldPin: '',
@@ -181,13 +181,13 @@ angular
             subaccountService.changePin($scope.pinChange,
               function(response) {
                 $scope.pinChange.isBusy = false;
-                $modalInstance.close();
+                $uibModalInstance.close();
             }, function(err){
               $scope.pinChange.isBusy = false;
             });
           };
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         },
         resolve: {

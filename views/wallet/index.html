@@ -1,36 +1,32 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li><a ui-sref="dashboard">Dashboard</a></li>
     <li class="active">Wallet</li>
   </ol>
 </div>
-<alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+<div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <panel panel-class="panel-midnightblue" data-heading="My Freebe Wallet">
         <panel-controls ng-if="wallet">
-          <div class="options">
-            <div class="btn-toolbar">
-              <div class="btn-group" dropdown>
-                <button type="button" class="button-icon dropdown-toggle" dropdown-toggle>
-                    <span class="glyphicon glyphicon-cog"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a ng-click="changeStatus()">{{wallet.active ? 'Deactivate' : 'Activate'}}</a></li>
-                  <li class="divider"></li>
-                  <li><a ng-click="changePin()">Change Pin</a></li>
-                </ul>
-              </div>
-            </div>
+          <div class="btn-group" uib-dropdown>
+            <button type="button" class="button-icon dropdown-toggle" uib-dropdown-toggle>
+                <span class="glyphicon glyphicon-cog"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" uib-dropdown-menu>
+              <li><a ng-click="changeStatus()">{{wallet.active ? 'Deactivate' : 'Activate'}}</a></li>
+              <li class="divider"></li>
+              <li><a ng-click="changePin()">Change Pin</a></li>
+            </ul>
           </div>
         </panel-controls>
 
         <form ng-if="!wallet" name="form.walletForm" ng-init="walletForm = { }" class="form-horizontal" novalidate>
-          <alert>
+          <div uib-alert >
             <p>Setup a Free<span>be</span> wallet now and enjoy the benefits of allocating funds for routine spendings, easy airtime top up at a reduced charge (10naira) all without having to link a bank account or ATM card</p>
-          </alert>
+          </div>
           <h2>Wallet Information
                   <small>Your wallet can be used to both make and receive payments on Freebe</small>
               </h2>

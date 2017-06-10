@@ -65,8 +65,8 @@
           <i ng-show="loadAccounts" class="fa fa-refresh fa-spin"></i>
           <input type="text" ng-model="transfer.freebeAccount" placeholder="Search by name or phone number..."
             typeahead-on-select="freebeUserSelected($item)" ng-change="transfer.toAccount.accountType = ''"
-            typeahead="user.accountName for user in getFreebeAccounts($viewValue)" typeahead-loading="loadAccounts"
-            typeahead-editable="false" class="form-control">
+            uib-typeahead="user.accountName for user in getFreebeAccounts($viewValue)" uib-typeahead-loading="loadAccounts"
+            uib-typeahead-editable="false" class="form-control">
         </div>
       </form>
     </div>
@@ -83,7 +83,7 @@
 <div ng-init="initialize()">
   <div id="page-heading">
     <ol class="breadcrumb">
-      <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+      <li><a ui-sref="dashboard">Dashboard</a></li>
       <li class="active">Fund Transfer</li>
     </ol>
   </div>

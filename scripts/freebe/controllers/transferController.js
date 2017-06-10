@@ -95,7 +95,7 @@ angular
           $scope.transfer.toAccount.accountNumber = freebeUser.accountNumber;
           $scope.transfer.toAccount.accountName = freebeUser.accountName;
           $scope.transfer.toAccount.type = freebeUser.type;
-          $scope.transfer.toAccount.accountType = freebeUser.accountType;
+          $scope.transfer.toAccount.accountType = freebeUser.accountType || freebeUser.type;
           $scope.transfer.toAccount.phoneNumber = '';
         }
       }
@@ -108,7 +108,7 @@ angular
           $scope.transfer.toAccount.accountNumber = beneficiary.accountNumber;
           $scope.transfer.toAccount.accountName = beneficiary.accountName;
           $scope.transfer.toAccount.type = beneficiary.type;
-          $scope.transfer.toAccount.accountType = beneficiary.accountType;
+          $scope.transfer.toAccount.accountType = beneficiary.accountType || beneficiary.type;
           $scope.transfer.toAccount.phoneNumber = '';
         }
       }
@@ -153,6 +153,7 @@ angular
             angular.forEach(res, function(user) {
               users.push(user);
             });
+            //console.log(users);
             return users;
           })
       };

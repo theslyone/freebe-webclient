@@ -134,14 +134,14 @@ angular.module('freebe.services')
               };
 
               var modalDefaults = {
-                controller: function($scope, $modalInstance) {
+                controller: function($scope, $uibModalInstance) {
                   $scope.otp = '';
                   $scope.modalOptions = modalOptions;
                   $scope.modalOptions.ok = function(otp) {
-                    $modalInstance.close(otp);
+                    $uibModalInstance.close(otp);
                   };
                   $scope.modalOptions.close = function() {
-                    $modalInstance.dismiss('cancel');
+                    $uibModalInstance.dismiss('cancel');
                   };
                 },
                 templateUrl: '/my/template/views/templates/otp-modal.html'

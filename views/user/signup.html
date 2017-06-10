@@ -1,6 +1,6 @@
 <div class="verticalcenter" ng-controller="RegistrationController">
   <a href="/"><img src="/Static/images/freebe-logo-black.png" alt="Logo" class="brand" /></a>
-  <alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+  <div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
 
   <form name="form.registrationForm" ng-init="registrationForm = {}" class="form-horizontal" style="margin-bottom: 0px !important;" novalidate>
     <div class="panel panel-primary">

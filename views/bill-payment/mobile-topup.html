@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li><a ui-sref="dashboard">Dashboard</a></li>
     <li class="active">Mobile Top Up</li>
   </ol>
 
@@ -11,9 +11,9 @@
         <button class="button-icon"><i class="glyphicon glyphicon-cog"></i></button>
         <button class="button-icon"><i class="glyphicon glyphicon-wrench"></i></button>
       </panel-controls>
-      <alert>
+      <div uib-alert  ng-class="'alert-warning'">
         <h5>Top up using your wallet at zero cost. A fee is however charged if top up is processed directly from your ATM card.</h5>
-      </alert>
+      </div>
 
       <form name="form.bill" class="form-horizontal row-border" ng-init="initialize()">
         <div class="form-group">

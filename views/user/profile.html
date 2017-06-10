@@ -22,12 +22,12 @@
 
 <div id="page-heading">
 	<ol class="breadcrumb">
-		<li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+		<li><a ui-sref="dashboard">Dashboard</a></li>
 		<li class="active">User Profile</li>
 	</ol>
 </div>
 <div class="container-fluid">
-	<alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+	<div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
 
 
 	<div class="row">
@@ -38,7 +38,7 @@
 						<img ng-src="{{profile.avatar}}" alt="" class="img-responsive user-avatar" />
 					  <p class="avatar-overlay">Click to update</p>
 					</div>​
-					<div class="user-detail">
+					<div ng-hide="true" class="user-detail">
 						<h2 class="user-name"><a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a> <a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a></h2>
 						<div class="table-responsive">
 							<h6 class="user-info">Details</h6>
@@ -89,7 +89,57 @@
 			</div>
 		</div>
 		<div class="col-sm-8">
-			<tabset panel-tabs="true" panel-class="panel-default">
+			<div class="panel panel-default panel-profile">
+				<div class="panel-body user-profile">
+					<div class="user-detail">
+						<h2 class="user-name"><a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a> <a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a></h2>
+						<div class="table-responsive">
+							<h6 class="user-info">Details</h6>
+							<table class="table table-condensed m0">
+								<tbody>
+									<tr>
+										<td>Code</td>
+										<td>{{profile.customerCode}}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{{profile.email}}</td>
+									</tr>
+									<tr>
+										<td>BVN</td>
+										<td><a editable-text="profile.bvn" e-pattern="\d{11}" e-title="xxxxxxxxxxx">{{profile.bvn || 'empty'}}</a></td>
+									</tr>
+									<tr>
+										<td>Phone</td>
+										<td><a editable-tel="profile.phone" e-pattern="\d{11}" e-title="xxxxxxxxxxx">{{profile.phone || 'empty'}}</a></td>
+									</tr>
+									<tr>
+										<td>Validated</td>
+										<td ng-class="profile.isValidated ? 'text-success' : 'text-danger'">{{profile.isValidated ? 'Yes' : 'No'}}</td>
+									</tr>
+									<tr>
+										<td>Type</td>
+										<td>Basic User</td>
+									</tr>
+									<tr>
+										<td>Joined</td>
+										<td>{{profile.createdAt | date : 'dd-MMM-yyyy'}}</td>
+									</tr>
+									<tr ng-hide="true">
+										<td>Updated</td>
+										<td>{{profile.updatedAt | date : 'dd-MMM-yyyy'}}</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><button ng-click="updateProfile()" ng-disabled="isBusy" class="btn btn-primary btn-sm">Update</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<tabset ng-hide="true" panel-tabs="true" panel-class="panel-default">
 				<tab heading="Recent Activities" ng-init="getRecentTransactions()">
 					<ul class="timeline">
 						<li ng-class="transaction.type == 'DEBIT' ? 'timeline-danger' : 'timeline-success'" ng-repeat="transaction in recentTransactions">

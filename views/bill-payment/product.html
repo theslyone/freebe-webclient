@@ -1,14 +1,12 @@
 <panel panel-class="panel-midnightblue mt20" heading="{{product.name}}">
   <panel-controls>
     <panel-control-collapse></panel-control-collapse>
-    <button class="button-icon"><i class="glyphicon glyphicon-cog"></i></button>
-    <button class="button-icon"><i class="glyphicon glyphicon-wrench"></i></button>
   </panel-controls>
-  <alert>
+  <div uib-alert  ng-class="'alert-warning'">
     <h5>{{product.description}}</h5>
     <h5 ng-if="product.cost > 0">{{product.cost | currency : 'NGN '}}</h5>
     <p ng-if="product.sub_description">{{product.sub_description}}</p>
-  </alert>
+  </div>
 
   <form name="form.topup" class="form-horizontal row-border" ng-init="getProduct()">
     <div class="form-group" ng-repeat="field in fields">
@@ -24,7 +22,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 control-label">Pay With</label>
+      <label class="col-sm-3 control-label">pay_with</label>
       <div class="col-sm-6">
         <select class="form-control" ng-model="bill.sourceAccount" placeholder="Select Account"
           ng-options="sa.name for sa in fromAccounts | orderBy:'name' track by sa.id" required>
@@ -36,7 +34,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 control-label">Account PIN</label>
+      <label class="col-sm-3 control-label">account_pin</label>
       <div class="col-sm-6">
         <input id="accountPin" class="form-control" placeholder="Authorization PIN"
           limit-to="4" name="accountPin" data-ng-minlength=4 data-ng-maxlength=4

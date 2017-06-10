@@ -1,6 +1,6 @@
 angular.module('theme.core.services')
-.service('modalService', ['$modal',
-  function($modal) {
+.service('modalService', ['$uibModal',
+  function($uibModal) {
 
     var modalDefaults = {
       backdrop: true,
@@ -34,18 +34,18 @@ angular.module('theme.core.services')
       angular.extend(tempModalOptions, modalOptions, customModalOptions);
 
       if (!tempModalDefaults.controller) {
-        tempModalDefaults.controller = function($scope, $modalInstance) {
+        tempModalDefaults.controller = function($scope, $uibModalInstance) {
           $scope.modalOptions = tempModalOptions;
           $scope.modalOptions.ok = function(result) {
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
           };
           $scope.modalOptions.close = function(result) {
-            $modalInstance.dismiss('Action cancelled');
+            $uibModalInstance.dismiss('Action cancelled');
           };
         }
       }
 
-      return $modal.open(tempModalDefaults).result;
+      return $uibModal.open(tempModalDefaults).result;
     };
 
   }

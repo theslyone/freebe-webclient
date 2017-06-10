@@ -3,19 +3,19 @@ angular
     'ui.bootstrap',
     'theme.gallery',
   ])
-  .controller('GalleryController', ['$scope', '$modal', '$timeout', function($scope, $modal) {
+  .controller('GalleryController', ['$scope', '$uibModal', '$timeout', function($scope, $uibModal) {
     'use strict';
     $scope.galleryFilter = 'all';
 
     $scope.openImageModal = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'imageModalContent.html',
-        controller: ['$scope', '$modalInstance', 'src', function($scope, $modalInstance, src) {
+        controller: ['$scope', '$uibModalInstance', 'src', function($scope, $uibModalInstance, src) {
           $scope.src = src;
           $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
           };
         }],
         size: 'lg',

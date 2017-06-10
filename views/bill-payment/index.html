@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li><a ui-sref="dashboard">Dashboard</a></li>
     <li class="active">Bill Payment</li>
   </ol>
 
@@ -35,10 +35,12 @@
       </div>
       <div class="col-md-8">
         <div ui-view>
-          <div class="mt20" style="margin: 0 auto; width: 400px">
-            <h1>No Product Selected</h1>
-            <div>
+          <panel panel-class="panel-midnightblue" class="mt20" heading="Bill Payment">
+            <div style="margin: 0 auto; width: 400px">
+              <h1>No Product Selected</h1>
+              <div>
+              </div>
             </div>
-          </div>
+          </panel>
         </div>
       </div>

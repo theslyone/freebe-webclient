@@ -1,7 +1,7 @@
 <div>
   <div id="page-heading">
     <ol class="breadcrumb">
-      <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+      <li><a ui-sref="dashboard">Dashboard</a></li>
       <li><a href="/paylink/transactions">Transactions</a></li>
       <li class="active">Details</li>
     </ol>
@@ -10,12 +10,12 @@
     <div class="row">
       <div class="col-md-12">
         <panel ng-class="transaction.completed ? 'panel panel-green' : 'panel-red'">
-          <alert type="{{transaction.completed ? 'success' : 'danger'}}">
+          <div uib-alert type="{{transaction.completed ? 'success' : 'danger'}}" ng-class="'alert-' + (transaction.completed ? 'success' : 'danger')">
             <i ng-class="transaction.completed
               ? 'fa fa-3x fa-check-circle pull-left text-success'
               : 'fa fa-3x fa-times-circle pull-left text-danger'"></i>
             <h2><strong>{{transaction.completed ? "TRANSACTION COMPLETE" : "TRANSACTION FAILED"}}</strong></h2>
-          </alert>
+          </div>
           <h1 class="text-center"><strong>{{ transaction.amount + transaction.fees | currency : transaction.currency }}</strong></h1>
           <div class="col-md-12">
             <table class="table table-striped">

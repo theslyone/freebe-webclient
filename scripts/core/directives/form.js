@@ -98,7 +98,6 @@ angular
           element.stepy('step', 1);
 
           scope.reset = function() {
-            alert('reseting')
             element.stepy('step', 1);
           };
 

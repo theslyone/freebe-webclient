@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a ui-sref="/paylink/dashboard">Dashboard</a></li>
+    <li><a ui-sref="dashboard">Dashboard</a></li>
     <li class="active">Bank Accounts</li>
   </ol>
 
@@ -11,13 +11,13 @@
         <panel-controls>
           <panel-control-collapse></panel-control-collapse>
         </panel-controls>
-        <alert>
+        <div uib-alert  ng-class="'alert-' + (alert.type || 'warning')">
           <p>These bank accounts can be credited instantly from anyone using Freebe.</p>
           <h5>
               Our PCI compliant tokenization security protocol ensures that your bank information are kept secure. We do not
               share or send this information with any third party.
           </h5>
-        </alert>
+        </div>
         <div id="ScrudFactoryForm"></div>
         <div id="ScrudFactoryView"></div>
       </panel>

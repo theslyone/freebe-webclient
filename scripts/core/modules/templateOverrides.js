@@ -1,7 +1,7 @@
 angular.module('theme.core.template_overrides', [])
   .config(['$provide', function($provide) {
     'use strict';
-    $provide.decorator('tabsetDirective', function($delegate) {
+/*    $provide.decorator('tabsetDirective', function($delegate) {
       $delegate[0].templateUrl = function(element, attr) {
         if (attr.tabPosition || attr.tabTheme) {
           if (attr.tabPosition && (attr.tabPosition === '\'bottom\'' || attr.tabPosition === 'bottom')) {
@@ -16,7 +16,7 @@ angular.module('theme.core.template_overrides', [])
           return 'templates/themed-tabs.html';
         }
       };
-/*
+
       // "hacks" because 1.3.x broke scope extensions
       $delegate[0].$$isolateBindings.heading = {
         attrName: 'heading',
@@ -53,9 +53,10 @@ angular.module('theme.core.template_overrides', [])
         mode: '=',
         optional: true
       };
-*/
+
       return $delegate;
     });
+
     $provide.decorator('progressbarDirective', function($delegate) {
       $delegate[0].templateUrl = function(element, attr) {
         if (attr.contextual && attr.contextual === 'true') {
@@ -72,6 +73,7 @@ angular.module('theme.core.template_overrides', [])
 
       return $delegate;
     });
+*/
   }])
   /* jshint ignore:start */
   .run(['$templateCache', function($templateCache) {
