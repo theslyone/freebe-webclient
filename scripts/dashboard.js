@@ -46,6 +46,16 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
           }
         }*/
       })
+      .state('google-login', {
+        url: '^/paylink/google-login',
+        templateUrl: '/my/template/views/user/google-login.html',
+        controller: "SignInController"
+      })
+      .state('facebook-login', {
+        url: '^/paylink/facebook-login',
+        templateUrl: '/my/template/views/user/facebook-login.html',
+        controller: "SignInController"
+      })
       .state('signup', {
         url: '^/paylink/signup',
         templateUrl: '/my/template/views/user/signup.html',
@@ -220,10 +230,10 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         return false;
       },
       proxyUrl: '/proxy',
-      omniauthWindowType: 'sameWindow',
+      omniauthWindowType: 'newWindow',
       authProviderPaths: {
-        facebook: 'account/facebook/sign-in',
-        google: 'account/google/sign-in'
+        facebook: 'paylink/facebook-login',
+        google: 'paylink/google-login'
       },
       tokenFormat: {
         "access-token": "{{ token }}",
@@ -232,10 +242,6 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         "expiry": "{{ expiry }}",
         "uid": "{{ uid }}"
       },
-      /*tokenFormat: {
-        "access-token": "{{ token }}",
-        "Authorization": "Bearer {{ token }}"
-      },*/
       parseExpiry: function(headers) {
         // convert from UTC ruby (seconds) to UTC js (milliseconds)
         return (parseInt(headers['expiry']) * 1000) || null;

@@ -19,6 +19,7 @@ angular
     'xeditable',
     'ngFileUpload',
     'ngImgCrop',
+    'angular-spinkit',
     'theme.core.templates',
     'theme.core.template_overrides',
     'theme.core.panels',

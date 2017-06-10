@@ -1,0 +1,100 @@
+<header id="header" style="background-color: #000">
+  <div class="logo">
+    <a class="logo" href="/">
+        <img src="/my/template/images/freebe-logo.png" style="width: 200px; padding: 20px;" />
+      </a>
+  </div>
+</header>
+<section class="body">
+  <div class="ui attached padded segment">
+    <div class="ui container">
+      <div>
+        Google Authentication, Please wait ...
+        <wave-spinner></wave-spinner>
+        <!--<three-bounce-spinner></three-bounce-spinner>-->
+      </div>
+      <div class="g-signin2" data-onsuccess="onSignIn" style="display: none;"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+  (function() {
+    const po = document.createElement('script');
+    po.type = 'text/javascript';
+    po.async = true;
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=autoLogin';
+    const s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+
+  function googleSignIn(id, email, name, token) {
+    function request() {
+      const url = "/account/google/sign-in";
+
+      const loginDetails = {
+        Email: email,
+        OfficeId: 1,
+        Name: name,
+        Token: token,
+        Culture: 'en-US'
+      };
+
+      const data = JSON.stringify(loginDetails);
+
+      return window.getAjaxRequest(url, "POST", data);
+    };
+
+    const ajax = request();
+
+    ajax.success(function(response) {
+      localStorage.setItem("access_token", response.token);
+
+      if (response) {
+        window.addEventListener("message", function(ev) {
+          if (ev.data === "requestCredentials") {
+            console.log("request credentials received")
+            ev.source.postMessage({
+              message: "deliverCredentials",
+              auth_token: response.token,
+              uid: id,
+
+              email: email,
+              name: name
+            }, '*');
+            window.close();
+          }
+        });
+      } else {
+        alert(window.translate("GoogleRegistrationClosed"));
+        window.close();
+      };
+    });
+
+    ajax.fail(function() {
+      alert(window.translate("GoogleRegistrationClosed"));
+      window.close();
+    });
+  };
+
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    /*console.log('ID: ' + profile.getId());
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+    */
+    const request = googleUser.getBasicProfile();
+    const id = request.getId();
+    const email = request.getEmail();
+    const name = request.getName();
+    const token = googleUser.getAuthResponse().id_token;
+
+    googleSignIn(id, email, name, token);
+  }
+
+  function autoLogin() {
+    $('.abcRioButtonContentWrapper').click();
+  }
+</script>

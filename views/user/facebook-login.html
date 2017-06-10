@@ -1,0 +1,110 @@
+<header id="header" style="background-color: #000">
+  <div class="logo">
+    <a class="logo" href="/">
+        <img src="/my/template/images/freebe-logo.png" style="width: 200px; padding: 20px;" />
+      </a>
+  </div>
+</header>
+<section class="body">
+  <div class="ui attached padded segment">
+    <div class="ui container">
+      <div>
+        Facebook Authentication, Please wait ...
+        <wave-spinner></wave-spinner>
+        <!--<three-bounce-spinner></three-bounce-spinner>-->
+      </div>
+      <div id="fb-root"></div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  window.fbAsyncInit = function() {
+    window.FB.init({
+      appId: window.fbAppId, // App ID
+      status: true, // check login status
+      cookie: true, // enable cookies to allow the server to access the session
+      xfbml: true // parse XFBML
+    });
+
+    window.FB.login(function(response) {
+      if (response.authResponse) {
+        var fbUserId = response.authResponse.userID;
+        var fbToken = response.authResponse.accessToken;
+
+        window.FB.api('/me', {
+          locale: 'en_US',
+          fields: 'name, email'
+        }, function(response) {
+          facebookSignIn(fbUserId, response.email, fbToken);
+        });
+      } else {
+        alert(window.translate("AuthorizeAppOnFacebook"));
+        window.close();
+      }
+    }, {
+      scope: window.fbScope
+    });
+  };
+
+  // Load the SDK Asynchronously
+  (function(d) {
+    const id = 'facebook-jssdk';
+    const ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    const js = d.createElement('script');
+    js.id = id;
+    js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+  }(document));
+
+
+  function facebookSignIn(userId, email, token) {
+    function request() {
+      const url = "/account/facebook/sign-in";
+      const loginDetails = {
+        FacebookUserId: userId,
+        Email: email,
+        OfficeId: 1,
+        Token: token,
+        Culture: 'en-US'
+      };
+
+      const data = JSON.stringify(loginDetails);
+      return window.getAjaxRequest(url, "POST", data);
+    };
+
+    const ajax = request();
+
+    ajax.success(function(response) {
+      localStorage.setItem("access_token", response.token);
+
+      if (response) {
+        window.addEventListener("message", function(ev) {
+          if (ev.data === "requestCredentials") {
+            console.log("request credentials received")
+            ev.source.postMessage({
+              message: "deliverCredentials",
+              auth_token: response.token,
+              uid: userId,
+              email: email
+            }, '*');
+            window.close();
+          }
+        });
+      } else {
+        alert(window.translate("FacebookRegistrationClosed"));
+        window.close();
+      };
+    });
+
+    ajax.fail(function() {
+      alert(window.translate("FacebookRegistrationClosed"));
+      window.close();
+    });
+  };
+</script>
