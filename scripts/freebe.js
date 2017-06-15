@@ -21,7 +21,7 @@ var freebe = (function() {
     var url = '/api/v1.0/paylink/subaccounts/validateAccountNumber';
     $(".ui.form.factory").addClass("loading");
     return new Promise(function(fulfill, reject) {
-      var ajax = window.getAjaxRequest(url, 'POST', { bankCode: bankCode, accountNumber: accountNumber });
+      var ajax = window.getAjaxRequest(url, 'POST', JSON.stringify({ bankCode: bankCode, accountNumber: accountNumber }));
       ajax.success(function(accountName) {
         fulfill(accountName);
       });
@@ -34,7 +34,7 @@ var freebe = (function() {
   getBankName = function(cardNumber) {
     var url = '/api/v1.0/paylink/subaccounts/validateCard';
     return new Promise(function(fulfill, reject){
-      var ajax = window.getAjaxRequest(url, 'POST', { cardNumber: cardNumber });
+      var ajax = window.getAjaxRequest(url, 'POST', cardNumber);
       ajax.success(function(resp) {
         fulfill(resp);
       });

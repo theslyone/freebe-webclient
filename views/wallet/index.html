@@ -4,7 +4,7 @@
     <li class="active">Wallet</li>
   </ol>
 </div>
-<div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
+<div uib-alert ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
 
 <div class="container-fluid">
   <div class="row">
@@ -24,7 +24,7 @@
         </panel-controls>
 
         <form ng-if="!wallet" name="form.walletForm" ng-init="walletForm = { }" class="form-horizontal" novalidate>
-          <div uib-alert >
+          <div uib-alert class="alert-warning">
             <p>Setup a Free<span>be</span> wallet now and enjoy the benefits of allocating funds for routine spendings, easy airtime top up at a reduced charge (10naira) all without having to link a bank account or ATM card</p>
           </div>
           <h2>Wallet Information

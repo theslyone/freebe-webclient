@@ -21,7 +21,8 @@ angular.module('freebe.services')
             accountNumber: wallet.AccountNumber,
             balance: wallet.Balance,
             dailyMaxDeposit: wallet.DailyMaxDeposit,
-            dailyMaxWithdrawal: wallet.DailyMaxWithdrawal
+            dailyMaxWithdrawal: wallet.DailyMaxWithdrawal,
+            active: wallet.Active
           }
         })
         .catch(function(err) {

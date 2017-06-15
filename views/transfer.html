@@ -65,7 +65,7 @@
           <i ng-show="loadAccounts" class="fa fa-refresh fa-spin"></i>
           <input type="text" ng-model="transfer.freebeAccount" placeholder="Search by name or phone number..."
             typeahead-on-select="freebeUserSelected($item)" ng-change="transfer.toAccount.accountType = ''"
-            uib-typeahead="user.accountName for user in getFreebeAccounts($viewValue)" uib-typeahead-loading="loadAccounts"
+            uib-typeahead="user as user.accountName + ' (' + user.accountNumber + ')' for user in getFreebeAccounts($viewValue)" uib-typeahead-loading="loadAccounts"
             uib-typeahead-editable="false" class="form-control">
         </div>
       </form>
