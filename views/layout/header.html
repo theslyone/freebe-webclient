@@ -104,7 +104,7 @@
 				<li class="userlinks">
 					<ul class="dropdown-menu">
 						<li ng-hide="true"><a ui-sref="profile">Edit Profile <i class="pull-right glyphicon glyphicon-pencil"></i></a></li>
-						<li><a ui-sref="profile">Account <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+						<li><a ui-sref="profile">Edit Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
 						<li><a href="#">Settings <i class="pull-right glyphicon glyphicon-cog"></i></a></li>
 						<!--<li class="divider"></li>
 			  <li><a href="#">Earnings <i class="pull-right glyphicon glyphicon-stats"></i></a></li>
@@ -172,7 +172,7 @@
 		<li ng-click="showHeaderBar($event)" class="hidden-xs ng-hide">
 			<a href="" id="headerbardropdown"><i class="glyphicon glyphicon-th"></i></a>
 		</li>
-		<li class="dropdown demodrop" uib-dropdown>
+		<li class="dropdown demodrop" uib-dropdown ng-hide="true">
 			<a href uib-dropdown-toggle class="dropdown-toggle tooltips"><i class="glyphicon glyphicon-cog"></i></a>
 			<ul class="dropdown-menu animated arrow dropdown-menu-form" id="demo-dropdown" uib-dropdown-menu>
 				<div class="tabular">

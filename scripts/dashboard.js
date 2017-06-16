@@ -69,6 +69,16 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       .state('forgotpassword', {
         url: '^/paylink/forgotpassword',
         templateUrl: '/my/template/views/user/forgotpassword.html',
+        controller: "ForgotPasswordController",
+        resolve: {
+          token: function($http) {
+            return $http.get('/account/reset/get-token').then(function(reset) { return reset.data.Token; })
+          }
+        }
+      })
+      .state('reset-successful', {
+        url: '^/paylink/reset-successful',
+        templateUrl: '/my/template/views/user/reset-email-sent.html',
         controller: "SignInController"
       })
       .state('profile', {

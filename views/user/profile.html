@@ -39,7 +39,10 @@
 					  <p class="avatar-overlay">Click to update</p>
 					</div>​
 					<div ng-hide="true" class="user-detail">
-						<h2 class="user-name"><a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a> <a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a></h2>
+						<h2 class="user-name">
+							<a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a>
+							<a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a>
+						</h2>
 						<div class="table-responsive">
 							<h6 class="user-info">Details</h6>
 							<table class="table table-condensed m0">
@@ -84,15 +87,29 @@
 							</table>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-8">
-			<div class="panel panel-default panel-profile">
+			<panel panel-class="panel-midnightblue panel-profile" data-heading="My Profile">
+				<panel-controls>
+          <div class="btn-group" uib-dropdown>
+            <button type="button" class="button-icon dropdown-toggle" uib-dropdown-toggle>
+                <span class="glyphicon glyphicon-cog"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" uib-dropdown-menu>
+              <li><a ng-click="changePassword()">Change Password</a></li>
+            </ul>
+          </div>
+        </panel-controls>
+
 				<div class="panel-body user-profile">
 					<div class="user-detail">
-						<h2 class="user-name"><a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a> <a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a></h2>
+						<h2 class="user-name">
+							<a editable-text="profile.lastName">{{profile.lastName || 'last name'}}</a>
+							<a editable-text="profile.firstName">{{profile.firstName || 'first name'}}</a>
+						</h2>
+
 						<div class="table-responsive">
 							<h6 class="user-info">Details</h6>
 							<table class="table table-condensed m0">
@@ -138,7 +155,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</panel>
 			<tabset ng-hide="true" panel-tabs="true" panel-class="panel-default">
 				<tab heading="Recent Activities" ng-init="getRecentTransactions()">
 					<ul class="timeline">

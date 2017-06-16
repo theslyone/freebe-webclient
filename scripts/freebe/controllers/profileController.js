@@ -1,8 +1,9 @@
 angular
   .module('freebe.profile_controller', ['freebe.services'])
   .controller('ProfileController', ['$scope', '$auth', 'progressLoader', '$uibModal', "profile",
-    "customerService", "transactionService", "Upload",
-    function($scope, $auth, progressLoader, $uibModal, profile, customerService, transactionService, Upload) {
+    "customerService", "accountService", "transactionService", "Upload", "modalService",
+    function($scope, $auth, progressLoader, $uibModal, profile, customerService, accountService,
+       transactionService, Upload, modalService) {
       'use strict';
 
       $scope.profile = profile;
@@ -96,6 +97,37 @@ angular
             $scope.profile.avatarChanged = false;
           });
       }
+
+      $scope.changePassword = function() {
+        var modalDefaults = {
+          templateUrl: '/my/template/views/user/changePassword.html',
+          controller: function($scope, $uibModalInstance) {
+            $scope.passwordChange = {
+              oldPassword: '',
+              newPassword: '',
+              newPasswordConfirm: '',
+              isBusy: false
+            };
+            $scope.ok = function() {
+              $scope.passwordChange.isBusy = true;
+
+              accountService.changePassword($scope.passwordChange)
+              .then(function(response) {
+                $scope.passwordChange.isBusy = false;
+                $uibModalInstance.close();
+              })
+              .finally(function(err){
+                $scope.passwordChange.isBusy = false;
+              });
+            };
+            $scope.cancel = function() {
+              $uibModalInstance.dismiss('cancel');
+            };
+          }
+        };
+        modalService.showModal(modalDefaults, {})
+        .then(function(){});
+      };
 
       $scope.clearAlert = function() {
         $scope.alert = {}

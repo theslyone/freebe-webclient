@@ -3,6 +3,7 @@ angular.module('freebe', [
   'freebe.directives',
   'freebe.dashboard_controller',
   'freebe.signin_controller',
+  'freebe.forgot_password_controller',
   'freebe.profile_controller',
   'freebe.registration_controller',
   'freebe.bank_account_controller',
