@@ -101,7 +101,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('bank-accounts', {
         parent: 'paylink',
-        url: '^/paylink/bank-accounts',
+        url: '^/paylink/bank-accounts?View=grid',
         templateUrl: '/my/template/views/bank-accounts.html',
         reloadOnSearch: false
       })
@@ -113,7 +113,7 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('beneficiaries', {
         parent: 'paylink',
-        url: '^/paylink/beneficiaries',
+        url: '^/paylink/beneficiaries?View=grid',
         templateUrl: '/my/template/views/beneficiaries.html',
         reloadOnSearch: false
       })

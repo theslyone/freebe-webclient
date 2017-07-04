@@ -11,6 +11,7 @@ angular
 
     $scope.form = {};
     $scope.registrationForm = {};
+    $scope.passwordPolicy = 'Password should contain at least 6 characters with one uppercase, lowercase, and a number.'
 
     $scope.register = function(data) {
       $scope.clearAlert();

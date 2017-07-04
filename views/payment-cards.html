@@ -257,7 +257,10 @@
 
     freebe.getBankName(cardNumber)
       .then(function(resp) {
-        $("#bank_name").val(resp.issuer + " (" + resp.class + ")");
+        var cardIssuer = resp.issuer || 'Card Issuer Unknown'
+        var cardClass = resp.class ? ` (${resp.class})` : ''
+        var issuer = cardIssuer + cardClass
+        $("#bank_name").val(issuer);
         $("#card_type").val(resp.brand);
         formFactory.removeClass("loading");
       })

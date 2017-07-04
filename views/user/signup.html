@@ -56,8 +56,9 @@
               <password-strength ng-model="registrationForm.Password"></password-strength>
             </div>
 
-            <div class="alert alert-error" ng-show="registrationForm.Password.$error.passwordPattern">
-              Password should contain at least 6 characters with one uppercase, lowercase, and a number.
+            <div uib-alert ng-show="form.registrationForm.Password.$error.passwordPattern"
+              ng-class="'alert-danger'" class="pull-left">
+              <span ng-bind-html="passwordPolicy | safe_html"></span>
             </div>
 
           </div>
