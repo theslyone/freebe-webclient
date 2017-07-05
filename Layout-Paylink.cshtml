@@ -34,18 +34,18 @@
             bodyClass = "ltr";
 			<link rel="stylesheet" href="~/assets/css/backend.css" />
 			<link rel="Stylesheet" href="~/assets/css/freebe-dashboard.css"/>
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/fonts/glyphicons/css/glyphicons.min.css' /> 
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/form-fseditor/fseditor.css' /> 
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/jcrop/css/jquery.Jcrop.min.css' /> 
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/fonts/glyphicons/css/glyphicons.min.css' />
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/form-fseditor/fseditor.css' />
+			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/jcrop/css/jquery.Jcrop.min.css' />
         }
     }
-	
+
 	<link rel="stylesheet" href="/scripts/semantic-ui/semantic.min.css" />
     <link rel="stylesheet" href="/my/template/css/semantic-extended.css" />
     <link rel="stylesheet" href="~/my/template/css/dashboard.css">
-	
+
 	<script src="/i18n/resources.js?cultureCode=@CultureManager.GetCurrentUiCulture().Name"></script>
-	
+
 	<script>
 		var fbAppId = '@Model.FacebookAppId';
 		var fbScope = '@Model.FacebookScope';
@@ -111,7 +111,7 @@
 										active: item.selected,
 										  open: (item.children!==undefined) && item.open,
 							   'nav-separator': item.separator==true,
-		            			'search-focus': (searchQuery.length>0 && item.selected) }" 
+		            			'search-focus': (searchQuery.length>0 && item.selected) }"
 		            		data-ng-show="!(searchQuery.length && !item.selected)"
 						  data-ng-include="'/my/template/views/templates/nav_renderer.html'"
 						></li>
@@ -137,14 +137,14 @@
 	</div>
 
 	<script src="~/assets/js/freebe-dashboard.js"></script>
-	
-	
+
+
 	<script src="~/my/template/scripts/core/controllers/homeController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/mainController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/messagesController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/navigationController.js"></script>
 	<script src="~/my/template/scripts/core/controllers/notificationsController.js"></script>
-	
+
 	<script src="~/my/template/scripts/freebe/controllers/dashboardController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/registrationController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/forgotPasswordController.js"></script>
@@ -155,10 +155,10 @@
 	<script src="~/my/template/scripts/freebe/controllers/transactionDetailsController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/transferController.js"></script>
 	<script src="~/my/template/scripts/freebe/controllers/billPaymentController.js"></script>
-	
+
 	<script src="~/my/template/scripts/core/directives/directives.js"></script>
 	<script src="~/my/template/scripts/core/directives/form.js"></script>
-	
+
 	<script src="~/my/template/scripts/core/directives/ui.js"></script>
 	<script src="~/my/template/scripts/core/modules/templateOverrides.js"></script>
 	<script src="~/my/template/scripts/core/modules/templates.js"></script>
@@ -168,7 +168,7 @@
 	<script src="~/my/template/scripts/core/services/services.js"></script>
 	<script src="~/my/template/scripts/core/services/theme.js"></script>
 	<script src="~/my/template/scripts/core/services/modalService.js"></script>
-	
+
 	<script src="~/my/template/scripts/freebe/directives/ui.js"></script>
 	<script src="~/my/template/scripts/freebe/services/services.js"></script>
 	<script src="~/my/template/scripts/freebe/services/customerService.js"></script>
@@ -178,21 +178,26 @@
 	<script src="~/my/template/scripts/freebe/services/reportService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/beneficiaryService.js"></script>
 	<script src="~/my/template/scripts/freebe/services/transactionService.js"></script>
-	
+
 	<script src="~/my/template/scripts/core/theme.js"></script>
 	<script src="~/my/template/scripts/freebe/freebe.js"></script>
-	
-	
+
+
 	<script src="~/my/template/scripts/chart/flot.js"></script>
 	<script src="~/my/template/scripts/chart/canvas.js"></script>
 	<script src="~/my/template/scripts/chart/sparklines.js"></script>
-	
+
 	<script src="~/my/template/scripts/demos/demos.js"></script>
-    
+
     <script src="~/my/template/scripts/dashboard.js"></script>
 	<script src="~/my/template/scripts/freebe.js"></script>
-	
-	
+
+
 	@Html.GetAntiForgeryToken(this.Request.Url)
+
+  <script>
+    (function(t,a,l,k,u,s,e){if(!t[u]){t[u]=function(){(t[u].q=t[u].q||[]).push(arguments)},t[u].l=1*new Date();s=a.createElement(l),e=a.getElementsByTagName(l)[0];s.async=1;s.src=k;e.parentNode.insertBefore(s,e)}})(window,document,'script','//www.talkus.io/plugin.beta.js','talkus');
+    talkus('init', 'j2ZfpPP34kZFW6sbw');
+  </script>
 </body>
 </html>

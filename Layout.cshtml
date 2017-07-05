@@ -10,12 +10,12 @@
     <link href="/scripts/semantic-ui/semantic.min.css" rel="stylesheet" />
     <link href="/my/template/css/semantic-extended.css" rel="stylesheet" />
     <link href="/my/template/css/site.css" rel="stylesheet">
-    
+
     <script src="/scripts/jquery-2.2.4.min.js"></script>
     <script src="/scripts/semantic-ui/semantic.min.js"></script>
     <script src="/scripts/frapid/core/frapid-ajax.js"></script>
     <script src="/my/template/scripts/frapid.js"></script>
-    
+
     <script src="/my/template/scripts/jquery.scrolly.min.js"></script>
 	<script src="/my/template/scripts/jquery.scrollex.min.js"></script>
 	<script src="/my/template/scripts/skel.min.js"></script>
@@ -44,7 +44,7 @@
         string header = ViewBag.LayoutPath + "Header.cshtml";
         string footer = ViewBag.LayoutPath + "Footer.cshtml";
     }
-	
+
     @Html.Partial(header)
 
     <section class="body">
@@ -54,8 +54,8 @@
             </div>
         </div>
     </section>
-    
+
     @Html.Partial(footer)
-    @Html.GetAntiForgeryToken(this.Request.Url)
+    @Html.GetAntiForgeryToken(this.Request.Url)    
 </body>
 </html>
