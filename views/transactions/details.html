@@ -16,7 +16,8 @@
               : 'fa fa-3x fa-times-circle pull-left text-danger'"></i>
             <h2><strong>{{transaction.completed ? "TRANSACTION COMPLETE" : "TRANSACTION FAILED"}}</strong></h2>
           </div>
-          <h1 class="text-center"><strong>{{ transaction.amount + transaction.fees | currency : transaction.currency }}</strong></h1>
+          <!-- <h1 class="text-center"><strong>{{ transaction.amount + transaction.fees | currency : transaction.currency }}</strong></h1> -->
+          <h1 class="text-center"><strong>{{ transaction.amount | currency : transaction.currency }}</strong></h1>
           <div class="col-md-12">
             <table class="table table-striped">
               <tbody>
@@ -56,7 +57,6 @@
                   <td>Remark</td>
                   <td>{{transaction.remark}}</td>
                 </tr>
-
               </tbody>
             </table>
           </div>

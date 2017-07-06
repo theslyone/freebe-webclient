@@ -123,6 +123,10 @@
   });
 
   function initializeFields() {
+    $("#active").val("yes");
+    $('label[for="pin"]').html('Authorization Password');
+    $('label[for="confirm_pin"]').html('Confirm Authorization Password');
+
     $("#bank_name").attr('readonly', true);
     $("#card_type").attr('readonly', true);
     $("#type").val('card');
@@ -133,7 +137,6 @@
   }
 
   function setup() {
-    $("#active").val("yes");
     initializeFields();
     var $form = $('.ui.form');
     $form.form({
@@ -220,15 +223,15 @@
           //depends: 'account_name',
           rules: [{
               type: 'empty',
-              prompt: 'Please enter a security pin for this bank account'
+              prompt: 'Please enter an authorization password for this payment card'
             },
             {
               type: 'integer',
-              prompt: 'Security pin must be numeric'
+              prompt: 'Authorization password must be numeric'
             },
             {
               type: 'exactLength[4]',
-              prompt: 'Your pin must be exactly {ruleValue} characters'
+              prompt: 'Your authorization password must be exactly {ruleValue} characters'
             }
           ]
         },
@@ -237,7 +240,7 @@
           depends: 'pin',
           rules: [{
             type: 'match[pin]',
-            prompt: 'Pin does not match'
+            prompt: 'Authorization password does not match'
           }]
         }
       }
