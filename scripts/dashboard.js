@@ -3,8 +3,10 @@ var paylinkApp = angular
     'freebe'
   ]);
 
-paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', '$httpProvider', 'ChartJsProvider',
-  function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $httpProvider, ChartJsProvider) {
+paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+  '$authProvider', '$httpProvider', 'ChartJsProvider','KeepaliveProvider', 'IdleProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider,
+    $authProvider, $httpProvider, ChartJsProvider, KeepaliveProvider, IdleProvider) {
     'use strict';
 
     $locationProvider.html5Mode({
@@ -298,6 +300,10 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
     });
 
     $httpProvider.interceptors.push('httpRequestInterceptor');
+
+    IdleProvider.idle(10*60);
+    IdleProvider.timeout(30);
+    //KeepaliveProvider.interval(10);
   }
 ])
 

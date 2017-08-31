@@ -1,6 +1,8 @@
 angular.module('theme.core.main_controller', ['theme.core.services'])
   .controller('MainController', ['$scope', '$theme', '$timeout', 'progressLoader', '$location', '$state', '$auth',
-    function($scope, $theme, $timeout, progressLoader, $location, $state, $auth) {
+    'Idle', 'Keepalive', '$uibModal',
+    function($scope, $theme, $timeout, progressLoader, $location, $state, $auth,
+      Idle, Keepalive, $uibModal) {
       'use strict';
       // $scope.layoutIsSmallScreen = false;
       $scope.layoutFixedHeader = $theme.get('fixedHeader');
@@ -204,6 +206,59 @@ angular.module('theme.core.main_controller', ['theme.core.services'])
         if ($scope.layoutLoading) {
           $scope.layoutLoading = false;
         }
+      });
+
+      $scope.$on('auth:login-success', function(ev, token) {
+        startSessionTimer();
+      });
+
+      $scope.$on('auth:validation-success', function(ev, token) {
+        startSessionTimer();
+      });
+
+      $scope.$on('auth:logout-success', function(ev, token) {
+        closeModals();
+        Idle.unwatch();
+        console.log('session timer off')
+      });
+
+      function startSessionTimer() {
+        closeModals();
+        Idle.watch();
+        console.log('session timer on')
+      }
+
+      function closeModals() {
+        if ($scope.warning) {
+          $scope.warning.close();
+          $scope.warning = null;
+        }
+
+        if ($scope.timedout) {
+          $scope.timedout.close();
+          $scope.timedout = null;
+        }
+      }
+
+      $scope.$on('IdleStart', function() {
+        closeModals();
+        $scope.warning = $uibModal.open({
+          templateUrl: '/my/template/views/templates/warning-dialog.html',
+          windowClass: 'modal-danger'
+        });
+      });
+
+      $scope.$on('IdleEnd', function() {
+        closeModals();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        closeModals();
+        $scope.timedout = $uibModal.open({
+          templateUrl: '/my/template/views/templates/timedout-dialog.html',
+          windowClass: 'modal-danger'
+        });
+        $auth.signOut();
       });
     }
   ]);
