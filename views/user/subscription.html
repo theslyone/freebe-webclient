@@ -1,0 +1,32 @@
+<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a ui-sref="dashboard">Dashboard</a></li>
+		<li class="active">Subscription</li>
+	</ol>
+</div>
+
+<div class="container-fluid">
+	<div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
+
+  <h2>Billing</h2>
+  <br />
+  <div ng-if="subscriptions.length">
+    <div ng-repeat="subscription in subscriptions">
+        <h3>{{subscription.plan.name}} - {{subscription.plan.currency}} {{subscription.plan.price / subscription.plan.interval}}</h3>
+
+        <p ng-if="subscription.isTrialing && subscription.endDate == null"><strong>Free Trial Until {{subscription.trialEnd | date : "MMMM dd, yyyy" }}</strong></p>
+    
+        <p ng-if="plan.end == null">
+            <a ng-click="cancelSubscription(plan.Id)">Cancel Subscription</a> - <a ui-sref="change-plan">Change Plan</a>
+        </p>
+        <div ng-if="plan.end">
+          <p>Your Subscription will not be renewed after {{ subscription.endDate | date : "MMMM dd, yyyy" }}</p>
+          <p><a ui-sref="reactivateSubscription" class="btn btn-primary">Re-Activate Subscription</a></p>
+        </div>
+    </div>
+  </div>
+  <div ng-if='!subscriptions.length'>
+    <h3>You don't have any subscription</h3>
+    <a ng-click="deleteAccount()" id="delete-account">Delete Account</a>
+  </div>
+</div>

@@ -7,14 +7,14 @@
       <div class="col-md-12 form-group">
         <label class="col-sm-4 control-label"></label>
         <div class="col-sm-8">
-          <p style="font-size: 12px; color: gray">Top up wallet at 65 NGN flat charge</p>
+          <p style="font-size: 12px; color: gray">Top up wallet at 2.0% (+ 200 NGN flat charge for transactions above 2,500 NGN) capped at 2,500 NGN</p>
         </div>
       </div>
       <div class="col-md-12 form-group">
         <label class="col-sm-4 control-label">From Card <span class="required">*</span></label>
         <div class="col-sm-8">
           <select name="card" class="form-control" ng-model="topup.card"
-            ng-options="c as (c.bankName + ' (' + c.accountNumber + ')') for c in cards | orderBy:'accountNumber' track by c.id"
+            ng-options="c as (' (' + c.accountNumber + ')') for c in cards | orderBy:'accountNumber' track by c.id"
             required>
             <option value="">- Select Card -</option>
           </select>

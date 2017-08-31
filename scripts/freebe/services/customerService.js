@@ -27,7 +27,7 @@ angular.module('freebe.services')
             phone: customer.Phone,
             updatedAt: customer.UpdatedAt,
             bvn: customer.Bvn,
-            isValidated: customer.IsValidated,
+            isValidated: customer.IsVerified,
             avatar: customer.Avatar ? customer.Avatar : url + 'avatar/500/500/avatar.png'
         }
       );

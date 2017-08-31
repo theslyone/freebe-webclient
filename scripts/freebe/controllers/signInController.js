@@ -1,7 +1,7 @@
 angular
   .module('freebe.signin_controller', [])
-  .controller('SignInController', ['$rootScope', '$scope', '$state', '$auth', '$theme', 'progressLoader',
-    function($rootScope, $scope, $state, $auth, $theme, progressLoader) {
+  .controller('SignInController', ['$rootScope', '$scope', '$state', '$stateParams', '$auth', '$theme', 'progressLoader',
+    function($rootScope, $scope, $state, $stateParams, $auth, $theme, progressLoader) {
       'use strict';
       $theme.set('fullscreen', true);
 
@@ -20,11 +20,8 @@ angular
         progressLoader.set(50);
         $auth.submitLogin($scope.loginForm)
           .then(function(resp) {
-            $scope.isBusy = false;
           })
           .finally(function() {
-            $scope.isBusy = false;
-            progressLoader.end();
           });
       }
 
@@ -49,9 +46,7 @@ angular
       $scope.clearAlert();
 
       $scope.$on('auth:login-success', function(ev, token) {
-        $scope.isBusy = false;
-        $rootScope.isLoggedIn = true;
-        $state.go("dashboard");
+        loginSuccess();
       });
 
       $scope.$on('auth:login-error', function(ev, reason) {
@@ -63,12 +58,21 @@ angular
       });
 
       $scope.$on('auth:validation-success', function(ev) {
-        alert('auth validation success');
+        //alert('auth validation success');
+        loginSuccess();
       });
 
       $scope.$on('auth:validation-error', function(ev, reason) {
-        alert('auth validation failed because', reason.errors[0]);
+        //alert('auth validation failed because', reason.errors[0]);
         $state.go("login");
       });
+
+      function loginSuccess () {
+        $state.go($stateParams.returnUrl)
+        //$state.go("dashboard");
+        //$scope.isBusy = false;
+        //progressLoader.end();
+        //$rootScope.isLoggedIn = true;
+      }
     }
   ]);

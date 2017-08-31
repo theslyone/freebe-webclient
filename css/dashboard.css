@@ -15738,7 +15738,8 @@ textarea.autosize {
   padding-left: 0;
   table-layout: fixed;
   list-style: none;
-  border-bottom: 1px solid #eee;
+  /*border-bottom: 1px solid #eee;*/
+  border-bottom: 2px #507b2c;
 }
 
 .stepy-header li {
@@ -15751,6 +15752,7 @@ textarea.autosize {
   margin-bottom: 9px;
   cursor: pointer;
   color: #000;
+  padding: 10px 20px 20px 20px;
 }
 
 .stepy-header li small, .stepy-header li .small {
@@ -15790,12 +15792,21 @@ textarea.autosize {
   font-weight: 500;
 }
 
+.stepy-header li.stepy-active {
+  border-width: 1px;
+  border: 1px #507b2c solid;
+  border-bottom: 0px;
+}
+
 .stepy-header li:not(.stepy-active) {
-  opacity: .3;
+  opacity: .1;
+  border-width: 1px;
+  border: 0px;
+  border-bottom: 1px #507b2c solid;
 }
 
 .stepy-header li:not(.stepy-active):hover {
-  opacity: .7;
+  opacity: .6;
 }
 
 .stepy-header.panel-footer {
@@ -15895,7 +15906,7 @@ textarea.autosize {
 }
 
 [class*=panel-].panel .stepy-navigator {
-  margin: 20px -21px -21px -21px;
+  margin: 20px -21px 100px -21px;
   padding: 20px;
   border-top: 1px solid #eee;
 }

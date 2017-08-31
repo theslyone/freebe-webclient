@@ -132,6 +132,6 @@ angular
       $scope.clearAlert = function() {
         $scope.alert = {}
       }
-      $scope.clearAlert();
+      $scope.clearAlert();  
     }
   ]);

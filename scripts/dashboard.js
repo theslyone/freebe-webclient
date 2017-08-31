@@ -32,6 +32,9 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
       })
       .state('login', {
         url: '^/paylink/login',
+        params: {
+          returnUrl: 'dashboard'
+        },
         templateUrl: '/my/template/views/user/login.html',
         controller: "SignInController",
         /*resolve: {
@@ -86,6 +89,33 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         url: '^/paylink/profile',
         templateUrl: '/my/template/views/user/profile.html',
         controller: "ProfileController"
+      })
+      .state('subscribe', {
+        parent: 'paylink',
+        url: '^/paylink/subscribe',
+        templateUrl: '/my/template/views/user/subscribe.html',
+        controller: "SubscribeController",
+        resolve: {
+          banks: function(subaccountService) {
+            return subaccountService.getBanks();
+          },
+          subscriptions: function() {
+            return [
+              // {
+              //   isTrialing: true,
+              //   trialEnd: new Date(),
+              //   plan: {
+              //     id: "basic_monthly",
+              //     name: "Basic",
+              //     interval: 'MONTHLY', //SubscriptionPlan.SubscriptionInterval.Monthly,
+              //     trialPeriodInDays: 30,
+              //     price: 10000,
+              //     currency: "NGN"
+              //   }
+              // }
+            ]
+          }
+        }
       })
       .state('dashboard', {
         parent: 'paylink',
@@ -277,7 +307,7 @@ paylinkApp.run(['$rootScope', '$state', function($rootScope, $state) {
   });
 
   $rootScope.$on("$stateChangeError", function(event, next, current, error) {
-    console.error(error);
-    $state.go('login');
+    //console.error(next.name);
+    $state.go('login', { returnUrl: next.name} );
   });
 }]);

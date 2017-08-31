@@ -1,0 +1,150 @@
+<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a ui-sref="dashboard">Dashboard</a></li>
+		<li class="active">Subscription</li>
+	</ol>
+</div>
+
+<div class="container-fluid">
+	<div uib-alert  ng-if="alert.type" type="{{alert.type}}" close="clearAlert()"><span ng-bind-html="alert.msg | safe_html"></span></div>
+
+  <panel panel-class="panel-midnightblue" heading="{{ subscriptions.length ? 'Subscription' : 'Register Your Office' }}">
+    <div ng-if="subscriptions.length">
+      <div ng-repeat="subscription in subscriptions">
+          <h3>{{subscription.plan.name}} - {{subscription.plan.price | currency : subscription.plan.currency }} / {{subscription.plan.interval}}</h3>
+
+          <p ng-if="subscription.isTrialing && subscription.endDate == null"><strong>Free Trial Until {{subscription.trialEnd | date : "MMMM dd, yyyy" }}</strong></p>
+
+          <p ng-if="plan.end == null">
+              <a ng-click="cancelSubscription(plan.Id)">Cancel Subscription</a> - <a ui-sref="change-plan">Change Plan</a>
+          </p>
+          <div ng-if="plan.end">
+            <p>Your Subscription will not be renewed after {{ subscription.endDate | date : "MMMM dd, yyyy" }}</p>
+            <p><a ui-sref="reactivateSubscription" class="btn btn-primary">Re-Activate Subscription</a></p>
+          </div>
+      </div>
+    </div>
+    <div ng-if='!subscriptions.length'>
+      <form name="form.subscribe" data-wizard="wizardOptions" data-reset="resetValidationForm"  class="form-horizontal row-border">
+        <fieldset title="Step 1">
+          <legend>Business Information</legend>
+          <div class="form-group">
+      			<label class="col-sm-3 control-label">Name</label>
+      			<div class="col-sm-6">
+      				<div class="input-group">
+      				  <span class="input-group-addon"><i class='fa fa-user'></i></span>
+      				  <input type="text" class="form-control" id="office" placeholder="Business Name" required ng-model='subscribe.name' />
+      				</div>
+      			</div>
+      		</div>
+          <div class="form-group">
+      			<label class="col-sm-3 control-label">Type</label>
+      			<div class="col-sm-6">
+      				<select class="form-control" id="type">
+                <option value='1'>Individual/Sole Proprietorship</option>
+                <option value="2">Partnership</option>
+                <option value="3">Limited Liability Company</option>
+                <option value="4">Public Limited Corporation</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+    				<label class="col-sm-3 control-label">Business Logo</label>
+    				<div class="col-sm-6">
+    					<div class="fileinput fileinput-new" data-provides="fileinput">
+    						<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+    						<div>
+    						  <span class="btn btn-default btn-file">
+                    <span class="fileinput-new">Select logo</span>
+                    <span class="fileinput-exists">Change</span>
+                    <input type="file" name="..." ng-model='subscribe.logo' />
+                  </span>
+    						  <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+          <div class="form-group">
+    				<label class="col-sm-3 control-label">Description</label>
+    				<div class="col-sm-6">
+    					<textarea id='description' placeholder="What do you sell or what services do you provide" class="form-control autosize"></textarea>
+    				</div>
+    			</div>
+        </fieldset>
+        <fieldset title="Step 2">
+          <legend>Contact Information</legend>
+          <div class="form-group">
+    				<label class="col-sm-3 control-label">Phone Number</label>
+    				<div class="col-sm-6">
+    					<div class="input-group">
+    					  <span class="input-group-addon"><i class='fa fa-phone'></i></span>
+    					  <input type="text" class="form-control" id="phone" placeholder="Business Phone Number" required ng-model='subscribe.phone'>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<label class="col-sm-3 control-label">Email Address</label>
+    				<div class="col-sm-6">
+    					<div class="input-group">
+    					  <span class="input-group-addon">@</span>
+    					  <input type="text" class="form-control" placeholder="Business Email Address" required ng-model='subscribe.email'>
+    					</div>
+    				</div>
+    			</div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Address</label>
+            <div class="col-sm-6">
+              <textarea id='address' placeholder="Address" class="form-control autosize" ng-model='subscribe.address'></textarea>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset title="Step 3">
+          <legend>Accounting Information</legend>
+          <div class="form-group">
+    					<label class="col-sm-3 control-label">Financial Year</label>
+    					<div class="col-sm-6">
+    						<div class="input-group">
+    							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    							<input type="text" class="form-control" daterangepicker=""
+                  start='subscribe.fiscal.start' end='subscribe.fiscal.end' required
+                  ng-model='subscribe.fiscal' />
+    						</div>
+    					</div>
+    				</div>
+          <div class="form-group">
+      			<label class="col-sm-3 control-label">Bank</label>
+      			<div class="col-sm-6">
+      				<select class="form-control" id="bank">
+                <option ng-repeat='bank in banks'>{{bank.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+    				<label class="col-sm-3 control-label">Bank Branch</label>
+    				<div class="col-sm-6">
+    					<input id='branch' placeholder="Bank branch" class="form-control" ng-model='subscribe.bank.branch' />
+    				</div>
+    			</div>
+          <div class="form-group">
+    				<label class="col-sm-3 control-label">Account Name</label>
+    				<div class="col-sm-6">
+    					<input type="text" class="form-control" id="accountName" placeholder="Enter Account Name" required ng-model='subscribe.bank.accountName' />
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<label class="col-sm-3 control-label">Account Number</label>
+    				<div class="col-sm-6">
+    					<input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" required ng-model='subscribe.bank.accountNumber' />
+    				</div>
+    			</div>
+        </fieldset>
+        <button class="stepy-finish btn-success btn" ng-click="createSubscription()"
+          ng-disabled="!form.subscribe.$valid">Submit
+        </button>
+        <button class="ng-hide btn-default btn" ng-click="resetValidationForm()" ng-disabled="!scope.form.subscribe.$dirty">
+          Reset
+        </button>
+    	</form>
+    </div>
+  </panel>
+</div>
