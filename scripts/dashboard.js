@@ -101,21 +101,14 @@ paylinkApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
           banks: function(subaccountService) {
             return subaccountService.getBanks();
           },
-          subscriptions: function() {
-            return [
-              // {
-              //   isTrialing: true,
-              //   trialEnd: new Date(),
-              //   plan: {
-              //     id: "basic_monthly",
-              //     name: "Basic",
-              //     interval: 'MONTHLY', //SubscriptionPlan.SubscriptionInterval.Monthly,
-              //     trialPeriodInDays: 30,
-              //     price: 10000,
-              //     currency: "NGN"
-              //   }
-              // }
-            ]
+          subscriptions: function(profile, subscriptionService) {
+            return subscriptionService.getAll(profile.email)
+          },
+          plans: function(profile, subscriptionService) {
+            return subscriptionService.getPlans()
+          },
+          cards: function(profile, subaccountService) {
+            return subaccountService.getAccounts('card', profile.email)
           }
         }
       })
