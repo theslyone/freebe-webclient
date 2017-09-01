@@ -15,34 +15,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="Freebe Framework"/>
-	<meta name="google-signin-scope" content="@Model.GoogleSignInScope">
+	  <meta name="google-signin-scope" content="@Model.GoogleSignInScope">
     <meta name="google-signin-client_id" content="@Model.GoogleSigninClientId">
     <title data-ng-bind="$root.title">@ViewBag.Title</title>
 
 	<link rel="icon" type="image/png" href="favicon.png">
 
-	@{
-        string bodyClass;
-
-        if (CultureManager.IsRtl())
-        {
-            bodyClass = "rtl";
-            <link rel="Stylesheet" href="@Href("~/assets/css/frontend-paylink.rtl.css")"/>
-        }
-        else
-        {
-            bodyClass = "ltr";
-			<link rel="stylesheet" href="~/assets/css/backend.css" />
-			<link rel="Stylesheet" href="~/assets/css/freebe-dashboard.css"/>
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/fonts/glyphicons/css/glyphicons.min.css' />
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/form-fseditor/fseditor.css' />
-			<link rel='stylesheet' type='text/css' href='~/my/template/assets/plugins/jcrop/css/jquery.Jcrop.min.css' />
-        }
-    }
-
-	<!--<link rel="stylesheet" href="/scripts/semantic-ui/semantic.min.css" />-->
-    <link rel="stylesheet" href="/my/template/css/semantic-extended.css" />
-    <link rel="stylesheet" href="~/my/template/css/dashboard.css">
+  <link rel="stylesheet" href="~/assets/css/backend.css" />
+  <link rel="Stylesheet" href="~/assets/css/freebe-dashboard.css"/>
+  <link rel='stylesheet' type='text/css' href='~/my/template/assets/fonts/glyphicons/css/glyphicons.min.css' />
+  <link rel="stylesheet" href="~/my/template/dist/css/style.min.css">
 
 	<script src="/i18n/resources.js?cultureCode=@CultureManager.GetCurrentUiCulture().Name"></script>
 
@@ -88,7 +70,6 @@
 			  </ul>
 		</div>
 	</nav>
-
 
 	<div id="wrapper">
 		<div id="layout-static">
@@ -137,64 +118,8 @@
 	</div>
 
 	<script src="~/assets/js/freebe-dashboard.js"></script>
-	<script type='text/javascript' src='~/my/template/assets/plugins/form-jasnyupload/fileinput.min.js'></script>
-
-
-	<script src="~/my/template/scripts/core/controllers/homeController.js"></script>
-	<script src="~/my/template/scripts/core/controllers/mainController.js"></script>
-	<script src="~/my/template/scripts/core/controllers/messagesController.js"></script>
-	<script src="~/my/template/scripts/core/controllers/navigationController.js"></script>
-	<script src="~/my/template/scripts/core/controllers/notificationsController.js"></script>
-
-	<script src="~/my/template/scripts/freebe/controllers/dashboardController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/registrationController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/forgotPasswordController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/signInController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/profileController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/bankAccountController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/walletController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/transactionDetailsController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/transferController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/billPaymentController.js"></script>
-	<script src="~/my/template/scripts/freebe/controllers/subscribeController.js"></script>
-
-	<script src="~/my/template/scripts/core/directives/directives.js"></script>
-	<script src="~/my/template/scripts/core/directives/form.js"></script>
-
-	<script src="~/my/template/scripts/core/directives/ui.js"></script>
-	<script src="~/my/template/scripts/core/modules/templateOverrides.js"></script>
-	<script src="~/my/template/scripts/core/modules/templates.js"></script>
-	<script src="~/my/template/scripts/core/modules/panels/ngDraggable.js"></script>
-	<script src="~/my/template/scripts/core/modules/panels/panels.js"></script>
-	<script src="~/my/template/scripts/core/modules/panels/directives.js"></script>
-	<script src="~/my/template/scripts/core/services/services.js"></script>
-	<script src="~/my/template/scripts/core/services/theme.js"></script>
-	<script src="~/my/template/scripts/core/services/modalService.js"></script>
-
-	<script src="~/my/template/scripts/freebe/directives/ui.js"></script>
-	<script src="~/my/template/scripts/freebe/services/services.js"></script>
-	<script src="~/my/template/scripts/freebe/services/customerService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/accountService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/subaccountService.js"></script>
-  <script src="~/my/template/scripts/freebe/services/subscriptionService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/walletService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/reportService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/beneficiaryService.js"></script>
-	<script src="~/my/template/scripts/freebe/services/transactionService.js"></script>
-
-	<script src="~/my/template/scripts/core/theme.js"></script>
-	<script src="~/my/template/scripts/freebe/freebe.js"></script>
-
-
-	<script src="~/my/template/scripts/chart/flot.js"></script>
-	<script src="~/my/template/scripts/chart/canvas.js"></script>
-	<script src="~/my/template/scripts/chart/sparklines.js"></script>
-
-	<script src="~/my/template/scripts/demos/demos.js"></script>
-
-  <script src="~/my/template/scripts/dashboard.js"></script>
-	<script src="~/my/template/scripts/freebe.js"></script>
-
+  <script src="~/my/template/dist/js/app.min.js"></script>
+  <script src="~/my/template/scripts/freebe.js"></script>
 
 	@Html.GetAntiForgeryToken(this.Request.Url)
 
