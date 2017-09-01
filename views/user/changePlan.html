@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h3 class="modal-title">Change Subscription Plan</h3>
+</div>
+<div class="modal-body">
+  <form name="form.changePlan" class="form-horizontal row-border">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Subscription Plan <span class="required">*</span></label>
+      <div class="col-sm-6">
+        <ui-select ng-model="changePlan.plan" required>
+          <ui-select-match>{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="item in plans | filter: $select.search">
+            {{item.name}} ({{item.code}})
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Trial Period (Days)</label>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i class='fa fa-clock-o'></i></span>
+          <input type="text" class="form-control" placeholder="Trial Period" required readonly ng-model='changePlan.plan.trialPeriodInDays' />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Amount</label>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i>{{changePlan.plan.currency}}</i></span>
+          <input type="text" class="form-control" placeholder="Amount" required readonly ng-model='changePlan.plan.amount' />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Interval</label>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <span class="input-group-addon"><i class='fa fa-clock-o'></i></span>
+          <input type="text" class="form-control" placeholder="Interval" required readonly ng-model='changePlan.plan.interval' />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Description</label>
+      <div class="col-sm-6">
+        <textarea id='description' ng-model="changePlan.plan.description" placeholder="Plan description" readonly class="form-control autosize"></textarea>
+      </div>
+    </div>
+  </form>
+  <div ng-show="changePlan.isBusy" class="panel-loading">
+    <div class="panel-loader-circular"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn" ng-disabled="changePlan.isBusy" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success" ng-disabled="form.changePlan.$invalid || changePlan.isBusy" ng-click="ok()">Change</button>
+</div>

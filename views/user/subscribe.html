@@ -10,14 +10,14 @@
 
   <panel panel-class="panel-midnightblue" heading="{{ subscriptions.length ? 'Subscription' : 'Register Your Office' }}">
     <div ng-if="subscriptions.length">
-      <div ng-repeat="subscription in subscriptions">
+      <div ng-repeat="subscription in subscriptions" style="border-bottom: 1px solid gray; padding-bottom: 20px; margin-bottom: 20px;">
           <h3>{{subscription.plan.name}} - {{subscription.plan.amount | currency : subscription.plan.currency }} / {{subscription.plan.interval}}</h3>
 
           <p ng-if="subscription.isTrialing && subscription.trialEnd != null"><strong>Free Trial Until {{subscription.trialEnd | date : "MMMM dd, yyyy" }}</strong></p>
 
           <p ng-if="subscription.status == 'active'">
               <a ng-click="cancelSubscription(subscription.code)" class="btn btn-danger">Cancel Subscription</a>
-							<!-- - <a ui-sref="change-plan" class="btn btn-primary">Change Plan</a> -->
+							- <a ng-click="changePlan()" class="btn btn-primary">Change Plan</a>
           </p>
           <div ng-if="subscription.status != 'active'">
             <p>Your Subscription will not be renewed after {{ subscription.endDate | date : "MMMM dd, yyyy" }}</p>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div ng-if='!subscriptions.length'>
-      <form name="form.subscribe" data-wizard="wizardOptions" data-reset="resetValidationForm"  class="form-horizontal row-border">
+      <form name="form.subscribe" data-wizard="wizardOptions" data-reset="resetValidationForm" class="form-horizontal row-border">
 				<fieldset title="Step 1">
           <legend>Plan Information</legend>
           <div class="form-group">

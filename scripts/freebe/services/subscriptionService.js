@@ -12,7 +12,7 @@ angular.module('freebe.services')
     this.getAll = function(email) {
       return $http.get(url + "/" + email)
         .then(function(resp) {
-          console.log(resp);
+          //console.log(resp);
           let subscriptions = resp.data.map(
             function(subscription) {
               return {
@@ -33,7 +33,7 @@ angular.module('freebe.services')
                 }
               }
             });
-            console.log(subscriptions);
+            //console.log(subscriptions);
             return subscriptions;
         })
         .catch(function(err) {
@@ -98,6 +98,18 @@ angular.module('freebe.services')
         })
         .catch(function(err) {
           error.text = 'Error activating subscription.';
+          pinesNotifications.notify(error);
+          throw err;
+        });
+    }
+
+    this.changePlan = function(data) {
+      return $http.post(`/api/v1.0/paylink/subscriptions/changePlan`, data)
+        .then(function(resp) {
+          return resp.data;
+        })
+        .catch(function(err) {
+          error.text = 'Error changing subscription plan.';
           pinesNotifications.notify(error);
           throw err;
         });

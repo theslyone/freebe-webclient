@@ -1,8 +1,8 @@
 angular
   .module('freebe.subscribe_controller', ['freebe.services'])
-  .controller('SubscribeController', ['$scope', '$auth', 'progressLoader', 'banks', 'subscriptionService',
+  .controller('SubscribeController', ['$state', '$scope', '$auth', 'progressLoader', 'banks', 'subscriptionService',
     'subscriptions', "plans", "cards", "Upload", "modalService",
-    function($scope, $auth, progressLoader, banks, subscriptionService, subscriptions, plans, cards, Upload, modalService) {
+    function($state, $scope, $auth, progressLoader, banks, subscriptionService, subscriptions, plans, cards, Upload, modalService) {
       'use strict';
 
       var d = new Date();
@@ -59,7 +59,8 @@ angular
         .then((subscription) => {
           $scope.subscriptions = ($scope.subscriptions || []).push(subscription);
           progressLoader.end();
-          $scope.state = {}
+          $scope.state = {};
+          $state.reload();
         })
         .catch(err => {
           progressLoader.end();
@@ -113,6 +114,51 @@ angular
         .catch(err => {
           progressLoader.end();
           $scope.state = {}
+        });
+      }
+
+      $scope.changePlan = function () {
+        var modalDefaults = {
+          templateUrl: '/my/template/views/user/changePlan.html',
+          controller: function($scope, $uibModalInstance, $auth, plans, currentSubscription) {
+            $scope.changePlan = {
+              plan: {},
+              isBusy: false
+            };
+            $scope.plans = plans.filter(p => p.id != currentSubscription.plan.id);
+            $scope.ok = function() {
+              $scope.changePlan.isBusy = true;
+              let data = {
+                currentSubscriptionCode: currentSubscription.code,
+                newPlanId: $scope.changePlan.plan.id,
+                customerId: $auth.user.id
+              }
+              subscriptionService.changePlan(data)
+              .then(function(response) {
+                $scope.changePlan.isBusy = false;
+                $uibModalInstance.close(response);
+              })
+              .finally(function(err){
+                $scope.changePlan.isBusy = false;
+              });
+            };
+            $scope.cancel = function() {
+              $uibModalInstance.dismiss('cancel');
+            };
+          },
+          resolve: {
+            plans: function(){
+              return plans;
+            },
+            currentSubscription: function () {
+              return $scope.subscriptions.filter(s => s.status === 'active')[0];
+            }
+          }
+        };
+        modalService.showModal(modalDefaults, {})
+        .then(function(response) {
+          //console.log(response);
+          $state.reload();
         });
       }
   }
